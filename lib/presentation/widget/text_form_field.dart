@@ -17,20 +17,19 @@ class CustomTextFormField extends StatefulWidget {
 }
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
- late bool isVisible;
+  late bool isVisible;
   @override
   void initState() {
-       isVisible=false;
+    isVisible = false;
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
- 
     return Padding(
       padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
       child: TextFormField(
-        
         onTap: () async {
           if (widget.hint == 'Date of Birth') {
             DateTime? pickedDate = await showDatePicker(
@@ -39,21 +38,30 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 firstDate: DateTime(
                     2000), //DateTime.now() - not to allow to choose before today.
                 lastDate: DateTime(2025));
-                if(pickedDate!=null){
-                  String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-                  widget.controller.text=formattedDate;
-                }
+            if (pickedDate != null) {
+              String formattedDate =
+                  DateFormat('yyyy-MM-dd').format(pickedDate);
+              widget.controller.text = formattedDate;
+            }
           }
         },
         obscureText: isVisible,
-        maxLength: widget.hint == 'Full name' || widget.hint == 'Password' ? 12 : null,
+        maxLength:
+            widget.hint == 'Full name' || widget.hint == 'Password' ? 12 : null,
         decoration: InputDecoration(
-          suffixIcon:widget.hint=='Password'? IconButton(onPressed: () {
-            setState(() {
-              isVisible=!isVisible;
-            });
-          
-          }, icon:Icon(isVisible?Icons.visibility:Icons.visibility_off,size: 20,color:Colors.grey ,) ):const SizedBox(),
+          suffixIcon: widget.hint == 'Password'
+              ? IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isVisible = !isVisible;
+                    });
+                  },
+                  icon: Icon(
+                    isVisible ? Icons.visibility : Icons.visibility_off,
+                    size: 20,
+                    color: Colors.grey,
+                  ))
+              : const SizedBox(),
           labelText: widget.hint,
           floatingLabelStyle: const TextStyle(color: whiteColor),
           labelStyle: const TextStyle(color: whiteColor),
@@ -70,12 +78,10 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             return 'invalid emil';
           } else if (widget.hint == 'Password' && value.length < 6) {
             return 'Password must have 6 character';
-          }
-          else if (widget.hint == 'Date of Birth' ) {
-            if(DateTime.tryParse(value)==null){
+          } else if (widget.hint == 'Date of Birth') {
+            if (DateTime.tryParse(value) == null) {
               return 'not formated';
             }
-            
           }
           return null;
         },

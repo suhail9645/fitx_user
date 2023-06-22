@@ -22,9 +22,7 @@ class LoadingElevatedButtton extends StatelessWidget {
         onPressed: () {},
         icon: const Text(
           'Wait',
-          style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         label: const SizedBox(
             height: 17,
@@ -37,5 +35,3 @@ class LoadingElevatedButtton extends StatelessWidget {
     );
   }
 }
-
-

@@ -7,7 +7,9 @@ import '../../../../logic/image_cubit/image_cubit.dart';
 class PickedImageAlert extends StatelessWidget {
   const PickedImageAlert({
     super.key,
-    required this.screenWidth, required this.groupValue, required this.cot,
+    required this.screenWidth,
+    required this.groupValue,
+    required this.cot,
   });
 
   final double screenWidth;
@@ -40,7 +42,7 @@ class PickedImageAlert extends StatelessWidget {
                 shadowColor: Colors.transparent),
             onPressed: () {
               BlocProvider.of<ImageCubit>(cot)
-                  .imagePicking(ImageSource.gallery,groupValue);
+                  .imagePicking(ImageSource.gallery, groupValue);
             },
             child: const Text('Gallery'),
           ),
@@ -58,8 +60,8 @@ class PickedImageAlert extends StatelessWidget {
                 backgroundColor: Colors.transparent,
                 shadowColor: Colors.transparent),
             onPressed: () {
-               BlocProvider.of<ImageCubit>(cot)
-                  .imagePicking(ImageSource.camera,groupValue);
+              BlocProvider.of<ImageCubit>(cot)
+                  .imagePicking(ImageSource.camera, groupValue);
             },
             child: const Text('Camera'),
           ),

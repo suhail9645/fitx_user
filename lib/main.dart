@@ -7,9 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-  systemNavigationBarColor:Color.fromARGB(255, 27, 25, 25), 
-    statusBarColor: Colors.transparent, 
-   
+    systemNavigationBarColor: Color.fromARGB(255, 27, 25, 25),
+    statusBarColor: Colors.transparent,
   ));
   runApp(MyApp());
 }
@@ -19,7 +18,6 @@ class MyApp extends StatelessWidget {
   AppRouter route = AppRouter();
   @override
   Widget build(BuildContext context) {
-   
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'FITX',

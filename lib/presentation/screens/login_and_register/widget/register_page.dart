@@ -121,7 +121,7 @@ class RegisterScreen extends StatelessWidget {
                             const SnackBar(
                                 content: Text('welcome to success')));
                         Navigator.of(context)
-                            .pushNamedAndRemoveUntil('Home', (route) => false);
+                            .pushNamedAndRemoveUntil('Route', (route) => false);
                       }
                     },
                     builder: (context, state) {

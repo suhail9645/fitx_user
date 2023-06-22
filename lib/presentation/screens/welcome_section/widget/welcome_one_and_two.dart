@@ -65,7 +65,7 @@ class WelcomeOneAndTwo extends StatelessWidget {
               ? ElevatedButtonWithIcon(
                   text: 'Start now',
                   onClicked: () {
-                  Navigator.of(context).pushNamed('signInAndSignUp');
+                    Navigator.of(context).pushNamed('signInAndSignUp');
                   },
                 )
               : const SizedBox()
@@ -74,7 +74,6 @@ class WelcomeOneAndTwo extends StatelessWidget {
     );
   }
 }
-
 
 class RPSCustomPainter extends CustomPainter {
   @override

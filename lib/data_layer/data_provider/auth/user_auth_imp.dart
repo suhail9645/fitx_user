@@ -37,12 +37,12 @@ class UserAuthFunctions {
       } else {
         Response response = await http.Response.fromStream(res);
         Map<String, dynamic> data = jsonDecode(response.body);
-        if(data.length==2){
+        if (data.length == 2) {
           return Left(ErrorModel('Email and Username already exists'));
         }
         return Left(ErrorModel(data.values.single.first.toString()));
       }
-    }  catch (e) {
+    } catch (e) {
       return Left(ErrorModel(e.toString()));
     }
   }

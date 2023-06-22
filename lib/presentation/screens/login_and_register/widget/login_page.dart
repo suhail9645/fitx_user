@@ -1,4 +1,3 @@
-
 import 'package:fitx_user/presentation/constants/lists.dart';
 import 'package:fitx_user/presentation/screens/login_and_register/widget/loading_elevated_button.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
@@ -54,7 +53,6 @@ class LoginScreen extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-    
             BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
                 if (state is AuthErrorState) {
@@ -63,7 +61,8 @@ class LoginScreen extends StatelessWidget {
                 } else if (state is AuthSuccessState) {
                   ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('welcome to success')));
-                  Navigator.of(context).pushNamedAndRemoveUntil('Home', (route) => false);
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('Route', (route) => false);
                 }
               },
               builder: (context, state) {
@@ -81,7 +80,9 @@ class LoginScreen extends StatelessWidget {
                 }
               },
             ),
-                    const SizedBox(width: 30,),
+            const SizedBox(
+              width: 30,
+            ),
           ],
         )
       ]),
