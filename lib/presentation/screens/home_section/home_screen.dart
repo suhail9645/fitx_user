@@ -2,8 +2,6 @@ import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
 import 'package:fitx_user/logic/category_bloc/category_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../constants/colors.dart';
 import '../../constants/sized_box.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -80,33 +78,38 @@ class CategoryContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
-      child: Container(
-        height: screenHeight / 4.6,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          image: DecorationImage(
-            image: NetworkImage(category.image!),
-            fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context,'ExerciseView',arguments: category);
+        },
+        child: Container(
+          height: screenHeight / 4.6,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            image: DecorationImage(
+              image: NetworkImage(category.image!),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              spaceforHeight20,
-              Text(
-                category.name!,
-                style:
-                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                '${category.exercisesCount} Workouts',
-                style:
-                    const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-              ),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                spaceforHeight20,
+                Text(
+                  category.name!,
+                  style:
+                      const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '${category.exercisesCount} Workouts',
+                  style:
+                      const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
         ),
       ),

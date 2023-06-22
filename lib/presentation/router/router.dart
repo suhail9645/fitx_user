@@ -1,11 +1,12 @@
+import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
+import 'package:fitx_user/data_layer/models/exercise_page/result.dart';
 import 'package:fitx_user/logic/bottem_nav_cubit/bottem_navbar_cubit.dart';
 import 'package:fitx_user/logic/category_bloc/category_bloc.dart';
 import 'package:fitx_user/logic/image_cubit/image_cubit.dart';
 import 'package:fitx_user/logic/user_auth_bloc/auth_bloc.dart';
+import 'package:fitx_user/presentation/exercise_list_section/exercis_list.dart';
 import 'package:fitx_user/presentation/screens/route_section/route.dart';
 import 'package:fitx_user/presentation/screens/login_and_register/login_and_register_screen.dart';
-import 'package:fitx_user/presentation/screens/login_and_register/widget/login_page.dart';
-import 'package:fitx_user/presentation/screens/login_and_register/widget/register_page.dart';
 import 'package:fitx_user/presentation/screens/welcome_section/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +17,7 @@ class AppRouter {
   final BottemNavbarCubit bottemNavbarCubit = BottemNavbarCubit();
   final CategoryBloc categoryBloc = CategoryBloc();
   Route onGenerateRoute(RouteSettings routeSettings) {
+  
     switch (routeSettings.name) {
       case '/':
         return MaterialPageRoute(
@@ -42,6 +44,12 @@ class AppRouter {
             child: const RoutePage(),
           ),
         );
+       case 'ExerciseView':
+       return MaterialPageRoute(builder: (context) {
+          Category args = routeSettings.arguments as Category;
+         return ExerciseViewPage(category:args);
+       },);
+      
       default:
         return MaterialPageRoute(
           builder: (_) => const SizedBox(),

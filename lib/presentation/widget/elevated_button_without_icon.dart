@@ -4,14 +4,16 @@ class ElevatedButtonWithIcon extends StatelessWidget {
   const ElevatedButtonWithIcon({
     super.key,
     required this.text,
-    required this.onClicked,
+    required this.onClicked, this.width,
   });
   final String text;
   final Function() onClicked;
+  final double? width;
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 40.0,
+      width: width,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           gradient: const LinearGradient(colors: [

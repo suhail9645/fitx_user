@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:fitx_user/data_layer/models/exercise_page/result.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../../exercise/exercise.dart';
 
 part 'result.g.dart';
 
@@ -15,7 +14,7 @@ class Category extends Equatable {
   @JsonKey(name: 'exercises_count')
   final int? exercisesCount;
   final List<Exercise>exercises=[];
-   Category({
+  Category({
     this.id,
     this.name,
     this.description,

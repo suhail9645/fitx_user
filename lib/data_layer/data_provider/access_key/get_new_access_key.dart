@@ -10,7 +10,7 @@ class GetNewAccessKey {
   static Future<Either<ErrorModel, String>> getNewAccessKey() async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
-      String refresh = pref.getString('refresh')!;
+      String refresh = pref.getString('refreshKey')!;
       final response = await http.post(
           Uri.parse('${baseUrl}auth/token/refresh/'),
           body: jsonEncode({'refresh': refresh}),
@@ -19,7 +19,7 @@ class GetNewAccessKey {
           });
       if (response.statusCode == 200) {
         String newAccessKey = jsonDecode(response.body)['access'];
-        pref.setString('access', newAccessKey);
+        pref.setString('accessKey', newAccessKey);
         return Right(newAccessKey);
       }
       return Left(ErrorModel('session Expired'));

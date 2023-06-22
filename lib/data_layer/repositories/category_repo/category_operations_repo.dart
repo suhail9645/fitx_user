@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:fitx_user/data_layer/repositories/exercise_repo/category_exercise_repo.dart';
 import 'package:http/http.dart';
 import 'package:either_dart/either.dart';
 import 'package:fitx_user/data_layer/data_provider/category/category_operation_imp.dart';
@@ -21,7 +22,10 @@ class CategoriesOperationsRepo {
 
         for (var element in categoryPage.results ?? []) {
           Category categoryModel = Category.fromJson(element);
-        
+           final listOfExercise=await CategoryExerciseOperationsRepo().getAllCategoryExercise(categoryModel.id!);
+           if(listOfExercise.isRight){
+            categoryModel.exercises.addAll(listOfExercise.right);
+           }
           categories.add(categoryModel);
         }
 

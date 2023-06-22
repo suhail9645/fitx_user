@@ -6,7 +6,7 @@ part of 'result.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Result _$ResultFromJson(Map<String, dynamic> json) => Result(
+Exercise _$ExerciseFromJson(Map<String, dynamic> json) => Exercise(
       id: json['id'] as int?,
       name: json['name'] as String?,
       description: json['description'] as String?,
@@ -18,7 +18,7 @@ Result _$ResultFromJson(Map<String, dynamic> json) => Result(
       focusedArea: json['focused_area'] as String?,
     );
 
-Map<String, dynamic> _$ResultToJson(Result instance) => <String, dynamic>{
+Map<String, dynamic> _$ExerciseToJson(Exercise instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,

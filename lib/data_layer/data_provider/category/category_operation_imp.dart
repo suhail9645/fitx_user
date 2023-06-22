@@ -18,7 +18,8 @@ class CategoryOperations {
       });
       if (response.statusCode == 200) {
         return Right(response);
-      } else if (response.statusCode == 401) {
+      } else if (response.
+      statusCode == 401) {
         final newAccess = await GetNewAccessKey.getNewAccessKey();
         if (newAccess.isRight) {
           response =
@@ -31,7 +32,7 @@ class CategoryOperations {
         }
       }
     } on Exception catch (e) {
-      Left(ErrorModel(e.toString()));
+     return Left(ErrorModel(e.toString()));
     }
     return Left(ErrorModel('session expired'));
   }
@@ -46,9 +47,9 @@ class CategoryOperations {
       return Right(response);
     } else if (response.statusCode == 401) {
       final newAccess = await GetNewAccessKey.getNewAccessKey();
-      if(newAccess.isRight){
-      response = await http.get(Uri.parse(nextPageUrl),
-          headers: {'Authorization': 'Bearer ${newAccess.right}'});
+      if (newAccess.isRight) {
+        response = await http.get(Uri.parse(nextPageUrl),
+            headers: {'Authorization': 'Bearer ${newAccess.right}'});
       }
     }
     if (response.statusCode == 200) {
