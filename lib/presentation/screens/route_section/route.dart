@@ -8,11 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../logic/bottem_nav_cubit/bottem_navbar_cubit.dart';
+import '../../../logic/category_bloc/category_bloc.dart';
 
 class RoutePage extends StatelessWidget {
   const RoutePage({super.key});
   @override
   Widget build(BuildContext context) {
+     BlocProvider.of<CategoryBloc>(context).add(CategoryInitialEvent());
     List<Widget> pages = const [
       HomeScreen(),
       ExplreScreen(),

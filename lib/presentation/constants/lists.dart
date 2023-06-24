@@ -59,3 +59,6 @@ final List<String> welcomeTexts = [
   'BURN YOUR CALORY\nThrough 50+ Exercise',
   'ACTION IS THE\nKey To All Success'
 ];
+const List<String> names = ['Exercises', 'Calory', 'Category'];
+
+const List<String> reportPageWeight = ['Current', 'Heaviest', 'Lightest'];

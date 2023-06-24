@@ -3,6 +3,7 @@ import 'package:fitx_user/data_layer/models/exercise_page/result.dart';
 import 'package:fitx_user/logic/bottem_nav_cubit/bottem_navbar_cubit.dart';
 import 'package:fitx_user/logic/category_bloc/category_bloc.dart';
 import 'package:fitx_user/logic/image_cubit/image_cubit.dart';
+import 'package:fitx_user/logic/timer_cubit/timer_cubit.dart';
 import 'package:fitx_user/logic/user_auth_bloc/auth_bloc.dart';
 import 'package:fitx_user/presentation/screens/exercise_list_section/exercis_list.dart';
 import 'package:fitx_user/presentation/screens/exercise_playing_section/exercise_playing_screen.dart';
@@ -19,8 +20,8 @@ class AppRouter {
   final AuthBloc authBloc = AuthBloc();
   final BottemNavbarCubit bottemNavbarCubit = BottemNavbarCubit();
   final CategoryBloc categoryBloc = CategoryBloc();
+  final WaitPageTimerCubit waitPageTimerCubit = WaitPageTimerCubit();
   Route onGenerateRoute(RouteSettings routeSettings) {
-  
     switch (routeSettings.name) {
       case '/':
         return MaterialPageRoute(
@@ -47,26 +48,45 @@ class AppRouter {
             child: const RoutePage(),
           ),
         );
-       case 'ExerciseView':
-       return MaterialPageRoute(builder: (context) {
-          Category args = routeSettings.arguments as Category;
-         return ExerciseViewPage(category:args);
-       },);
-       case 'ReadyToGo':
-       return MaterialPageRoute(builder: (context) {
-         Category args = routeSettings.arguments as Category;
-         return ReadyToGoScreen(category: args);
-       },);
-       case 'ExercisePlay':
-       return MaterialPageRoute(builder: (context) {
-         Exercise args = routeSettings.arguments as Exercise;
-         return ExercisePlayingScreen(exercise: args);
-       },);
-       case 'Rest':
-       return MaterialPageRoute(builder: (context) {
-         Exercise args = routeSettings.arguments as Exercise;
-         return RestScreen(exercise: args);
-       },);
+      case 'ExerciseView':
+        return MaterialPageRoute(
+          builder: (context) {
+            Category args = routeSettings.arguments as Category;
+            return ExerciseViewPage(category: args);
+          },
+        );
+      case 'ReadyToGo':
+        return MaterialPageRoute(
+          builder: (context) {
+            Category args = routeSettings.arguments as Category;
+            return ReadyToGoScreen(category: args);
+          },
+        );
+      case 'ExercisePlay':
+        return MaterialPageRoute(
+          builder: (context) {
+            ExercisePlayingScreen args =
+                routeSettings.arguments as ExercisePlayingScreen;
+
+            return ExercisePlayingScreen(
+              category: args.category,
+              index: args.index,
+            );
+          },
+        );
+      case 'Rest':
+        return MaterialPageRoute(
+          builder: (context) {
+            RestScreen args = routeSettings.arguments as RestScreen;
+            return BlocProvider.value(
+              value: waitPageTimerCubit,
+              child: RestScreen(
+                category: args.category,
+                index: args.index,
+              ),
+            );
+          },
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => const SizedBox(),

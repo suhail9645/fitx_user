@@ -1,15 +1,26 @@
+import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
 import 'package:fitx_user/data_layer/models/exercise_page/result.dart';
+import 'package:fitx_user/logic/timer_cubit/timer_cubit.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
+import 'package:fitx_user/presentation/screens/exercise_playing_section/exercise_playing_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timer_count_down/timer_controller.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class RestScreen extends StatelessWidget {
-  final Exercise exercise;
-  const RestScreen({super.key, required this.exercise});
+  final Category category;
+  final int index;
+  RestScreen({super.key, required this.category, required this.index});
+
   @override
   Widget build(BuildContext context) {
+    final CountdownController _controller =
+        CountdownController(autoStart: true);
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
+    Exercise exercise = category.exercises[index];
     return Container(
       decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -24,7 +35,7 @@ class RestScreen extends StatelessWidget {
           backgroundColor: Colors.transparent,
           body: Column(
             children: [
-              Container(
+              SizedBox(
                 height: screenHeight / 1.8,
                 // color: Colors.blue,
                 width: double.infinity,
@@ -35,47 +46,58 @@ class RestScreen extends StatelessWidget {
                     const Text(
                       'REST',
                       style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 30,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 2),
                     ),
-                    TweenAnimationBuilder<Duration>(
-                        duration: const Duration(seconds: 20),
-                        tween: Tween(
-                            begin: const Duration(seconds: 20),
-                            end: const Duration(seconds: 01)),
-                        onEnd: () {
-                          // Navigator.pushReplacementNamed(context, 'ExercisePlay',arguments: category.exercises[2]);
-                        },
-                        builder: (BuildContext context, Duration value,
-                            Widget? child) {
-                          final minutes = value.inMinutes;
-                          final seconds = value.inSeconds;
-
-                          return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: Text('$minutes:$seconds',
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 50)));
-                        }),
+                    Countdown(
+                      interval: const Duration(milliseconds: 100),
+                      controller: _controller,
+                      seconds: 9,
+                      build: (p0, p1) {
+                        return Text(
+                          '0${p1.toString().split('.').first}',
+                          style: const TextStyle(
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        );
+                      },
+                      onFinished: () {
+                        Navigator.pushReplacementNamed(context, 'ExercisePlay',
+                            arguments: ExercisePlayingScreen(
+                                category: category, index: index));
+                      },
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        RestButtons(
-                          title: 'PAUSE',
-                          onTap: () {},
+                        BlocBuilder<WaitPageTimerCubit, bool>(
+                          builder: (context, state) {
+                            return RestButtons(
+                              title: state ? 'PAUSE' : 'RESUME',
+                              onTap: () {
+                                BlocProvider.of<WaitPageTimerCubit>(context)
+                                    .onResumeAndPause(!state);
+                                state
+                                    ? _controller.pause()
+                                    : _controller.resume();
+                              },
+                            );
+                          },
                         ),
                         RestButtons(
                           title: 'SKIP',
-                          onTap: () {},
+                          onTap: () {
+                               Navigator.pushReplacementNamed(context, 'ExercisePlay',
+                            arguments: ExercisePlayingScreen(
+                                category: category, index: index));
+                          },
                         ),
                       ],
                     ),
-                    Container(
+                    SizedBox(
                       height: screenHeight / 9,
                       width: double.infinity,
                       // color: Colors.black,
@@ -85,9 +107,9 @@ class RestScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            const Text(
-                              'NEXT 2/12',
-                              style: TextStyle(
+                             Text(
+                              'NEXT ${index+1}/${category.exercisesCount}',
+                              style:const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
@@ -119,12 +141,14 @@ class RestScreen extends StatelessWidget {
               ),
               Expanded(
                   child: Container(
-                decoration:  BoxDecoration(
+                decoration: BoxDecoration(
                     // color: Color.fromARGB(255, 27, 25, 25),
-                    borderRadius:const BorderRadiusDirectional.only(
+                    borderRadius: const BorderRadiusDirectional.only(
                       topStart: Radius.circular(25),
                       topEnd: Radius.circular(25),
-                    ),image: DecorationImage(image: NetworkImage(exercise.demo!),fit: BoxFit.fill)),
+                    ),
+                    image: DecorationImage(
+                        image: NetworkImage(exercise.demo!), fit: BoxFit.fill)),
               ))
             ],
           )),
@@ -143,8 +167,8 @@ class RestButtons extends StatelessWidget {
       width: 130,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            backgroundColor:title=='SKIP'? Colors.black:Colors.grey,
-            ),
+          backgroundColor: title == 'SKIP' ? Colors.black : Colors.grey,
+        ),
         onPressed: onTap,
         child: Text(
           title,

@@ -9,10 +9,7 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    
-    WidgetsBinding.instance.addPersistentFrameCallback((_) {
-BlocProvider.of<CategoryBloc>(context).add(CategoryInitialEvent());
-     });
+   
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
     return BlocConsumer<CategoryBloc, CategoryState>(
