@@ -1,5 +1,6 @@
 import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
 import 'package:fitx_user/logic/category_bloc/category_bloc.dart';
+import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constants/sized_box.dart';
@@ -8,7 +9,10 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<CategoryBloc>(context).add(CategoryInitialEvent());
+    
+    WidgetsBinding.instance.addPersistentFrameCallback((_) {
+BlocProvider.of<CategoryBloc>(context).add(CategoryInitialEvent());
+     });
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
     return BlocConsumer<CategoryBloc, CategoryState>(
@@ -80,6 +84,7 @@ class CategoryContainer extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
       child: GestureDetector(
         onTap: () {
+          
           Navigator.pushNamed(context,'ExerciseView',arguments: category);
         },
         child: Container(
@@ -107,10 +112,21 @@ class CategoryContainer extends StatelessWidget {
                   '${category.exercisesCount} Workouts',
                   style:
                       const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                ),
+                ),const Spacer(),
+             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 const  Text('0 People like this Category',style: TextStyle(color: primaryColor),),
+                 IconButton(onPressed: () {
+                   
+                 }, icon: const Icon(Icons.favorite))
+               ],
+             ),
+               spaceforHeight10
               ],
             ),
           ),
+          
         ),
       ),
     );

@@ -1,15 +1,17 @@
 import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
-import 'package:fitx_user/data_layer/models/exercise_page/result.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
+import 'package:fitx_user/presentation/screens/exercise_list_section/widget/bottem_sheet.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ExerciseViewPage extends StatelessWidget {
   final Category category;
   const ExerciseViewPage({super.key, required this.category});
   @override
   Widget build(BuildContext context) {
+    String url = 'https://www.youtube.com/watch?v=2W4ZNSwoW_4';
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
     return Scaffold(
@@ -117,55 +119,18 @@ class ExerciseViewPage extends StatelessWidget {
                                   context: context,
                                   isScrollControlled: true,
                                   builder: (context) {
-                                    return Container(
-                                      height: screenHeight / 1.2,
-                                      child: Column(
-                                        children: [
-                                          const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                'DETAILES',
-                                                style: TextStyle(fontSize: 23),
-                                              )
-                                            ],
-                                          ),
-                                          const Divider(),
-                                          Container(
-                                            height: screenHeight / 3.5,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: NetworkImage(category
-                                                      .exercises[index].demo!),
-                                                  fit: BoxFit.fill),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  category.exercises[index].name!,
-                                                  style:
-                                                      const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
-                                                ),
-                                             
-                                              ],
-                                            ),
-                                          ),
-                                             Text(category.exercises[index].description!,textAlign: TextAlign.start,)
-                                        ],
-                                      ),
-                                    );
+                                    return DetailesBottemSheet(
+                                        screenHeight: screenHeight,
+                                        category: category,index: index,);
                                   },
                                 );
                               },
                               child: const Icon(Icons.question_mark),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () async {
+                                await launchUrl(Uri.parse(url));
+                              },
                               child: const Text(
                                 'WATCH',
                                 style: TextStyle(color: Colors.blue),
@@ -185,10 +150,13 @@ class ExerciseViewPage extends StatelessWidget {
               child: ElevatedButtonWithIcon(
                 width: screenHeight / 2.4,
                 text: 'Start',
-                onClicked: () {},
+                onClicked: () {
+                  Navigator.pushNamed(context, 'ReadyToGo',arguments: category);
+                },
               ))
         ],
       ),
     );
   }
 }
+
