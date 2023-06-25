@@ -18,8 +18,7 @@ class CategoryOperations {
       });
       if (response.statusCode == 200) {
         return Right(response);
-      } else if (response.
-      statusCode == 401) {
+      } else if (response.statusCode == 401) {
         final newAccess = await GetNewAccessKey.getNewAccessKey();
         if (newAccess.isRight) {
           response =
@@ -32,7 +31,7 @@ class CategoryOperations {
         }
       }
     } on Exception catch (e) {
-     return Left(ErrorModel(e.toString()));
+      return Left(ErrorModel(e.toString()));
     }
     return Left(ErrorModel('session expired'));
   }

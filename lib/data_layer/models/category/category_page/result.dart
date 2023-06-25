@@ -11,17 +11,18 @@ class Category extends Equatable {
   final String? description;
   final String? image;
   final String? music;
+  final int? likes;
   @JsonKey(name: 'exercises_count')
   final int? exercisesCount;
-  final List<Exercise>exercises=[];
-  Category({
-    this.id,
-    this.name,
-    this.description,
-    this.image,
-    this.music,
-    this.exercisesCount,
-  });
+  final List<Exercise> exercises = [];
+  Category(
+      {this.id,
+      this.name,
+      this.description,
+      this.image,
+      this.music,
+      this.exercisesCount,
+      this.likes});
 
   factory Category.fromJson(Map<String, dynamic> json) {
     return _$CategoryFromJson(json);

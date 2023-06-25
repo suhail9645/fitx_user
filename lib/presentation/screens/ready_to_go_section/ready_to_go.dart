@@ -23,7 +23,10 @@ class ReadyToGoScreen extends StatelessWidget {
       body: Column(
         children: [
           ExerciseContainer(
-              screenHeight: screenHeight, exercise: category.exercises.first,music:category.music! ,),
+            screenHeight: screenHeight,
+            exercise: category.exercises.first,
+            music: category.music!,
+          ),
           const SizedBox(
             height: 40,
           ),

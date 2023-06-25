@@ -70,6 +70,7 @@ class LoginScreen extends StatelessWidget {
                   return ElevatedButtonWithIcon(
                       text: 'Login',
                       onClicked: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
                         if (_formKey.currentState!.validate()) {
                           BlocProvider.of<AuthBloc>(context)
                               .add(SignInButtonClickedEvent());

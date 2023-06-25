@@ -19,7 +19,11 @@ class ExercisePlayingScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          ExerciseContainer(screenHeight: screenHeight, exercise: exercise,music: category.music!,),
+          ExerciseContainer(
+            screenHeight: screenHeight,
+            exercise: exercise,
+            music: category.music!,
+          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -65,14 +69,16 @@ class ExercisePlayingScreen extends StatelessWidget {
                               content: Text(
                                   'You Successfully completed ${category.name}'),
                               actions: [
-                                ElevatedButton(onPressed: () {
-                                  Navigator.pushNamedAndRemoveUntil(context, 'Route', (route) => false);
-                                  // Navigator.popUntil(context, (route) => false);
-                                }, child:const Text('DONE'))
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context, 'Route', (route) => false);
+                                      // Navigator.popUntil(context, (route) => false);
+                                    },
+                                    child: const Text('DONE'))
                               ],
                             ),
                           );
-                         
                         }
                       },
                       icon: const Text(

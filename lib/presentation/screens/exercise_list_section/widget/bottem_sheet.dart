@@ -5,11 +5,11 @@ import '../../../constants/colors.dart';
 import '../../../constants/sized_box.dart';
 
 class DetailesBottemSheet extends StatelessWidget {
-  const DetailesBottemSheet({
-    super.key,
-    required this.screenHeight,
-    required this.category,required this.index
-  });
+  const DetailesBottemSheet(
+      {super.key,
+      required this.screenHeight,
+      required this.category,
+      required this.index});
 
   final double screenHeight;
   final Category category;

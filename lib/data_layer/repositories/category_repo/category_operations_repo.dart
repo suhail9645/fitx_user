@@ -22,10 +22,11 @@ class CategoriesOperationsRepo {
 
         for (var element in categoryPage.results ?? []) {
           Category categoryModel = Category.fromJson(element);
-           final listOfExercise=await CategoryExerciseOperationsRepo().getAllCategoryExercise(categoryModel.id!);
-           if(listOfExercise.isRight){
+          final listOfExercise = await CategoryExerciseOperationsRepo()
+              .getAllCategoryExercise(categoryModel.id!);
+          if (listOfExercise.isRight) {
             categoryModel.exercises.addAll(listOfExercise.right);
-           }
+          }
           categories.add(categoryModel);
         }
 

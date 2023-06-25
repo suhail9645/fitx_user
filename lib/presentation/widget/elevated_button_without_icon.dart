@@ -4,7 +4,8 @@ class ElevatedButtonWithIcon extends StatelessWidget {
   const ElevatedButtonWithIcon({
     super.key,
     required this.text,
-    required this.onClicked, this.width,
+    required this.onClicked,
+    this.width,
   });
   final String text;
   final Function() onClicked;

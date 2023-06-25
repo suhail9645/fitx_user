@@ -6,6 +6,7 @@ import 'package:fitx_user/presentation/screens/report_section/report_screen.dart
 import 'package:fitx_user/presentation/screens/trainer_section/trainer_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../logic/bottem_nav_cubit/bottem_navbar_cubit.dart';
 import '../../../logic/category_bloc/category_bloc.dart';
@@ -14,14 +15,15 @@ class RoutePage extends StatelessWidget {
   const RoutePage({super.key});
   @override
   Widget build(BuildContext context) {
-     BlocProvider.of<CategoryBloc>(context).add(CategoryInitialEvent());
+
+    BlocProvider.of<CategoryBloc>(context).add(CategoryInitialEvent());
     List<Widget> pages = const [
-      HomeScreen(),
+      HomeScreen(greeting: 'Hello SuhailPk,',),
       ExplreScreen(),
       ReportScreen(),
       TrainerScreen()
     ];
-    List<String> appBarTitles = ['Home', 'Explore', 'Report', 'Report'];
+    List<String> appBarTitles = ['Home', 'Explore', 'Report', 'FITNESS TRAINERS'];
 
     return BlocBuilder<BottemNavbarCubit, BottemNavbarState>(
       builder: (context, state) {

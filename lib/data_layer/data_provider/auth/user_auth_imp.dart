@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:fitx_user/data_layer/models/user/user.dart';
 import 'package:fitx_user/presentation/constants/lists.dart';
 import 'package:fitx_user/presentation/constants/strings.dart';
 import 'package:http/http.dart' as http;
@@ -32,7 +33,15 @@ class UserAuthFunctions {
         "gender": groupValue.toLowerCase(),
       });
       StreamedResponse res = await request.send();
+      
       if (res.statusCode == 201) {
+        var response = await http.Response.fromStream(res);
+         final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString(
+            'refreshKey', jsonDecode(response.body)['refresh']);
+        await prefs.setString('accessKey', jsonDecode(response.body)['access']);
+        final userData=jsonEncode(jsonDecode(response.body)['user']);
+        await prefs.setString('user', userData);
         return const Right(true);
       } else {
         Response response = await http.Response.fromStream(res);
@@ -53,7 +62,7 @@ class UserAuthFunctions {
       'password': loginPageTextEditingControllers[1].text,
     };
     try {
-      Response response = await http.post(Uri.parse('${baseUrl}auth/token/'),
+      Response response = await http.post(Uri.parse('${baseUrl}auth/login/'),
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -63,6 +72,8 @@ class UserAuthFunctions {
         await prefs.setString(
             'refreshKey', jsonDecode(response.body)['refresh']);
         await prefs.setString('accessKey', jsonDecode(response.body)['access']);
+        final userData=jsonEncode(jsonDecode(response.body)['user']);
+        await prefs.setString('user', userData);
         return const Right(true);
       } else {
         return Left(ErrorModel('No active user in given detailes'));

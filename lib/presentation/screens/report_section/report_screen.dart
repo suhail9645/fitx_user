@@ -1,17 +1,20 @@
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
+import 'package:fitx_user/presentation/screens/report_section/widget/button_row.dart';
+import 'package:fitx_user/presentation/screens/report_section/widget/report_image_stack.dart';
+import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
+import 'package:fitx_user/presentation/widget/text_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import '../../constants/lists.dart';
+import 'widget/circular_of_report.dart';
 
 class ReportScreen extends StatelessWidget {
   const ReportScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    double screenHeight = screenSize.height;
+    Size size = MediaQuery.of(context).size;
+    double screenHeight = size.height;
     return Scaffold(
         body: SingleChildScrollView(
       child: Padding(
@@ -55,7 +58,72 @@ class ReportScreen extends StatelessWidget {
             ReportRowWidget(
               text: 'WEEK GOAL',
               buttonText: 'Edit',
-              onClicked: () {},
+              onClicked: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => ClipRRect(
+                    borderRadius: BorderRadius.circular(1.0),
+                    child: Dialog(
+                      child: Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Column(
+                              children: List.generate(
+                                3,
+                                (index) => CustomTextFormField(
+                                    controller: goalControllers[index],
+                                    hint: goalHints[index]),
+                              ),
+                            ),
+                            Container(
+                              width: screenHeight * 0.30,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  gradient: const LinearGradient(colors: [
+                                    Color.fromARGB(255, 214, 219, 66),
+                                    Color.fromARGB(255, 210, 172, 4)
+                                  ])),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    shadowColor: Colors.transparent),
+                                onPressed: () {},
+                                child: const Text(
+                                  'Done',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                              ),
+                            ),
+                            spaceforHeight10,
+                            InkWell(
+                              onTap: () {},
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
+                            spaceforHeight20
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
             spaceforHeight10,
             Container(
@@ -84,25 +152,37 @@ class ReportScreen extends StatelessWidget {
               buttonText: 'Add',
               onClicked: () {},
             ),
-            Container(
-                child: SfCartesianChart(
-
-                    // Initialize category axis
-                    primaryXAxis: CategoryAxis(),
-                    plotAreaBorderColor: Colors.transparent,
-                    series: <LineSeries<SalesData, String>>[
+            SfCartesianChart(
+                palette: const <Color>[
+                  Color.fromRGBO(86, 250, 4, 1),
+                  Color.fromRGBO(244, 4, 72, 1),
+                ],
+                // Initialize category axis
+                primaryXAxis: CategoryAxis(),
+                plotAreaBorderColor: Colors.transparent,
+                series: <LineSeries<SalesData, String>>[
                   LineSeries<SalesData, String>(
                       // Bind data source
                       dataSource: <SalesData>[
                         SalesData('Jan', 35),
-                        SalesData('Feb', 28),
-                        SalesData('Mar', 34),
+                        SalesData('Feb', 34),
+                        SalesData('Feb', 38),
                         SalesData('Apr', 32),
                         SalesData('May', 40),
+                        SalesData('May', 45),
+                        SalesData('Jun', 28),
+                        SalesData('Jun', 34),
+                        SalesData('Jul', 32),
+                        SalesData('Aug', 40),
+                        SalesData('Sep', 45),
+                        SalesData('Oct', 28),
+                        SalesData('Nov', 34),
+                        SalesData('Dec', 32),
+                        SalesData('Dec', 40),
                       ],
                       xValueMapper: (SalesData sales, _) => sales.year,
                       yValueMapper: (SalesData sales, _) => sales.sales)
-                ])),
+                ]),
             const Divider(),
             Column(
               children: List.generate(3, (index) {
@@ -135,132 +215,16 @@ class ReportScreen extends StatelessWidget {
               buttonText: 'Add',
               onClicked: () {},
             ),
-            Stack(
-              children: [
-                Container(
-                  height: screenHeight/3,
-                  decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(colors: [
-                        Color.fromARGB(255, 238, 207, 49),
-                        Color.fromARGB(255, 214, 255, 7),
-                      ], begin: Alignment.bottomCenter, end: Alignment.topCenter)),
-                )
-              ],
+            ReportImageStack(size: size),
+            ElevatedButtonWithIcon(
+              text: 'View your Journey',
+              onClicked: () {
+                Navigator.pushNamed(context, 'JourneyView');
+              },
             )
           ],
         ),
       ),
     ));
   }
-}
-
-class ReportRowWidget extends StatelessWidget {
-  const ReportRowWidget({
-    super.key,
-    required this.text,
-    required this.buttonText,
-    required this.onClicked,
-  });
-  final String text;
-  final String buttonText;
-  final Function() onClicked;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          text,
-          style: const TextStyle(fontSize: 19),
-        ),
-        Container(
-          height: 36,
-          width: 90,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              gradient: const LinearGradient(colors: [
-                Color.fromARGB(255, 214, 219, 66),
-                Color.fromARGB(255, 210, 172, 4)
-              ])),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent),
-            onPressed: onClicked,
-            child: Text(
-              buttonText,
-              style: const TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.bold),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-}
-
-class CircularOfReport extends StatelessWidget {
-  const CircularOfReport({
-    super.key,
-    required this.title,
-    required this.contant,
-    required this.percentage,
-  });
-  final String title;
-  final String contant;
-  final double percentage;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(0.0),
-      child: CircularPercentIndicator(
-        // rotateLinearGradient: true,
-        backgroundWidth: 3,
-        animation: true,
-        animationDuration: 800,
-        linearGradient: const LinearGradient(colors: [
-          Color.fromARGB(255, 232, 211, 22),
-          Color.fromARGB(255, 237, 41, 27),
-        ]),
-        radius: 36.0,
-        lineWidth: 4.0,
-        percent: percentage,
-        center: TweenAnimationBuilder<Duration>(
-            duration: const Duration(seconds: 1),
-            tween: Tween(
-                begin: const Duration(seconds: 0),
-                end: const Duration(seconds: 25)),
-            onEnd: () {
-              // Navigator.pushReplacementNamed(context, 'ExercisePlay',
-              //     arguments: ExercisePlayingScreen(
-              //         category: category, index: 0));
-            },
-            builder: (BuildContext context, Duration value, Widget? child) {
-              const textStyle = TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12);
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(contant, textAlign: TextAlign.center, style: textStyle),
-                  Text(title,
-                      style: const TextStyle(
-                          fontSize: 11,
-                          color: Color.fromARGB(255, 193, 191, 191)))
-                ],
-              );
-            }),
-
-        backgroundColor: const Color.fromARGB(255, 51, 49, 49),
-      ),
-    );
-  }
-}
-
-class SalesData {
-  SalesData(this.year, this.sales);
-  final String year;
-  final double sales;
 }

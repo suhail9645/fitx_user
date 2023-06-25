@@ -188,4 +188,3 @@ class ExploreMostLIkedCategories extends StatelessWidget {
             autoPlay: true, enlargeCenterPage: true, initialPage: 1));
   }
 }
-

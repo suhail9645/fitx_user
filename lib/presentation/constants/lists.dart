@@ -15,7 +15,9 @@ final TextEditingController loginEmail = TextEditingController();
 final TextEditingController loginPassword = TextEditingController();
 final TextEditingController userName = TextEditingController();
 final TextEditingController exerciceDescription = TextEditingController();
-final TextEditingController focused_area = TextEditingController();
+final TextEditingController exerciseGoal = TextEditingController();
+final TextEditingController caloryGoal = TextEditingController();
+final TextEditingController categoryGoal = TextEditingController();
 
 final List<TextEditingController> registerPageTextEditingControllers = [
   fullName,
@@ -62,3 +64,10 @@ final List<String> welcomeTexts = [
 const List<String> names = ['Exercises', 'Calory', 'Category'];
 
 const List<String> reportPageWeight = ['Current', 'Heaviest', 'Lightest'];
+
+final List<TextEditingController> goalControllers = [
+  exerciseGoal,
+  caloryGoal,
+  categoryGoal
+];
+const List<String> goalHints = ['Exercise', 'Calory', 'Category'];

@@ -90,9 +90,10 @@ class RestScreen extends StatelessWidget {
                         RestButtons(
                           title: 'SKIP',
                           onTap: () {
-                               Navigator.pushReplacementNamed(context, 'ExercisePlay',
-                            arguments: ExercisePlayingScreen(
-                                category: category, index: index));
+                            Navigator.pushReplacementNamed(
+                                context, 'ExercisePlay',
+                                arguments: ExercisePlayingScreen(
+                                    category: category, index: index));
                           },
                         ),
                       ],
@@ -107,9 +108,9 @@ class RestScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                             Text(
-                              'NEXT ${index+1}/${category.exercisesCount}',
-                              style:const TextStyle(
+                            Text(
+                              'NEXT ${index + 1}/${category.exercisesCount}',
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,

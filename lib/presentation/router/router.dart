@@ -7,6 +7,7 @@ import 'package:fitx_user/logic/timer_cubit/timer_cubit.dart';
 import 'package:fitx_user/logic/user_auth_bloc/auth_bloc.dart';
 import 'package:fitx_user/presentation/screens/exercise_list_section/exercis_list.dart';
 import 'package:fitx_user/presentation/screens/exercise_playing_section/exercise_playing_screen.dart';
+import 'package:fitx_user/presentation/screens/journey_view_section/journey_view.dart';
 import 'package:fitx_user/presentation/screens/ready_to_go_section/ready_to_go.dart';
 import 'package:fitx_user/presentation/screens/rest_section/rest_screen.dart';
 import 'package:fitx_user/presentation/screens/route_section/route.dart';
@@ -25,7 +26,9 @@ class AppRouter {
     switch (routeSettings.name) {
       case '/':
         return MaterialPageRoute(
-          builder: (_) => const WelcomeScreen(),
+          builder: (_) { 
+            
+            return const WelcomeScreen();}
         );
 
       case 'signInAndSignUp':
@@ -86,6 +89,10 @@ class AppRouter {
               ),
             );
           },
+        );
+      case 'JourneyView':
+        return MaterialPageRoute(
+          builder: (context) => const JourneyViewScreen(),
         );
       default:
         return MaterialPageRoute(

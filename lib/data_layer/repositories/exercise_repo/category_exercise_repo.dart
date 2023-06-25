@@ -6,37 +6,36 @@ import 'package:fitx_user/data_layer/models/exercise_page/exercise_page.dart';
 import 'package:fitx_user/data_layer/models/exercise_page/result.dart';
 import 'package:http/http.dart';
 
-class CategoryExerciseOperationsRepo{
-  Future<Either<ErrorModel,List<Exercise>>>getAllCategoryExercise(int id)async{
-     final response = await CategoryExerciseOperations().getCategoryExercise(id);
+class CategoryExerciseOperationsRepo {
+  Future<Either<ErrorModel, List<Exercise>>> getAllCategoryExercise(
+      int id) async {
+    final response = await CategoryExerciseOperations().getCategoryExercise(id);
     if (response.isLeft) {
       return Left(ErrorModel(response.left.error));
-    } 
-     else{
-       Response exerciseResponse = response.right;
-       List<Exercise> exercises = [];
-     
-        while (true) {
+    } else {
+      Response exerciseResponse = response.right;
+      List<Exercise> exercises = [];
+
+      while (true) {
         Map<String, dynamic> data = jsonDecode(exerciseResponse.body);
-        ExercisePage exercisePage=ExercisePage.fromJson(data);
+        ExercisePage exercisePage = ExercisePage.fromJson(data);
 
         for (var element in exercisePage.results ?? []) {
-          Exercise exercise=Exercise.fromJson(element);
+          Exercise exercise = Exercise.fromJson(element);
           exercises.add(exercise);
         }
 
         if (exercisePage.next != null) {
-          final nextPageResponse = await CategoryExerciseOperations().categoryExerciseNextPage(exercisePage.next);
+          final nextPageResponse = await CategoryExerciseOperations()
+              .categoryExerciseNextPage(exercisePage.next);
           if (nextPageResponse.isRight) {
-           exerciseResponse = nextPageResponse.right;
+            exerciseResponse = nextPageResponse.right;
           }
         } else {
           break;
-         }
-       }
-       return Right(exercises);
+        }
       }
-      
-     }
-  
+      return Right(exercises);
+    }
   }
+}

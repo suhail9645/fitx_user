@@ -129,6 +129,7 @@ class RegisterScreen extends StatelessWidget {
                         return ElevatedButtonWithIcon(
                             text: 'Signup',
                             onClicked: () {
+                              FocusManager.instance.primaryFocus?.unfocus();
                               if (_formKey.currentState!.validate()) {
                                 BlocProvider.of<AuthBloc>(context).add(
                                     SignUpButtonClickedEvent(
