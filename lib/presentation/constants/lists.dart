@@ -18,6 +18,8 @@ final TextEditingController exerciceDescription = TextEditingController();
 final TextEditingController exerciseGoal = TextEditingController();
 final TextEditingController caloryGoal = TextEditingController();
 final TextEditingController categoryGoal = TextEditingController();
+final TextEditingController trainerPhoneNumber = TextEditingController();
+final TextEditingController trainerExperience = TextEditingController();
 
 final List<TextEditingController> registerPageTextEditingControllers = [
   fullName,
@@ -71,3 +73,14 @@ final List<TextEditingController> goalControllers = [
   categoryGoal
 ];
 const List<String> goalHints = ['Exercise', 'Calory', 'Category'];
+const List<String> profileList = [
+  'Edit Profile',
+  'Invite Friends',
+  'Privacy Policy',
+  'Contact Us',
+];
+final List<TextEditingController> controllerListOfTrainerAddSection = [
+  trainerPhoneNumber,
+  trainerExperience
+];
+final List<String>hintListOfTrainerAddSection=['Phone Number','Experience'];

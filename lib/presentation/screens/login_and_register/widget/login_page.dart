@@ -62,7 +62,7 @@ class LoginScreen extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('welcome to success')));
                   Navigator.of(context)
-                      .pushNamedAndRemoveUntil('Route', (route) => false);
+                      .pushNamedAndRemoveUntil('Route',arguments: state.userName, (route) => false);
                 }
               },
               builder: (context, state) {

@@ -2,6 +2,7 @@ import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:fitx_user/presentation/screens/report_section/widget/button_row.dart';
 import 'package:fitx_user/presentation/screens/report_section/widget/report_image_stack.dart';
+import 'package:fitx_user/presentation/screens/report_section/widget/report_page_alert.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:fitx_user/presentation/widget/text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -61,67 +62,7 @@ class ReportScreen extends StatelessWidget {
               onClicked: () {
                 showDialog(
                   context: context,
-                  builder: (context) => ClipRRect(
-                    borderRadius: BorderRadius.circular(1.0),
-                    child: Dialog(
-                      child: Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Column(
-                              children: List.generate(
-                                3,
-                                (index) => CustomTextFormField(
-                                    controller: goalControllers[index],
-                                    hint: goalHints[index]),
-                              ),
-                            ),
-                            Container(
-                              width: screenHeight * 0.30,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  gradient: const LinearGradient(colors: [
-                                    Color.fromARGB(255, 214, 219, 66),
-                                    Color.fromARGB(255, 210, 172, 4)
-                                  ])),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.transparent,
-                                    shadowColor: Colors.transparent),
-                                onPressed: () {},
-                                child: const Text(
-                                  'Done',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
-                                ),
-                              ),
-                            ),
-                            spaceforHeight10,
-                            InkWell(
-                              onTap: () {},
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Cancel',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              ),
-                            ),
-                            spaceforHeight20
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  builder: (context) => ReportPageAlert(screenHeight: screenHeight),
                 );
               },
             ),
@@ -228,3 +169,4 @@ class ReportScreen extends StatelessWidget {
     ));
   }
 }
+

@@ -71,9 +71,13 @@ class ExercisePlayingScreen extends StatelessWidget {
                               actions: [
                                 ElevatedButton(
                                     onPressed: () {
-                                      Navigator.pushNamedAndRemoveUntil(
-                                          context, 'Route', (route) => false);
-                                      // Navigator.popUntil(context, (route) => false);
+                                      // Navigator.pop(context);
+                                      // Navigator.pushNamedAndRemoveUntil(
+                                      //     context, 'Route', (route) => false);
+                                      int count = 0;
+                                      Navigator.popUntil(context, (route) {
+                                        return count++ == 3;
+                                      });
                                     },
                                     child: const Text('DONE'))
                               ],

@@ -9,7 +9,11 @@ class AuthLoadingState extends AuthState {}
 
 class AuthActionState extends AuthState {}
 
-class AuthSuccessState extends AuthActionState {}
+class AuthSuccessState extends AuthActionState {
+  final String userName;
+
+  AuthSuccessState({required this.userName});
+}
 
 class AuthErrorState extends AuthActionState {
   final String error;

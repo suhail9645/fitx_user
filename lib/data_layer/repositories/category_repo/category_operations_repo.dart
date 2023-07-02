@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:fitx_user/data_layer/data_provider/category/category_like_dislike.dart';
 import 'package:fitx_user/data_layer/repositories/exercise_repo/category_exercise_repo.dart';
 import 'package:http/http.dart';
 import 'package:either_dart/either.dart';
@@ -27,6 +28,8 @@ class CategoriesOperationsRepo {
           if (listOfExercise.isRight) {
             categoryModel.exercises.addAll(listOfExercise.right);
           }
+         categoryModel.isLiked=await checkingUserCategoryLikeOrNot(categoryModel.id!);
+
           categories.add(categoryModel);
         }
 
@@ -42,5 +45,33 @@ class CategoriesOperationsRepo {
       }
       return Right(categories);
     }
+  }
+  Future<bool>checkingUserCategoryLikeOrNot(int id)async{
+    final response=await CategoryLikeAndDislike().getUserLikedCategories();
+    if(response.isRight){
+     Response likedResponse=response.right;
+     while(true){
+     Map<String,dynamic>data=jsonDecode(likedResponse.body);
+     CategoryPage categoryPage = CategoryPage.fromJson(data);
+
+     for (var element in categoryPage.results??[]) {
+      Category categoryModel = Category.fromJson(element);
+       if(categoryModel.id==id){
+        return true;
+       }
+     }
+     if(categoryPage.next!=null){
+       final nextPageResponse = await CategoryOperations()
+              .getNextPageCategories(categoryPage.next);
+      if(nextPageResponse.isRight){
+        likedResponse=nextPageResponse.right;
+      }
+     }
+     else{
+      break;
+     }
+     }
+    }
+    return false;
   }
 }

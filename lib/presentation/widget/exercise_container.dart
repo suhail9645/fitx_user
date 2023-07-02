@@ -20,6 +20,7 @@ class ExerciseContainer extends StatelessWidget {
       height: screenHeight / 2.1,
       width: double.infinity,
       decoration: BoxDecoration(
+        color: Colors.white,
         image: DecorationImage(
             image: NetworkImage(exercise.demo!), fit: BoxFit.fill),
       ),

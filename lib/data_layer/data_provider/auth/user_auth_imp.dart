@@ -10,7 +10,7 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserAuthFunctions {
-  Future<Either<ErrorModel, bool>> registerUser(
+  Future<Either<ErrorModel, String>> registerUser(
       File? image, String groupValue) async {
     try {
       final request = http.MultipartRequest(
@@ -42,7 +42,7 @@ class UserAuthFunctions {
         await prefs.setString('accessKey', jsonDecode(response.body)['access']);
         final userData=jsonEncode(jsonDecode(response.body)['user']);
         await prefs.setString('user', userData);
-        return const Right(true);
+        return  Right(userData);
       } else {
         Response response = await http.Response.fromStream(res);
         Map<String, dynamic> data = jsonDecode(response.body);
@@ -56,7 +56,7 @@ class UserAuthFunctions {
     }
   }
 
-  Future<Either<ErrorModel, bool>> loginUser() async {
+  Future<Either<ErrorModel, String>> loginUser() async {
     Map<String, String> body = {
       'username': loginPageTextEditingControllers[0].text,
       'password': loginPageTextEditingControllers[1].text,
@@ -74,7 +74,7 @@ class UserAuthFunctions {
         await prefs.setString('accessKey', jsonDecode(response.body)['access']);
         final userData=jsonEncode(jsonDecode(response.body)['user']);
         await prefs.setString('user', userData);
-        return const Right(true);
+        return  Right(userData);
       } else {
         return Left(ErrorModel('No active user in given detailes'));
       }

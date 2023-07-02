@@ -1,5 +1,4 @@
 import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
-import 'package:fitx_user/presentation/screens/home_section/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';

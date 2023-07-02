@@ -23,5 +23,6 @@ Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
       'image': instance.image,
       'music': instance.music,
       'likes': instance.likes,
+      'isLiked': instance.isLiked,
       'exercises_count': instance.exercisesCount,
     };

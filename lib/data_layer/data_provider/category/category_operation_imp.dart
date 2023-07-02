@@ -1,5 +1,4 @@
 import 'package:either_dart/either.dart';
-import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
 import 'package:fitx_user/data_layer/models/error/error_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';

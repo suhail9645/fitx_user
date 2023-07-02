@@ -1,8 +1,6 @@
-import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,16 +10,20 @@ void main() async {
     systemNavigationBarColor: Color.fromARGB(255, 27, 25, 25),
     statusBarColor: Colors.transparent,
   ));
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  runApp(MyApp());
+  SharedPreferences sred = await SharedPreferences.getInstance();
+  String? userData = sred.getString('user');
+
+  runApp(MyApp(
+    userData: userData,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-  AppRouter route = AppRouter();
+  MyApp({super.key, this.userData});
+  final String? userData;
+  final AppRouter route = AppRouter();
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'FITX',
@@ -30,6 +32,18 @@ class MyApp extends StatelessWidget {
         fontFamily: GoogleFonts.ubuntu().fontFamily,
         brightness: Brightness.dark,
       ),
+      initialRoute: userData != null ? 'Route' : '/',
+     
+      onGenerateInitialRoutes: (initialRoute) {
+        return [
+          initialRoute != '/'
+              ? route.onGenerateRoute(
+                  RouteSettings(name: initialRoute,arguments: userData ))
+              : route.onGenerateRoute(RouteSettings(
+                  name: initialRoute,
+                )),
+        ];
+      },
       onGenerateRoute: route.onGenerateRoute,
     );
   }

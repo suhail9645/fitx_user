@@ -16,7 +16,7 @@ class ReportImageStack extends StatelessWidget {
       child: Stack(alignment: Alignment.center, children: [
         CircleAvatar(
           radius: size.width * 0.37,
-          backgroundColor: Color.fromARGB(255, 229, 235, 104),
+          backgroundColor:const Color.fromARGB(255, 229, 235, 104),
         ),
         DownloadsImageWidget(
           image: 'https://i.redd.it/bqspaohir0p71.jpg',

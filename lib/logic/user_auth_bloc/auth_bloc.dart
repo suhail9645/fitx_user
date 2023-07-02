@@ -20,7 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final response =
         await UserAuthFunctions().registerUser(event.image, event.groupValue);
     if (response.isRight) {
-      emit(AuthSuccessState());
+      emit(AuthSuccessState(userName: response.right));
     } else {
       emit(AuthErrorState(error: response.left.error));
     }
@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoadingState());
     final response = await UserAuthFunctions().loginUser();
     if (response.isRight) {
-      emit(AuthSuccessState());
+      emit(AuthSuccessState(userName:response.right ));
     } else {
       emit(AuthErrorState(error: response.left.error));
     }

@@ -1,56 +1,57 @@
 import 'package:either_dart/either.dart';
 import 'package:fitx_user/data_layer/data_provider/access_key/get_new_access_key.dart';
-import 'package:fitx_user/data_layer/models/error/error_model.dart';
+import 'package:fitx_user/presentation/constants/strings.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../presentation/constants/strings.dart';
+import '../../models/error/error_model.dart';
 
-class CategoryExerciseOperations {
-  Future<Either<ErrorModel, Response>> getCategoryExercise(
-    int id,
-  ) async {
+class CategoryLikeAndDislike {
+  Future<Either<ErrorModel, bool>> categoryLike(int id) async {
     try {
       SharedPreferences shrd = await SharedPreferences.getInstance();
       String access = shrd.getString('accessKey')!;
-      Response exerciseResponse = await http
-          .get(Uri.parse('${baseUrl}exercise/category/$id/'), headers: {
+      Response response =
+          await http.patch(Uri.parse('${baseUrl}users/like/$id/'), headers: {
         'Authorization': 'Bearer $access',
       });
-      if (exerciseResponse.statusCode == 200) {
-        return Right(exerciseResponse);
-      } else if (exerciseResponse.statusCode == 401) {
+      if (response.statusCode == 202) {
+        return const Right(true);
+      } else if (response.statusCode == 401) {
         final newAccess = await GetNewAccessKey.getNewAccessKey();
         if (newAccess.isRight) {
-          exerciseResponse = await http
-              .get(Uri.parse('${baseUrl}exercise/category/$id/'), headers: {
+          response = await http
+              .patch(Uri.parse('${baseUrl}users/like/$id/'), headers: {
             'Authorization': 'Bearer ${newAccess.right}',
           });
-          if (exerciseResponse.statusCode == 200) {
-            return Right(exerciseResponse);
+          if (response.statusCode == 202) {
+            return const Right(true);
           }
         }
       }
     } on Exception catch (e) {
-      return Left(ErrorModel(e.toString()));
+      return Left(
+        ErrorModel(
+          e.toString(),
+        ),
+      );
     }
     return Left(ErrorModel('Session Expired'));
   }
 
-  Future<Either<ErrorModel, Response>> categoryExerciseNextPage(
-      String nextPageUrl) async {
+  Future<Either<ErrorModel, Response>> getUserLikedCategories() async {
     try {
-      SharedPreferences shred = await SharedPreferences.getInstance();
-      String access = shred.getString('accessKey')!;
-      Response response = await http.get(Uri.parse(nextPageUrl),
+      SharedPreferences shrd = await SharedPreferences.getInstance();
+      String access = shrd.getString('accessKey')!;
+      Response response = await http.get(Uri.parse('${baseUrl}users/getlikes/'),
           headers: {'Authorization': 'Bearer $access'});
       if (response.statusCode == 200) {
         return Right(response);
       } else if (response.statusCode == 401) {
         final newAccess = await GetNewAccessKey.getNewAccessKey();
         if (newAccess.isRight) {
-          response = await http.get(Uri.parse(nextPageUrl),
+          response = await http.get(Uri.parse('${baseUrl}users/getlikes'),
               headers: {'Authorization': 'Bearer ${newAccess.right}'});
           if (response.statusCode == 200) {
             return Right(response);
@@ -60,6 +61,6 @@ class CategoryExerciseOperations {
     } on Exception catch (e) {
       return Left(ErrorModel(e.toString()));
     }
-    return Left(ErrorModel('something wrong'));
+    return Left(ErrorModel('Session Expired'));
   }
 }
