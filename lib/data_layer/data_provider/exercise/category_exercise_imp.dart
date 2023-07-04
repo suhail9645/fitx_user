@@ -62,4 +62,30 @@ class CategoryExerciseOperations {
     }
     return Left(ErrorModel('something wrong'));
   }
+
+  Future<Either<ErrorModel, bool>> addToCompletedExercise(
+      int categoryId, int exerciseId) async {
+    try {
+      SharedPreferences shred = await SharedPreferences.getInstance();
+      String access = shred.getString('accessKey')!;
+      Response response = await http.post(
+          Uri.parse('${baseUrl}exercise/completed/'),
+          body: {'category_id': categoryId.toString(), 'exercise_id': exerciseId.toString()},
+          headers: {'Authorization': 'Bearer $access'});
+      if (response.statusCode == 200) {
+        return const Right(true);
+      } else if (response.statusCode == 401) {
+        final newAccess = await GetNewAccessKey.getNewAccessKey();
+        if (newAccess.isRight) {
+          response = await http.post(Uri.parse('${baseUrl}exercise/completed/'),
+              body: {'category_id': categoryId, 'exercise_id': exerciseId},
+              headers: {'Authorization': 'Bearer ${newAccess.right}'});
+        }
+      }
+    } on Exception catch (e) {
+      return Left(ErrorModel(e.toString()));
+    }
+
+    return Left(ErrorModel('SomeThing wrong'));
+  }
 }

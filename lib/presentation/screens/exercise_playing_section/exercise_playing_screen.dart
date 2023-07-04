@@ -1,9 +1,14 @@
 import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
 import 'package:fitx_user/data_layer/models/exercise_page/result.dart';
+import 'package:fitx_user/logic/category_bloc/category_bloc.dart';
+import 'package:fitx_user/logic/timer_cubit/timer_cubit.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/screens/rest_section/rest_screen.dart';
 import 'package:fitx_user/presentation/widget/exercise_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:timer_count_down/timer_controller.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class ExercisePlayingScreen extends StatelessWidget {
   const ExercisePlayingScreen(
@@ -16,6 +21,7 @@ class ExercisePlayingScreen extends StatelessWidget {
     double screenHeight = screenSize.height;
     Exercise exercise = category.exercises[index];
     const textStyle = TextStyle(fontSize: 22, color: Colors.white);
+    CountdownController _controller = CountdownController(autoStart: true);
     return Scaffold(
       body: Column(
         children: [
@@ -34,65 +40,71 @@ class ExercisePlayingScreen extends StatelessWidget {
                     fontSize: 22,
                   ),
                 ),
-                Text(
-                  'X${exercise.count}',
-                  style: const TextStyle(
-                      fontSize: 42,
-                      color: primaryColor,
-                      fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  height: 45.0,
-                  width: screenHeight / 4,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      gradient: const LinearGradient(colors: [
-                        Color.fromARGB(255, 214, 219, 66),
-                        Color.fromARGB(255, 210, 172, 4)
-                      ])),
-                  child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent),
-                      onPressed: () {
-                        if (index < (category.exercisesCount! - 1)) {
-                          Navigator.pushReplacementNamed(context, 'Rest',
-                              arguments: RestScreen(
-                                  category: category, index: index + 1));
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text(
-                                'CONGRATES!',
-                              ),
-                              content: Text(
-                                  'You Successfully completed ${category.name}'),
-                              actions: [
-                                ElevatedButton(
-                                    onPressed: () {
-                                      // Navigator.pop(context);
-                                      // Navigator.pushNamedAndRemoveUntil(
-                                      //     context, 'Route', (route) => false);
-                                      int count = 0;
-                                      Navigator.popUntil(context, (route) {
-                                        return count++ == 3;
-                                      });
-                                    },
-                                    child: const Text('DONE'))
-                              ],
-                            ),
+                exercise.count != null
+                    ? Text(
+                        'X${exercise.count}',
+                        style: const TextStyle(
+                            fontSize: 42,
+                            color: primaryColor,
+                            fontWeight: FontWeight.bold),
+                      )
+                    : Countdown(
+                        interval: const Duration(seconds: 1),
+                        controller: _controller,
+                        seconds: 25,
+                        build: (p0, p1) {
+                          return Text(
+                            '00:${p1.toString().split('.').first}',
+                            style: const TextStyle(
+                                fontSize: 50,
+                                fontWeight: FontWeight.bold,
+                                color: primaryColor),
                           );
-                        }
-                      },
-                      icon: const Text(
-                        'DONE',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22),
+                        },
+                        onFinished: () {
+                          onCompletedExercise(context, exercise);
+                        },
                       ),
-                      label: const SizedBox()),
+                BlocBuilder<WaitPageTimerCubit, bool>(
+                  builder: (context, state) {
+                    return Container(
+                      height: 45.0,
+                      width: screenHeight / 4,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          gradient: const LinearGradient(colors: [
+                            Color.fromARGB(255, 214, 219, 66),
+                            Color.fromARGB(255, 210, 172, 4)
+                          ])),
+                      child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent),
+                          onPressed: () {
+                            if (exercise.count != null) {
+                              onCompletedExercise(context, exercise);
+                            } else {
+                              BlocProvider.of<WaitPageTimerCubit>(context)
+                                  .onResumeAndPause(!state);
+                              state
+                                  ? _controller.pause()
+                                  : _controller.resume();
+                            }
+                          },
+                          icon: Text(
+                            exercise.count != null
+                                ? 'DONE'
+                                : state
+                                    ? 'PAUSE'
+                                    : 'RESUME',
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22),
+                          ),
+                          label: const SizedBox()),
+                    );
+                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -118,9 +130,7 @@ class ExercisePlayingScreen extends StatelessWidget {
                     TextButton.icon(
                       onPressed: () {
                         if (index < (category.exercisesCount! - 1)) {
-                          Navigator.pushReplacementNamed(context, 'Rest',
-                              arguments: RestScreen(
-                                  category: category, index: index + 1));
+                         onCompletedExercise(context,exercise);
                         }
                       },
                       icon: Text(
@@ -144,5 +154,35 @@ class ExercisePlayingScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void onCompletedExercise(BuildContext context, Exercise exercise) {
+    if (index < (category.exercisesCount! - 1)) {
+      Navigator.pushReplacementNamed(context, 'Rest',
+          arguments: RestScreen(category: category, index: index + 1));
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text(
+            'CONGRATES!',
+          ),
+          content: Text('You Successfully completed ${category.name}'),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                int count = 0;
+                Navigator.popUntil(context, (route) {
+                  return count++ == 3;
+                });
+              },
+              child: const Text('DONE'),
+            )
+          ],
+        ),
+      );
+    }
+    BlocProvider.of<CategoryBloc>(context).add(ExercisCompletedEvent(
+        categoryId: category.id!, exerciseId: exercise.id!));
   }
 }

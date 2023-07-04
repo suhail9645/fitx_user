@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       initialRoute: userData != null ? 'Route' : '/',
+      // initialRoute: '/',
      
       onGenerateInitialRoutes: (initialRoute) {
         return [

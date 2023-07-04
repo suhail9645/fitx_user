@@ -15,16 +15,3 @@ class CategoryErrorState extends CategoryState {
 
   CategoryErrorState({required this.error});
 }
-class CategoryLikeAndUnLike extends CategoryState{}
-
-class LikeAndUnlikeButtonState extends CategoryLikeAndUnLike{
- final bool isLiked;
-
-  LikeAndUnlikeButtonState({required this.isLiked});
-
-}
-class PeopleLikeState extends CategoryLikeAndUnLike{
- final int count;
-
-  PeopleLikeState({required this.count});
-}

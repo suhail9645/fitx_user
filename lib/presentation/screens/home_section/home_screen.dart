@@ -1,8 +1,9 @@
-
+import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
 import 'package:fitx_user/logic/category_bloc/category_bloc.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../logic/category_like_cubit/category_like_cubit.dart';
 import '../../constants/sized_box.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../widget/category_container.dart';
@@ -35,25 +36,24 @@ class _HomeScreenState extends State<HomeScreen> {
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
     return BlocConsumer<CategoryBloc, CategoryState>(
-      // buildWhen: (previous, current) => ,
       listener: (context, state) {
-        // if (state is CategoryErrorState) {
-        //   showDialog(
-        //     context: context,
-        //     builder: (context) => AlertDialog(
-        //       title: const Text('session expired'),
-        //       content: const Text('Please Login again'),
-        //       actions: [
-        //         ElevatedButton(
-        //             onPressed: () {
-        //               Navigator.of(context).pushNamedAndRemoveUntil(
-        //                   'signInAndSignUp', (route) => false);
-        //             },
-        //             child: const Text('Login Page'))
-        //       ],
-        //     ),
-        //   );
-        // }
+        if (state is CategoryErrorState) {
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('session expired'),
+              content: const Text('Please Login again'),
+              actions: [
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          'signInAndSignUp', (route) => false);
+                    },
+                    child: const Text('Login Page'))
+              ],
+            ),
+          );
+        }
       },
       builder: (context, state) {
         if (state is CategoryInitial) {
@@ -105,13 +105,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   Column(
-                      children: List.generate(
-                          state.catgories.length,
-                          (index) => CategoryContainer(
-                                screenHeight: screenHeight,
-                                category: state.catgories[
-                                    (state.catgories.length - 1) - index],
-                              )))
+                    children: List.generate(state.catgories.length, (index) {
+                      Category reversedCategory=state
+                              .catgories[(state.catgories.length - 1) - index];
+                      return BlocProvider<CategoryLikeCubit>(
+                        create: (context) => CategoryLikeCubit()..onLikeAndUnlike(null,reversedCategory.isLiked , reversedCategory.likes!),
+                        child: CategoryContainer(
+                          homeContext: context,
+                          screenHeight: screenHeight,
+                          category: reversedCategory
+                        ),
+                      );
+                    }),
+                  ),
                 ],
               ),
             ),
@@ -147,5 +153,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-

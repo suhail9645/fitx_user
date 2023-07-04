@@ -26,7 +26,7 @@ class AppRouter {
   final BottemNavbarCubit bottemNavbarCubit = BottemNavbarCubit();
   final CategoryBloc categoryBloc = CategoryBloc();
   final WaitPageTimerCubit waitPageTimerCubit = WaitPageTimerCubit();
-  final CertificateCubit certificateCubit=CertificateCubit();
+  final CertificateCubit certificateCubit = CertificateCubit();
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case '/':
@@ -78,9 +78,16 @@ class AppRouter {
             ExercisePlayingScreen args =
                 routeSettings.arguments as ExercisePlayingScreen;
 
-            return ExercisePlayingScreen(
-              category: args.category,
-              index: args.index,
+            return MultiBlocProvider(
+             providers: [
+              BlocProvider.value(value: waitPageTimerCubit,), BlocProvider.value(value:categoryBloc,),
+             ],
+              
+                child: ExercisePlayingScreen(
+                  category: args.category,
+                  index: args.index,
+                ),
+              
             );
           },
         );
@@ -105,9 +112,9 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => const ProfileScreen());
       case 'TrainerAdd':
         return MaterialPageRoute(
-            builder: (context) =>  BlocProvider.value(
+            builder: (context) => BlocProvider.value(
                   value: certificateCubit,
-                  child:const TrainerAddScreen(),
+                  child: const TrainerAddScreen(),
                 ));
       default:
         return MaterialPageRoute(

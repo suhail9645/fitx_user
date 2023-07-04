@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:fitx_user/data_layer/models/user/user.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
@@ -9,8 +8,6 @@ import 'package:fitx_user/presentation/screens/report_section/report_screen.dart
 import 'package:fitx_user/presentation/screens/trainer_section/trainer_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../logic/bottem_nav_cubit/bottem_navbar_cubit.dart';
 import '../../../logic/category_bloc/category_bloc.dart';
 

@@ -104,10 +104,11 @@ class TrainerAddScreen extends StatelessWidget {
                             certificateState.certificates.length + 1, (index) {
                       return index >= certificateState.certificates.length
                           ? InkWell(
-                            onTap: () {
-                              BlocProvider.of<CertificateCubit>(context).certificatePicking();
-                            },
-                            child: Container(
+                              onTap: () {
+                                BlocProvider.of<CertificateCubit>(context)
+                                    .certificatePicking();
+                              },
+                              child: Container(
                                 // height: screenHeight*0.17,
                                 width: screenHeight * 0.14,
                                 decoration: BoxDecoration(
@@ -125,10 +126,17 @@ class TrainerAddScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                          )
+                            )
                           : Container(
+                              margin: const EdgeInsets.only(right: 10),
                               width: screenHeight * 0.14,
-                              color: primaryColor,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white,
+                                ),
+                                borderRadius: BorderRadius.circular(7)
+                              ),
+                              child:const Column(children: [Text('PDF')],),
                             );
                     }));
                   },

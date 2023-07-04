@@ -122,7 +122,7 @@ class ExerciseViewPage extends StatelessWidget {
                                 ? Text('X ${category.exercises[index].count}',
                                     style: textStyle)
                                 : Text(
-                                    category.exercises[index].duration,
+                                    category.exercises[index].duration.toString().split(':').sublist(1,3).join(':'),
                                     style: textStyle,
                                   ),
                            ],

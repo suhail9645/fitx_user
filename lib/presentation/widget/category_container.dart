@@ -1,4 +1,6 @@
+import 'package:fitx_user/logic/category_like_cubit/category_like_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data_layer/models/category/category_page/result.dart';
 import '../constants/colors.dart';
@@ -6,8 +8,11 @@ import '../constants/sized_box.dart';
 
 class CategoryContainer extends StatelessWidget {
   const CategoryContainer(
-      {super.key, required this.screenHeight, required this.category});
-
+      {super.key,
+      required this.screenHeight,
+      required this.category,
+      required this.homeContext});
+  final BuildContext homeContext;
   final double screenHeight;
   final Category category;
   @override
@@ -45,20 +50,33 @@ class CategoryContainer extends StatelessWidget {
                       fontSize: 17, fontWeight: FontWeight.bold),
                 ),
                 const Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '${category.likes} People like this Category',
-                      style: const TextStyle(color: primaryColor),
-                    ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.favorite,
-                          color: category.isLiked ? Colors.red : Colors.white,
-                        ))
-                  ],
+                BlocBuilder<CategoryLikeCubit, CategoryLikeState>(
+                  builder: (context, state) {
+                    if (state is CategoryLikeUnlikeState) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${state.likeCount} People like this Category',
+                            style: const TextStyle(color: primaryColor),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                BlocProvider.of<CategoryLikeCubit>(context)
+                                    .onLikeAndUnlike(category.id, state.isLiked,
+                                        state.likeCount);
+                              },
+                              icon: Icon(
+                                Icons.favorite,
+                                color:
+                                    state.isLiked ? Colors.red : Colors.white,
+                              ))
+                        ],
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
                 ),
                 spaceforHeight10
               ],

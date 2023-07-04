@@ -1,7 +1,6 @@
 import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
 import 'package:fitx_user/data_layer/models/exercise_page/result.dart';
 import 'package:fitx_user/logic/timer_cubit/timer_cubit.dart';
-import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:fitx_user/presentation/screens/exercise_playing_section/exercise_playing_screen.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +26,9 @@ class RestScreen extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-            Color.fromARGB(255, 244, 244, 108),
-            primaryColor,
-            Color.fromARGB(255, 188, 188, 4),
+            Color.fromARGB(255, 222, 222, 99),
+            // primaryColor,
+            Color.fromARGB(255, 234, 234, 23),
           ])),
       child: Scaffold(
           backgroundColor: Colors.transparent,

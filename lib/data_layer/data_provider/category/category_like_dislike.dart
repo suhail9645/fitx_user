@@ -63,4 +63,35 @@ class CategoryLikeAndDislike {
     }
     return Left(ErrorModel('Session Expired'));
   }
+  Future<Either<ErrorModel,bool>>categoryDislike(int id)async{
+      try {
+      SharedPreferences shrd = await SharedPreferences.getInstance();
+      String access = shrd.getString('accessKey')!;
+      Response response =
+          await http.patch(Uri.parse('${baseUrl}users/dislike/$id/'), headers: {
+        'Authorization': 'Bearer $access',
+      });
+      if (response.statusCode == 202) {
+        return const Right(true);
+      } else if (response.statusCode == 401) {
+        final newAccess = await GetNewAccessKey.getNewAccessKey();
+        if (newAccess.isRight) {
+          response = await http
+              .patch(Uri.parse('${baseUrl}users/dislike/$id/'), headers: {
+            'Authorization': 'Bearer ${newAccess.right}',
+          });
+          if (response.statusCode == 202) {
+            return const Right(true);
+          }
+        }
+      }
+    } on Exception catch (e) {
+      return Left(
+        ErrorModel(
+          e.toString(),
+        ),
+      );
+    }
+    return Left(ErrorModel('Session Expired'));
+  }
 }
