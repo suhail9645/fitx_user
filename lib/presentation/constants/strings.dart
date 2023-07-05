@@ -5,3 +5,6 @@ const String loginPageImage =
 const String imageAddPageImage =
     'https://itsrapid.io/wp-content/plugins/ui-image-crop/data/assets/img/placeholder.png';
 const String baseUrl = 'http://10.4.4.26:8000/';
+
+const String completedCategoryEndPoint='category/completed/';
+const String completedExerciseEndPoint='exercise/completed/';

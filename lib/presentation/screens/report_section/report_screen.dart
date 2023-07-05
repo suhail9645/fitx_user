@@ -1,10 +1,10 @@
+import 'package:fitx_user/data_layer/repositories/user_report_repo/user_completed.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:fitx_user/presentation/screens/report_section/widget/button_row.dart';
 import 'package:fitx_user/presentation/screens/report_section/widget/report_image_stack.dart';
 import 'package:fitx_user/presentation/screens/report_section/widget/report_page_alert.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
-import 'package:fitx_user/presentation/widget/text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../constants/lists.dart';
@@ -14,6 +14,7 @@ class ReportScreen extends StatelessWidget {
   const ReportScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    UserReportRepo().getAllCategoryReport();
     Size size = MediaQuery.of(context).size;
     double screenHeight = size.height;
     return Scaffold(
