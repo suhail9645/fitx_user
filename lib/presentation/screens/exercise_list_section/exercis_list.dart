@@ -84,10 +84,11 @@ class ExerciseViewPage extends StatelessWidget {
                 const Divider(),
                 Column(
                     children: List.generate(category.exercises.length, (index) {
-                      const textStyle =
-                            TextStyle(fontSize: 17, color: primaryColor);
+                  const textStyle =
+                      TextStyle(fontSize: 17, color: primaryColor);
                   return Container(
-                    margin:const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     height: screenHeight * 0.10,
                     decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 37, 36, 36),
@@ -122,41 +123,46 @@ class ExerciseViewPage extends StatelessWidget {
                                 ? Text('X ${category.exercises[index].count}',
                                     style: textStyle)
                                 : Text(
-                                    category.exercises[index].duration.toString().split(':').sublist(1,3).join(':'),
+                                    category.exercises[index].duration
+                                        .toString()
+                                        .split(':')
+                                        .sublist(1, 3)
+                                        .join(':'),
                                     style: textStyle,
                                   ),
-                           ],
-                        ), const Spacer(),
+                          ],
+                        ),
+                        const Spacer(),
                         Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    builder: (context) {
-                                      return DetailesBottemSheet(
-                                        screenHeight: screenHeight,
-                                        category: category,
-                                        index: index,
-                                      );
-                                    },
-                                  );
-                                },
-                                child: const Icon(Icons.question_mark),
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (context) {
+                                    return DetailesBottemSheet(
+                                      screenHeight: screenHeight,
+                                      category: category,
+                                      index: index,
+                                    );
+                                  },
+                                );
+                              },
+                              child: const Icon(Icons.question_mark),
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                await launchUrl(Uri.parse(url));
+                              },
+                              child: const Text(
+                                'WATCH',
+                                style: TextStyle(color: Colors.blue),
                               ),
-                              InkWell(
-                                onTap: () async {
-                                  await launchUrl(Uri.parse(url));
-                                },
-                                child: const Text(
-                                  'WATCH',
-                                  style: TextStyle(color: Colors.blue),
-                                ),
-                              )
-                            ],
-                          ),
+                            )
+                          ],
+                        ),
                       ],
                     ),
                   );

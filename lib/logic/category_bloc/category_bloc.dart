@@ -21,16 +21,14 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     final result = await CategoriesOperationsRepo().giveAllCategories();
     if (result.isRight) {
       emit(CategoryInitial(catgories: result.right));
-      
-
     } else {
       emit(CategoryErrorState(error: result.left.error));
     }
   }
 
-
-  FutureOr<void> exercisCompletedEvent(ExercisCompletedEvent event, Emitter<CategoryState> emit)async {
-  CategoryExerciseOperations().addToCompletedExercise(event.categoryId, event.exerciseId);    
-
+  FutureOr<void> exercisCompletedEvent(
+      ExercisCompletedEvent event, Emitter<CategoryState> emit) async {
+    CategoryExerciseOperations()
+        .addToCompletedExercise(event.categoryId, event.exerciseId);
   }
 }

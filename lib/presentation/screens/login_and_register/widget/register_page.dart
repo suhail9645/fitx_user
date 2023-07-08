@@ -120,8 +120,10 @@ class RegisterScreen extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 content: Text('welcome to success')));
-                        Navigator.of(context)
-                            .pushNamedAndRemoveUntil('Route',arguments: state.userName, (route) => false);
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            'Route',
+                            arguments: state.userName,
+                            (route) => false);
                       }
                     },
                     builder: (context, state) {

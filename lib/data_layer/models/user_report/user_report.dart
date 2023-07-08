@@ -1,29 +1,31 @@
+import 'package:fitx_user/data_layer/models/user_weight/result.dart';
+
 class UserReport {
-  final int allCompletedCategory;
-  final int allCompletedExercise;
-  final int allCompletedCalorie;
-  final int thisweekCompletedCategory;
-  final int thisweekCompletedExercise;
-  final int thisweekCompletedCalorie;
-  final List<double> allWeights;
-  final double currentWeight;
-  final double heaviestWeight;
-  final double lightestWeight;
-  final int exerciseGoal;
-  final int categoryGoal;
-  final int calorieGoal;
+  int allCompletedCategory;
+  int allCompletedExercise;
+  int allCompletedCalorie;
+  int thisweekCompletedCategory;
+  int thisweekCompletedExercise;
+  int thisweekCompletedCalorie;
+  List<Weight> allWeights;
+  double currentWeight;
+  double heaviestWeight;
+  double lightestWeight;
+  int exerciseGoal;
+  int categoryGoal;
+  int calorieGoal;
   UserReport(
-      {required this.allCompletedCategory,
-      required this.allCompletedExercise,
-      required this.allCompletedCalorie,
-      required this.thisweekCompletedCategory,
-      required this.thisweekCompletedExercise,
-      required this.thisweekCompletedCalorie,
-      required this.allWeights,
-      required this.currentWeight,
-      required this.heaviestWeight,
-      required this.lightestWeight,
-      required this.calorieGoal,
-      required this.categoryGoal,
-      required this.exerciseGoal});
+      this.allCompletedCategory,
+      this.allCompletedExercise,
+      this.allCompletedCalorie,
+      this.thisweekCompletedCategory,
+      this.thisweekCompletedExercise,
+      this.thisweekCompletedCalorie,
+      this.allWeights,
+      this.currentWeight,
+      this.heaviestWeight,
+      this.lightestWeight,
+      this.calorieGoal,
+      this.categoryGoal,
+      this.exerciseGoal);
 }

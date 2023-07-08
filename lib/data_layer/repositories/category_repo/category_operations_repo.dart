@@ -28,7 +28,8 @@ class CategoriesOperationsRepo {
           if (listOfExercise.isRight) {
             categoryModel.exercises.addAll(listOfExercise.right);
           }
-         categoryModel.isLiked=await checkingUserCategoryLikeOrNot(categoryModel.id!);
+          categoryModel.isLiked =
+              await checkingUserCategoryLikeOrNot(categoryModel.id!);
 
           categories.add(categoryModel);
         }
@@ -46,31 +47,31 @@ class CategoriesOperationsRepo {
       return Right(categories);
     }
   }
-  Future<bool>checkingUserCategoryLikeOrNot(int id)async{
-    final response=await CategoryLikeAndDislike().getUserLikedCategories();
-    if(response.isRight){
-     Response likedResponse=response.right;
-     while(true){
-     Map<String,dynamic>data=jsonDecode(likedResponse.body);
-     CategoryPage categoryPage = CategoryPage.fromJson(data);
 
-     for (var element in categoryPage.results??[]) {
-      Category categoryModel = Category.fromJson(element);
-       if(categoryModel.id==id){
-        return true;
-       }
-     }
-     if(categoryPage.next!=null){
-       final nextPageResponse = await CategoryOperations()
+  Future<bool> checkingUserCategoryLikeOrNot(int id) async {
+    final response = await CategoryLikeAndDislike().getUserLikedCategories();
+    if (response.isRight) {
+      Response likedResponse = response.right;
+      while (true) {
+        Map<String, dynamic> data = jsonDecode(likedResponse.body);
+        CategoryPage categoryPage = CategoryPage.fromJson(data);
+
+        for (var element in categoryPage.results ?? []) {
+          Category categoryModel = Category.fromJson(element);
+          if (categoryModel.id == id) {
+            return true;
+          }
+        }
+        if (categoryPage.next != null) {
+          final nextPageResponse = await CategoryOperations()
               .getNextPageCategories(categoryPage.next);
-      if(nextPageResponse.isRight){
-        likedResponse=nextPageResponse.right;
+          if (nextPageResponse.isRight) {
+            likedResponse = nextPageResponse.right;
+          }
+        } else {
+          break;
+        }
       }
-     }
-     else{
-      break;
-     }
-     }
     }
     return false;
   }

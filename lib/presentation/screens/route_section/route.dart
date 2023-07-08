@@ -12,31 +12,39 @@ import '../../../logic/bottem_nav_cubit/bottem_navbar_cubit.dart';
 import '../../../logic/category_bloc/category_bloc.dart';
 
 class RoutePage extends StatefulWidget {
-  const RoutePage({super.key,required this.userData});
- final String userData;
+  const RoutePage({super.key, required this.userData});
+  final String userData;
   @override
   State<RoutePage> createState() => _RoutePageState();
 }
 
 class _RoutePageState extends State<RoutePage> {
-  String greeting='';
+  String greeting = '';
+ late User user;
   @override
   void initState() {
     super.initState();
-    User user=User.fromJson(jsonDecode(widget.userData));
-    greeting=user.username!;
+     user = User.fromJson(jsonDecode(widget.userData));
+    greeting = user.username!;
   }
+
   @override
   Widget build(BuildContext context) {
-
     BlocProvider.of<CategoryBloc>(context).add(CategoryInitialEvent());
-    List<Widget> pages =  [
-      HomeScreen(userName: greeting,),
-     const ExplreScreen(),
-    const  ReportScreen(),
-    const  TrainerScreen()
+    List<Widget> pages = [
+      HomeScreen(
+        userName: greeting,
+      ),
+      const ExplreScreen(),
+      ReportScreen(),
+      const TrainerScreen()
     ];
-    List<String> appBarTitles = ['Home', 'Explore', 'Report', 'FITNESS TRAINERS'];
+    List<String> appBarTitles = [
+      'Home',
+      'Explore',
+      'Report',
+      'FITNESS TRAINERS'
+    ];
 
     return BlocBuilder<BottemNavbarCubit, BottemNavbarState>(
       builder: (context, state) {
@@ -50,7 +58,7 @@ class _RoutePageState extends State<RoutePage> {
             actions: [
               IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, 'Profile');
+                  Navigator.pushNamed(context, 'Profile',arguments: user);
                 },
                 icon: const Icon(
                   Icons.manage_accounts_sharp,

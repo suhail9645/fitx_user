@@ -8,10 +8,14 @@ class ReportPageAlert extends StatelessWidget {
   const ReportPageAlert({
     super.key,
     required this.screenHeight,
+    required this.onTap,
+    required this.goalOrWeight,
+    required this.stateKey,
   });
-
+  final GlobalKey<FormState> stateKey;
+  final ReportPageGoalOrWeight goalOrWeight;
   final double screenHeight;
-
+  final Function() onTap;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -22,13 +26,20 @@ class ReportPageAlert extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Column(
-                children: List.generate(
-                  3,
-                  (index) => CustomTextFormField(
-                      controller: goalControllers[index],
-                      hint: goalHints[index]),
-                ),
+              Form(
+                key: stateKey,
+                child: Column(
+                    children: goalOrWeight == ReportPageGoalOrWeight.goal
+                        ? List.generate(
+                            3,
+                            (index) => CustomTextFormField(
+                                controller: goalControllers[index],
+                                hint: goalHints[index]),
+                          )
+                        : List.generate(
+                            1,
+                            (index) => CustomTextFormField(
+                                controller: currentWeight, hint: 'Weight'))),
               ),
               Container(
                 width: screenHeight * 0.30,
@@ -43,7 +54,7 @@ class ReportPageAlert extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
                       shadowColor: Colors.transparent),
-                  onPressed: () {},
+                  onPressed: onTap,
                   child: const Text(
                     'Done',
                     style: TextStyle(
@@ -76,4 +87,9 @@ class ReportPageAlert extends StatelessWidget {
       ),
     );
   }
+}
+
+enum ReportPageGoalOrWeight {
+  goal,
+  weight;
 }

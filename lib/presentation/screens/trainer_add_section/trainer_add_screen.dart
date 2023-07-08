@@ -131,12 +131,13 @@ class TrainerAddScreen extends StatelessWidget {
                               margin: const EdgeInsets.only(right: 10),
                               width: screenHeight * 0.14,
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                ),
-                                borderRadius: BorderRadius.circular(7)
+                                  border: Border.all(
+                                    color: Colors.white,
+                                  ),
+                                  borderRadius: BorderRadius.circular(7)),
+                              child: const Column(
+                                children: [Text('PDF')],
                               ),
-                              child:const Column(children: [Text('PDF')],),
                             );
                     }));
                   },

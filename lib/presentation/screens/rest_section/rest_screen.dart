@@ -11,7 +11,7 @@ import 'package:timer_count_down/timer_count_down.dart';
 class RestScreen extends StatelessWidget {
   final Category category;
   final int index;
- const RestScreen({super.key, required this.category, required this.index});
+  const RestScreen({super.key, required this.category, required this.index});
 
   @override
   Widget build(BuildContext context) {

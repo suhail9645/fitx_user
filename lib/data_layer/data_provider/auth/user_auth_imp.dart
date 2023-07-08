@@ -33,16 +33,16 @@ class UserAuthFunctions {
         "gender": groupValue.toLowerCase(),
       });
       StreamedResponse res = await request.send();
-      
+
       if (res.statusCode == 201) {
         var response = await http.Response.fromStream(res);
-         final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(
             'refreshKey', jsonDecode(response.body)['refresh']);
         await prefs.setString('accessKey', jsonDecode(response.body)['access']);
-        final userData=jsonEncode(jsonDecode(response.body)['user']);
+        final userData = jsonEncode(jsonDecode(response.body)['user']);
         await prefs.setString('user', userData);
-        return  Right(userData);
+        return Right(userData);
       } else {
         Response response = await http.Response.fromStream(res);
         Map<String, dynamic> data = jsonDecode(response.body);
@@ -72,9 +72,9 @@ class UserAuthFunctions {
         await prefs.setString(
             'refreshKey', jsonDecode(response.body)['refresh']);
         await prefs.setString('accessKey', jsonDecode(response.body)['access']);
-        final userData=jsonEncode(jsonDecode(response.body)['user']);
+        final userData = jsonEncode(jsonDecode(response.body)['user']);
         await prefs.setString('user', userData);
-        return  Right(userData);
+        return Right(userData);
       } else {
         return Left(ErrorModel('No active user in given detailes'));
       }

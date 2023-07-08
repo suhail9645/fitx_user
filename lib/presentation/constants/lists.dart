@@ -20,7 +20,7 @@ final TextEditingController caloryGoal = TextEditingController();
 final TextEditingController categoryGoal = TextEditingController();
 final TextEditingController trainerPhoneNumber = TextEditingController();
 final TextEditingController trainerExperience = TextEditingController();
-
+final TextEditingController currentWeight = TextEditingController();
 final List<TextEditingController> registerPageTextEditingControllers = [
   fullName,
   registerGmail,
@@ -83,4 +83,4 @@ final List<TextEditingController> controllerListOfTrainerAddSection = [
   trainerPhoneNumber,
   trainerExperience
 ];
-final List<String>hintListOfTrainerAddSection=['Phone Number','Experience'];
+final List<String> hintListOfTrainerAddSection = ['Phone Number', 'Experience'];

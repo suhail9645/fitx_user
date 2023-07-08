@@ -63,8 +63,9 @@ class CategoryLikeAndDislike {
     }
     return Left(ErrorModel('Session Expired'));
   }
-  Future<Either<ErrorModel,bool>>categoryDislike(int id)async{
-      try {
+
+  Future<Either<ErrorModel, bool>> categoryDislike(int id) async {
+    try {
       SharedPreferences shrd = await SharedPreferences.getInstance();
       String access = shrd.getString('accessKey')!;
       Response response =

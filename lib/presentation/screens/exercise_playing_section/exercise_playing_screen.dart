@@ -130,7 +130,7 @@ class ExercisePlayingScreen extends StatelessWidget {
                     TextButton.icon(
                       onPressed: () {
                         if (index < (category.exercisesCount! - 1)) {
-                         onCompletedExercise(context,exercise);
+                          onCompletedExercise(context, exercise);
                         }
                       },
                       icon: Text(

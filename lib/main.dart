@@ -34,12 +34,12 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: userData != null ? 'Route' : '/',
       // initialRoute: '/',
-     
+
       onGenerateInitialRoutes: (initialRoute) {
         return [
           initialRoute != '/'
               ? route.onGenerateRoute(
-                  RouteSettings(name: initialRoute,arguments: userData ))
+                  RouteSettings(name: initialRoute, arguments: userData))
               : route.onGenerateRoute(RouteSettings(
                   name: initialRoute,
                 )),

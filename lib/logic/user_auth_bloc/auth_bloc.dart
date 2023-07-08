@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoadingState());
     final response = await UserAuthFunctions().loginUser();
     if (response.isRight) {
-      emit(AuthSuccessState(userName:response.right ));
+      emit(AuthSuccessState(userName: response.right));
     } else {
       emit(AuthErrorState(error: response.left.error));
     }

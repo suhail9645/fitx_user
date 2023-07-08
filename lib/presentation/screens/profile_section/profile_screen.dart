@@ -1,11 +1,14 @@
+import 'package:fitx_user/data_layer/models/user/user.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/lists.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
+import 'package:fitx_user/presentation/constants/strings.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, required this.user});
+  final User user;
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -33,16 +36,16 @@ class ProfileScreen extends StatelessWidget {
                           Color.fromARGB(255, 241, 219, 16),
                           Color.fromARGB(255, 244, 52, 38),
                         ])),
-                    child: const CircleAvatar(
+                    child:  CircleAvatar(
                       // radius: 65,
-                      backgroundImage: NetworkImage(
-                          'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg'),
+                      backgroundImage:user.profilePicture!=null ?NetworkImage(
+                   baseUrl+ user.profilePicture!):null,
                     ),
                   ),
                   spaceforwidth10,
                   ElevatedButtonWithIcon(
                     text: 'Are You A Trainer',
-                    width: screenWidth * 0.21,
+                    width: screenWidth * 0.23,
                     onClicked: () {
                       Navigator.pushNamed(context, 'TrainerAdd');
                     },
@@ -50,11 +53,11 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
               spaceforHeight10,
-              const Row(
+               Row(
                 children: [
                   Text(
-                    'SuhilPK',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    user.username!,
+                    style:const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

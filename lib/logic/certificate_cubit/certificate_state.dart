@@ -1,11 +1,9 @@
 part of 'certificate_cubit.dart';
 
-abstract class CertificateState{
-
-}
+abstract class CertificateState {}
 
 class CertificateInitial extends CertificateState {
- final List<File>certificates;
+  final List<File> certificates;
 
   CertificateInitial({required this.certificates});
 }

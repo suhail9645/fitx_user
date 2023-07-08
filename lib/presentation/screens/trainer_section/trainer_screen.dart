@@ -65,7 +65,8 @@ class TrainerScreen extends StatelessWidget {
                           CircleAvatar(
                             radius: 26,
                             backgroundImage: NetworkImage(urls[index]),
-                          ),spaceforwidth10,
+                          ),
+                          spaceforwidth10,
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +82,8 @@ class TrainerScreen extends StatelessWidget {
                                     color: primaryColor, fontSize: 14),
                               )
                             ],
-                          ),const Spacer(),
+                          ),
+                          const Spacer(),
                           IconButton(
                               onPressed: () {},
                               icon: const Icon(Icons.arrow_forward_ios))

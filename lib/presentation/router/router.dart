@@ -1,9 +1,11 @@
 import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
 import 'package:fitx_user/data_layer/models/exercise_page/result.dart';
+import 'package:fitx_user/data_layer/models/user/user.dart';
 import 'package:fitx_user/logic/bottem_nav_cubit/bottem_navbar_cubit.dart';
 import 'package:fitx_user/logic/category_bloc/category_bloc.dart';
 import 'package:fitx_user/logic/certificate_cubit/certificate_cubit.dart';
 import 'package:fitx_user/logic/image_cubit/image_cubit.dart';
+import 'package:fitx_user/logic/report_bloc/report_bloc.dart';
 import 'package:fitx_user/logic/timer_cubit/timer_cubit.dart';
 import 'package:fitx_user/logic/user_auth_bloc/auth_bloc.dart';
 import 'package:fitx_user/presentation/screens/exercise_list_section/exercis_list.dart';
@@ -27,6 +29,7 @@ class AppRouter {
   final CategoryBloc categoryBloc = CategoryBloc();
   final WaitPageTimerCubit waitPageTimerCubit = WaitPageTimerCubit();
   final CertificateCubit certificateCubit = CertificateCubit();
+  final ReportBloc reportBloc = ReportBloc();
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case '/':
@@ -50,7 +53,8 @@ class AppRouter {
           return MultiBlocProvider(
             providers: [
               BlocProvider.value(value: bottemNavbarCubit),
-              BlocProvider.value(value: categoryBloc)
+              BlocProvider.value(value: categoryBloc),
+              BlocProvider.value(value: reportBloc)
             ],
             child: RoutePage(
               userData: userData,
@@ -79,15 +83,18 @@ class AppRouter {
                 routeSettings.arguments as ExercisePlayingScreen;
 
             return MultiBlocProvider(
-             providers: [
-              BlocProvider.value(value: waitPageTimerCubit,), BlocProvider.value(value:categoryBloc,),
-             ],
-              
-                child: ExercisePlayingScreen(
-                  category: args.category,
-                  index: args.index,
+              providers: [
+                BlocProvider.value(
+                  value: waitPageTimerCubit,
                 ),
-              
+                BlocProvider.value(
+                  value: categoryBloc,
+                ),
+              ],
+              child: ExercisePlayingScreen(
+                category: args.category,
+                index: args.index,
+              ),
             );
           },
         );
@@ -109,7 +116,8 @@ class AppRouter {
           builder: (context) => const JourneyViewScreen(),
         );
       case 'Profile':
-        return MaterialPageRoute(builder: (context) => const ProfileScreen());
+      User user=routeSettings.arguments as User;
+        return MaterialPageRoute(builder: (context) =>  ProfileScreen(user: user,));
       case 'TrainerAdd':
         return MaterialPageRoute(
             builder: (context) => BlocProvider.value(

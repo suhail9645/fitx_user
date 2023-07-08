@@ -11,6 +11,7 @@ class CategoryExerciseOperationsRepo {
       int id) async {
     final response = await CategoryExerciseOperations().getCategoryExercise(id);
     if (response.isLeft) {
+      print(response.left.error);
       return Left(ErrorModel(response.left.error));
     } else {
       Response exerciseResponse = response.right;

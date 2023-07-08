@@ -106,15 +106,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Column(
                     children: List.generate(state.catgories.length, (index) {
-                      Category reversedCategory=state
-                              .catgories[(state.catgories.length - 1) - index];
+                      Category reversedCategory =
+                          state.catgories[(state.catgories.length - 1) - index];
                       return BlocProvider<CategoryLikeCubit>(
-                        create: (context) => CategoryLikeCubit()..onLikeAndUnlike(null,reversedCategory.isLiked , reversedCategory.likes!),
+                        create: (context) => CategoryLikeCubit()
+                          ..onLikeAndUnlike(null, reversedCategory.isLiked,
+                              reversedCategory.likes!),
                         child: CategoryContainer(
-                          homeContext: context,
-                          screenHeight: screenHeight,
-                          category: reversedCategory
-                        ),
+                            homeContext: context,
+                            screenHeight: screenHeight,
+                            category: reversedCategory),
                       );
                     }),
                   ),

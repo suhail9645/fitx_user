@@ -68,10 +68,13 @@ class CategoryExerciseOperations {
     try {
       SharedPreferences shred = await SharedPreferences.getInstance();
       String access = shred.getString('accessKey')!;
-      Response response = await http.post(
-          Uri.parse('${baseUrl}exercise/completed/'),
-          body: {'category_id': categoryId.toString(), 'exercise_id': exerciseId.toString()},
-          headers: {'Authorization': 'Bearer $access'});
+      Response response = await http
+          .post(Uri.parse('${baseUrl}exercise/completed/'), body: {
+        'category_id': categoryId.toString(),
+        'exercise_id': exerciseId.toString()
+      }, headers: {
+        'Authorization': 'Bearer $access'
+      });
       if (response.statusCode == 200) {
         return const Right(true);
       } else if (response.statusCode == 401) {
