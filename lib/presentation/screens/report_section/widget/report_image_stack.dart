@@ -1,13 +1,14 @@
+import 'package:fitx_user/data_layer/models/user_transformation/result.dart';
 import 'package:flutter/material.dart';
 
 class ReportImageStack extends StatelessWidget {
   const ReportImageStack({
     super.key,
-    required this.size,
+    required this.size,required this.images
   });
 
   final Size size;
-
+  final List< TImage> images;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -19,20 +20,22 @@ class ReportImageStack extends StatelessWidget {
           backgroundColor: const Color.fromARGB(255, 229, 235, 104),
         ),
         DownloadsImageWidget(
-          image: 'https://i.redd.it/bqspaohir0p71.jpg',
+         image:
+              images[images.length-3].image!,
           angle: 0.34,
           margin: const EdgeInsets.only(left: 140, bottom: 50),
           size: Size(size.width * 0.39, size.height * 0.25),
         ),
         DownloadsImageWidget(
-          image: 'https://i.redd.it/bqspaohir0p71.jpg',
+          image:
+              images[images.length-2].image!,
           angle: -0.34,
           margin: const EdgeInsets.only(right: 140, bottom: 50),
           size: Size(size.width * 0.39, size.height * 0.25),
         ),
         DownloadsImageWidget(
           image:
-              'https://i.pinimg.com/originals/ab/1e/08/ab1e08d530a418d1efb79a5f726c9ae9.jpg',
+              images[images.length-1].image!,
           angle: 0,
           margin: const EdgeInsets.only(left: 0),
           size: Size(size.width * 0.39, size.height * 0.29),

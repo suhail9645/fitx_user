@@ -20,11 +20,11 @@ class RoutePage extends StatefulWidget {
 
 class _RoutePageState extends State<RoutePage> {
   String greeting = '';
- late User user;
+  late User user;
   @override
   void initState() {
     super.initState();
-     user = User.fromJson(jsonDecode(widget.userData));
+    user = User.fromJson(jsonDecode(widget.userData));
     greeting = user.username!;
   }
 
@@ -58,7 +58,7 @@ class _RoutePageState extends State<RoutePage> {
             actions: [
               IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, 'Profile',arguments: user);
+                  Navigator.pushNamed(context, 'Profile', arguments: user);
                 },
                 icon: const Icon(
                   Icons.manage_accounts_sharp,

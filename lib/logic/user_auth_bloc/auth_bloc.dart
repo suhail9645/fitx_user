@@ -39,8 +39,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  FutureOr<void> signOutButtonClickedEvent(SignOutButtonClickedEvent event, Emitter<AuthState> emit)async {
-  
+  FutureOr<void> signOutButtonClickedEvent(
+      SignOutButtonClickedEvent event, Emitter<AuthState> emit) async {
     emit(SignOutButtonClickedState());
   }
 }

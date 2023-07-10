@@ -1,6 +1,7 @@
 import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
 import 'package:fitx_user/data_layer/models/exercise_page/result.dart';
 import 'package:fitx_user/data_layer/models/user/user.dart';
+import 'package:fitx_user/data_layer/models/user_transformation/result.dart';
 import 'package:fitx_user/logic/bottem_nav_cubit/bottem_navbar_cubit.dart';
 import 'package:fitx_user/logic/category_bloc/category_bloc.dart';
 import 'package:fitx_user/logic/certificate_cubit/certificate_cubit.dart';
@@ -113,9 +114,10 @@ class AppRouter {
           },
         );
       case 'JourneyView':
-        return MaterialPageRoute(
-          builder: (context) => const JourneyViewScreen(),
-        );
+        return MaterialPageRoute(builder: (context) {
+        List<TImage>tImages=routeSettings.arguments as List<TImage>;
+          return JourneyViewScreen(tImages: tImages,);
+        });
       case 'Profile':
         User user = routeSettings.arguments as User;
         return MaterialPageRoute(

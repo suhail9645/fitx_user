@@ -25,14 +25,14 @@ class ReportScreen extends StatelessWidget {
         body: SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Column(
-          children: [
-            const Divider(),
+        child:
             BlocConsumer<ReportBloc, ReportState>(listener: (context, state) {
-              // TODO: implement listener
-            }, builder: (context, state) {
-              if (state is ReportInitialState) {
-                return Column(
+          // TODO: implement listener
+        }, builder: (context, state) {
+          if (state is ReportInitialState) {
+            return Column(
+              children: [
+                Column(
                   children: [
                     Container(
                       height: screenHeight / 10,
@@ -139,8 +139,11 @@ class ReportScreen extends StatelessWidget {
                           builder: (ctx) => ReportPageAlert(
                             screenHeight: screenHeight,
                             onTap: () {
-                              BlocProvider.of<ReportBloc>(context).add(UpdateWeightEvent(weight: double.parse(currentWeight.text), userReport: state.userReport));
-                             Navigator.pop(ctx);
+                              BlocProvider.of<ReportBloc>(context).add(
+                                  UpdateWeightEvent(
+                                      weight: double.parse(currentWeight.text),
+                                      userReport: state.userReport));
+                              Navigator.pop(ctx);
                             },
                             goalOrWeight: ReportPageGoalOrWeight.weight,
                             stateKey: _formKey,
@@ -158,18 +161,23 @@ class ReportScreen extends StatelessWidget {
                         plotAreaBorderColor: Colors.transparent,
                         series: <LineSeries<Weight, String>>[
                           LineSeries<Weight, String>(
-                            dataSource:state.userReport.allWeights,
-                              
-                              xValueMapper: (datum, index) => datum.date.toString(),
+                              dataSource: state.userReport.allWeights,
+                              xValueMapper: (datum, index) =>
+                                  datum.date.toString(),
                               yValueMapper: (datum, index) => datum.weight),
                         ]),
                     const Divider(),
                     Column(
                       children: List.generate(3, (index) {
-                       List<double>weights=[];
-                       weights.addAll(state.userReport.allWeights.map((e) => e.weight!));
-                       weights.sort();
-                        List<String> nums = [state.userReport.allWeights.last.weight!.toString(), weights.last.toString(),weights.first.toString()];
+                        List<double> weights = [];
+                        weights.addAll(
+                            state.userReport.allWeights.map((e) => e.weight!));
+                        weights.sort();
+                        List<String> nums = [
+                          state.userReport.allWeights.last.weight!.toString(),
+                          weights.last.toString(),
+                          weights.first.toString()
+                        ];
                         return Padding(
                           padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                           child: Row(
@@ -192,27 +200,33 @@ class ReportScreen extends StatelessWidget {
                       }),
                     ),
                   ],
-                );
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            }),
-            const Divider(),
-            spaceforHeight10,
-            ReportRowWidget(
-              text: 'YOUR JOURNEY',
-              buttonText: 'Add',
-              onClicked: () {},
-            ),
-            ReportImageStack(size: size),
-            ElevatedButtonWithIcon(
-              text: 'View your Journey',
-              onClicked: () {
-                Navigator.pushNamed(context, 'JourneyView');
-              },
-            )
-          ],
-        ),
+                ),
+                const Divider(),
+                const Divider(),
+                spaceforHeight10,
+                ReportRowWidget(
+                  text: 'YOUR JOURNEY',
+                  buttonText: 'Add',
+                  onClicked: () {
+                    BlocProvider.of<ReportBloc>(context).add(AddTransformationImage(userReport: state.userReport));
+                  },
+                ),
+                ReportImageStack(
+                  size: size,
+                  images: state.userReport.tImages,
+                ),
+                ElevatedButtonWithIcon(
+                  text: 'View your Journey',
+                  onClicked: () {
+                    Navigator.pushNamed(context, 'JourneyView',arguments: state.userReport.tImages);
+                  },
+                )
+              ],
+            );
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        }),
       ),
     ));
   }

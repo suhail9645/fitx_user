@@ -14,7 +14,7 @@ class Category extends Equatable {
   final String? image;
   final String? music;
   final int? likes;
-   bool isLiked=false;
+  bool isLiked = false;
   @JsonKey(name: 'exercises_count')
   final int? exercisesCount;
   final List<Exercise> exercises = [];

@@ -1,13 +1,17 @@
+import 'package:fitx_user/data_layer/models/user_transformation/result.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:flutter/material.dart';
 
 class JourneyViewScreen extends StatelessWidget {
-  const JourneyViewScreen({super.key});
+  const JourneyViewScreen({super.key, required this.tImages});
+  final List<TImage> tImages;
   @override
   Widget build(BuildContext context) {
+   PageController controller=PageController();
+
     Size size = MediaQuery.of(context).size;
-    double screenHeight = size.height;
+   
     double screenWidth = size.width;
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -15,7 +19,8 @@ class JourneyViewScreen extends StatelessWidget {
         backgroundColor: const Color.fromARGB(150, 0, 0, 0),
         actions: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+            },
             child: Container(
               height: 32,
               width: 78,
@@ -35,18 +40,19 @@ class JourneyViewScreen extends StatelessWidget {
       body: Stack(
         children: [
           PageView(
+            controller: controller,
               children: List.generate(
-            5,
-            (index) => Container(
+            tImages.length,
+            (index) { 
+              return Container(
               height: double.infinity,
               width: double.infinity,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(
-                        'https://1.bp.blogspot.com/-yjeluXQXejQ/YHSTsP4VS0I/AAAAAAAAJn8/rq1aEjoceiALiznzIoo4doCgV7rTlPmDQCLcBGAsYHQ/s1350/hot-russian-blond-men-fit-muscular-shirtless-bearded-hunk-selfie.jpg'),
-                    fit: BoxFit.cover),
+              decoration:  BoxDecoration(
+                image:
+                    DecorationImage(image: NetworkImage(tImages[(tImages.length-1)-index].image!), fit: BoxFit.fill),
               ),
-            ),
+            );
+            }
           )),
           Align(
             child: Row(

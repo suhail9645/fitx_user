@@ -13,9 +13,15 @@ class UpadateGoalEvent extends ReportEvent {
       this.categoryGoal, this.exerciseGoal, this.calorieGoal, this.userReport);
 }
 
-class UpdateWeightEvent extends ReportEvent{
+class UpdateWeightEvent extends ReportEvent {
   final double weight;
   final UserReport userReport;
 
-  UpdateWeightEvent({required this.weight,required this.userReport});
+  UpdateWeightEvent({required this.weight, required this.userReport});
+}
+
+class AddTransformationImage extends ReportEvent{
+  final UserReport userReport;
+
+  AddTransformationImage({required this.userReport});
 }

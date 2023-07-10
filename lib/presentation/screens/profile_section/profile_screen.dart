@@ -5,10 +5,8 @@ import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:fitx_user/presentation/constants/strings.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../logic/user_auth_bloc/auth_bloc.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key, required this.user});
@@ -43,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
                     child: CircleAvatar(
                       // radius: 65,
                       backgroundImage: user.profilePicture != null
-                          ? NetworkImage(baseUrl + user.profilePicture!)
+                          ? NetworkImage("http:/10.4.4.26:8000/${ user.profilePicture}")
                           : null,
                     ),
                   ),
@@ -147,8 +145,9 @@ class ProfileScreen extends StatelessWidget {
                             SharedPreferences shrd =
                                 await SharedPreferences.getInstance();
                             await shrd.clear();
-                          // ignore: use_build_context_synchronously
-                          Navigator.pushNamedAndRemoveUntil(context, 'signInAndSignUp', (route) => false);
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, 'signInAndSignUp', (route) => false);
                           },
                           child: const Text('Yes'),
                         ),

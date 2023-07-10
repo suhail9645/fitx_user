@@ -11,4 +11,5 @@ const String completedExerciseEndPoint = 'exercise/completed/';
 const String addCatgoryGoalEndPoint = 'goals/category/';
 const String addExerciseGoalEndPoint = 'goals/exercise/';
 const String addCalorieGoalEndPoint = 'goals/calorie/';
-const String userWeightEndPoint='users/weight/';
+const String userWeightEndPoint = 'users/weight/';
+const String transformationImageEndPoint = 'transformation/';

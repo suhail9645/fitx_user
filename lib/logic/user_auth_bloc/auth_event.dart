@@ -12,4 +12,4 @@ class SignUpButtonClickedEvent extends AuthEvent {
 
 class SignInButtonClickedEvent extends AuthEvent {}
 
-class SignOutButtonClickedEvent extends AuthEvent{}
+class SignOutButtonClickedEvent extends AuthEvent {}

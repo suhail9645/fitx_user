@@ -5,6 +5,7 @@ import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:fitx_user/presentation/widget/text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../widget/rps_painter.dart';
 
 class TrainerAddScreen extends StatelessWidget {
   const TrainerAddScreen({super.key});
@@ -103,11 +104,14 @@ class TrainerAddScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                           children: List.generate(
-                              certificateState.certificates.length + 1, (index) {
-                                 String extension='';
-                                if(index<certificateState.certificates.length){
-                          extension=certificateState.certificates[index].path.split('.').last;
-                                }
+                              certificateState.certificates.length + 1,
+                              (index) {
+                        String extension = '';
+                        if (index < certificateState.certificates.length) {
+                          extension = certificateState.certificates[index].path
+                              .split('.')
+                              .last;
+                        }
                         return index >= certificateState.certificates.length
                             ? InkWell(
                                 onTap: () {
@@ -137,16 +141,26 @@ class TrainerAddScreen extends StatelessWidget {
                                 margin: const EdgeInsets.only(right: 10),
                                 width: screenHeight * 0.14,
                                 decoration: BoxDecoration(
-                                  color: extension=='jpg'?const Color.fromARGB(255, 233, 195, 83):extension=='pdf'?Colors.red:Colors.redAccent,
+                                    color: extension == 'jpg'
+                                        ? const Color.fromARGB(
+                                            255, 233, 195, 83)
+                                        : extension == 'pdf'
+                                            ? Colors.red
+                                            : Colors.redAccent,
                                     border: Border.all(
                                       color: Colors.white,
                                     ),
                                     borderRadius: BorderRadius.circular(7)),
-                                child:  Column(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    
-                                    Text(extension.toUpperCase(),style:const TextStyle(fontSize: 17,fontWeight: FontWeight.bold),)],
+                                    Text(
+                                      extension.toUpperCase(),
+                                      style: const TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
                                 ),
                               );
                       })),
@@ -162,25 +176,3 @@ class TrainerAddScreen extends StatelessWidget {
   }
 }
 
-class RPSCustomPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint0 = Paint()
-      ..color = const Color.fromARGB(255, 27, 25, 25)
-      ..style = PaintingStyle.fill;
-
-    Path path0 = Path();
-    path0.moveTo(size.width, size.height * 0.9984125);
-    path0.lineTo(size.width * 0.0057143, size.height * 0.9983042);
-    path0.lineTo(size.width, size.height * 0.5415755);
-    path0.lineTo(size.width, size.height * 0.9984125);
-    path0.close();
-
-    canvas.drawPath(path0, paint0);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
-}

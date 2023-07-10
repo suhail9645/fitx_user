@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../logic/category_bloc/category_bloc.dart';
+import '../../../logic/category_like_cubit/category_like_cubit.dart';
 import '../../constants/colors.dart';
 import '../../constants/sized_box.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+
+import '../../widget/category_container.dart';
 
 class ExplreScreen extends StatelessWidget {
   const ExplreScreen({super.key});
@@ -63,10 +66,17 @@ class ExplreScreen extends StatelessWidget {
                                   columnCount: state.catgories.length,
                                   child: ScaleAnimation(
                                     child: FadeInAnimation(
+                                        child: BlocProvider(
+                                      create: (context) => CategoryLikeCubit()
+                                        ..onLikeAndUnlike(
+                                            null,
+                                            state.catgories[itemIndex].isLiked,
+                                            state.catgories[itemIndex].likes!),
                                       child: CategoryContainer(
-                                        category: state.catgories[itemIndex],
-                                      ),
-                                    ),
+                                          screenHeight: screenHeight,
+                                          category: state.catgories[itemIndex],
+                                          homeContext: context),
+                                    )),
                                   ));
                             }),
                       ),
@@ -88,52 +98,6 @@ class ExplreScreen extends StatelessWidget {
   }
 }
 
-class CategoryContainer extends StatelessWidget {
-  const CategoryContainer({super.key, required this.category});
-  final Category category;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        image: DecorationImage(
-          image: NetworkImage(category.image!),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            spaceforHeight20,
-            Text(
-              category.name!,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              '${category.exercisesCount} Workouts',
-              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-            ),
-            const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  '0 People like this Category',
-                  style: TextStyle(color: primaryColor),
-                ),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.favorite))
-              ],
-            ),
-            spaceforHeight10
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class ExploreMostLIkedCategories extends StatelessWidget {
   const ExploreMostLIkedCategories({super.key, required this.categories});
   final List<Category> categories;
@@ -143,42 +107,61 @@ class ExploreMostLIkedCategories extends StatelessWidget {
     return CarouselSlider(
         items: List.generate(
           categories.length,
-          (index) => Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                image: DecorationImage(
-                    image: NetworkImage(categories[index].image!),
-                    fit: BoxFit.fill)),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  spaceforHeight20,
-                  Text(
-                    categories[index].name!,
-                    style: const TextStyle(
-                        fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    '${categories[index].exercisesCount} Workouts',
-                    style: const TextStyle(
-                        fontSize: 17, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        '0 People like this Category',
-                        style: TextStyle(color: primaryColor),
-                      ),
-                      IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.favorite))
-                    ],
-                  ),
-                  spaceforHeight10
-                ],
+          (index) => BlocProvider<CategoryLikeCubit>(
+            create: (context) => CategoryLikeCubit()
+              ..onLikeAndUnlike(
+                  null, categories[index].isLiked, categories[index].likes!),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  image: DecorationImage(
+                      image: NetworkImage(categories[index].image!),
+                      fit: BoxFit.fill)),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    spaceforHeight20,
+                    Text(
+                      categories[index].name!,
+                      style: const TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      '${categories[index].exercisesCount} Workouts',
+                      style: const TextStyle(
+                          fontSize: 17, fontWeight: FontWeight.bold),
+                    ),
+                    const Spacer(),
+                    BlocBuilder<CategoryLikeCubit, CategoryLikeState>(
+                      builder: (context, state) {
+                        if (state is CategoryLikeUnlikeState) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${state.likeCount} People like this Category',
+                                style: const TextStyle(color: primaryColor),
+                              ),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.favorite,
+                                    color: state.isLiked
+                                        ? Colors.red
+                                        : Colors.white,
+                                  ))
+                            ],
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
+                      },
+                    ),
+                    spaceforHeight10
+                  ],
+                ),
               ),
             ),
           ),

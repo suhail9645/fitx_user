@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:fitx_user/data_layer/models/user_report/user_report.dart';
 import 'package:fitx_user/data_layer/models/user_weight/result.dart';
 import 'package:fitx_user/data_layer/repositories/user_report_repo/user_completed.dart';
 import 'package:fitx_user/data_layer/repositories/user_report_repo/user_goal_add.dart';
+import 'package:fitx_user/data_layer/repositories/user_report_repo/user_transformation_add.dart';
 import 'package:fitx_user/data_layer/repositories/user_report_repo/user_weight_add.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 part 'report_event.dart';
@@ -16,6 +19,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
     on<ReportInitialEvent>(reportInitialEvent);
     on<UpadateGoalEvent>(upadateGoalEvent);
     on<UpdateWeightEvent>(upadateWeightlEvent);
+    on<AddTransformationImage>(addTransformationImage);
   }
 
   FutureOr<void> reportInitialEvent(
@@ -36,13 +40,26 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
     emit(ReportInitialState(userReport: userReport));
   }
 
-  FutureOr<void> upadateWeightlEvent(UpdateWeightEvent event, Emitter<ReportState> emit) async{
+  FutureOr<void> upadateWeightlEvent(
+      UpdateWeightEvent event, Emitter<ReportState> emit) async {
     UserWeitghtAddRepo().addUserWeight(event.weight);
-    UserReport userReport=event.userReport;
+    UserReport userReport = event.userReport;
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-    Weight weight=Weight(date: formattedDate,weight: event.weight);
+    Weight weight = Weight(date: formattedDate, weight: event.weight);
     userReport.allWeights.add(weight);
     emit(ReportInitialState(userReport: userReport));
+  }
+
+  FutureOr<void> addTransformationImage(AddTransformationImage event, Emitter<ReportState> emit)async {
+    final image =await ImagePicker().pickImage(source: ImageSource.camera);
+    if(image!=null){
+      final response=await UserImageAddRepo().addUserTransformationImage(File(image.path));
+      if(response.isRight){
+        UserReport userReport=event.userReport;
+        userReport.tImages.add(response.right);
+        emit(ReportInitialState(userReport: userReport));
+      }
+    }
   }
 }

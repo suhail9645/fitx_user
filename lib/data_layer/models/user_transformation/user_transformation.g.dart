@@ -1,19 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_weight.dart';
+part of 'user_transformation.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserWeight _$UserWeightFromJson(Map<String, dynamic> json) => UserWeight(
+UserTransformation _$UserTransformationFromJson(Map<String, dynamic> json) =>
+    UserTransformation(
       count: json['count'] as int?,
       next: json['next'],
       previous: json['previous'],
       results: json['results'] as List<dynamic>?,
     );
 
-Map<String, dynamic> _$UserWeightToJson(UserWeight instance) =>
+Map<String, dynamic> _$UserTransformationToJson(UserTransformation instance) =>
     <String, dynamic>{
       'count': instance.count,
       'next': instance.next,

@@ -28,11 +28,10 @@ class PremiumScreen extends StatelessWidget {
               ),
               child: Padding(
                 padding: EdgeInsets.only(left: screenWidth * 0.10),
-                child:const Column(
+                child: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  
                     Column(
                       children: [
                         Text(
