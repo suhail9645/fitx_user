@@ -99,47 +99,58 @@ class TrainerAddScreen extends StatelessWidget {
                 child: BlocBuilder<CertificateCubit, CertificateState>(
                   builder: (context, state) {
                     final certificateState = state as CertificateInitial;
-                    return Row(
-                        children: List.generate(
-                            certificateState.certificates.length + 1, (index) {
-                      return index >= certificateState.certificates.length
-                          ? InkWell(
-                              onTap: () {
-                                BlocProvider.of<CertificateCubit>(context)
-                                    .certificatePicking();
-                              },
-                              child: Container(
-                                // height: screenHeight*0.17,
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                          children: List.generate(
+                              certificateState.certificates.length + 1, (index) {
+                                 String extension='';
+                                if(index<certificateState.certificates.length){
+                          extension=certificateState.certificates[index].path.split('.').last;
+                                }
+                        return index >= certificateState.certificates.length
+                            ? InkWell(
+                                onTap: () {
+                                  BlocProvider.of<CertificateCubit>(context)
+                                      .certificatePicking();
+                                },
+                                child: Container(
+                                  // height: screenHeight*0.17,
+                                  width: screenHeight * 0.14,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: primaryColor),
+                                    borderRadius: BorderRadius.circular(7),
+                                  ),
+                                  child: const Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.file_upload,
+                                        size: 35,
+                                      ),
+                                      Text('Add Files')
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                margin: const EdgeInsets.only(right: 10),
                                 width: screenHeight * 0.14,
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: primaryColor),
-                                  borderRadius: BorderRadius.circular(7),
-                                ),
-                                child: const Column(
+                                  color: extension=='jpg'?const Color.fromARGB(255, 233, 195, 83):extension=='pdf'?Colors.red:Colors.redAccent,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                    ),
+                                    borderRadius: BorderRadius.circular(7)),
+                                child:  Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(
-                                      Icons.file_upload,
-                                      size: 35,
-                                    ),
-                                    Text('Add Files')
-                                  ],
+                                    
+                                    Text(extension.toUpperCase(),style:const TextStyle(fontSize: 17,fontWeight: FontWeight.bold),)],
                                 ),
-                              ),
-                            )
-                          : Container(
-                              margin: const EdgeInsets.only(right: 10),
-                              width: screenHeight * 0.14,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.white,
-                                  ),
-                                  borderRadius: BorderRadius.circular(7)),
-                              child: const Column(
-                                children: [Text('PDF')],
-                              ),
-                            );
-                    }));
+                              );
+                      })),
+                    );
                   },
                 ),
               ),

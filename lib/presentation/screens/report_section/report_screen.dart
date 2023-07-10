@@ -136,9 +136,12 @@ class ReportScreen extends StatelessWidget {
                       onClicked: () {
                         showDialog(
                           context: context,
-                          builder: (context) => ReportPageAlert(
+                          builder: (ctx) => ReportPageAlert(
                             screenHeight: screenHeight,
-                            onTap: () {},
+                            onTap: () {
+                              BlocProvider.of<ReportBloc>(context).add(UpdateWeightEvent(weight: double.parse(currentWeight.text), userReport: state.userReport));
+                             Navigator.pop(ctx);
+                            },
                             goalOrWeight: ReportPageGoalOrWeight.weight,
                             stateKey: _formKey,
                           ),
@@ -156,24 +159,7 @@ class ReportScreen extends StatelessWidget {
                         series: <LineSeries<Weight, String>>[
                           LineSeries<Weight, String>(
                             dataSource:state.userReport.allWeights,
-                              // Bind data source
-                              // dataSource: <SalesData>[
-                              //   SalesData('Jan', 95),
-                              //   SalesData('Feb', 34),
-                              //   SalesData('Feb', 38),
-                              //   SalesData('Apr', 32),
-                              //   SalesData('May', 40),
-                              //   SalesData('May', 45),
-                              //   SalesData('Jun', 28),
-                              //   SalesData('Jun', 34),
-                              //   SalesData('Jul', 32),
-                              //   SalesData('Aug', 40),
-                              //   SalesData('Sep', 45),
-                              //   SalesData('Oct', 28),
-                              //   SalesData('Nov', 34),
-                              //   SalesData('Dec', 32),
-                              //   SalesData('Dec', 40),
-                              // ],
+                              
                               xValueMapper: (datum, index) => datum.date.toString(),
                               yValueMapper: (datum, index) => datum.weight),
                         ]),

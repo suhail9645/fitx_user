@@ -5,7 +5,7 @@ import 'package:fitx_user/data_layer/models/user_report/user_report.dart';
 import 'package:fitx_user/presentation/constants/strings.dart';
 
 class UserGoalsAddrepo {
-  Future<Either<ErrorModel, UserReport>> updateUserGoal(int? categoryGoal,
+  Future<Either<ErrorModel, UserReport>>updateUserGoal(int? categoryGoal,
       int? exerciseGoal, int? calorieGoal, UserReport userReport) async {
     try {
       if (categoryGoal != null) {

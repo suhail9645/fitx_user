@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:fitx_user/data_layer/data_provider/auth/user_auth_imp.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -12,6 +13,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
     on<SignUpButtonClickedEvent>(signUpButtonClickedEvent);
     on<SignInButtonClickedEvent>(signInButtonClickedEvent);
+    on<SignOutButtonClickedEvent>(signOutButtonClickedEvent);
   }
 
   FutureOr<void> signUpButtonClickedEvent(
@@ -35,5 +37,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else {
       emit(AuthErrorState(error: response.left.error));
     }
+  }
+
+  FutureOr<void> signOutButtonClickedEvent(SignOutButtonClickedEvent event, Emitter<AuthState> emit)async {
+  
+    emit(SignOutButtonClickedState());
   }
 }

@@ -20,3 +20,7 @@ class AuthErrorState extends AuthActionState {
 
   AuthErrorState({required this.error});
 }
+
+class SignOutButtonClickedState extends AuthActionState{
+  
+}

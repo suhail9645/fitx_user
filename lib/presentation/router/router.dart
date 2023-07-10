@@ -11,6 +11,7 @@ import 'package:fitx_user/logic/user_auth_bloc/auth_bloc.dart';
 import 'package:fitx_user/presentation/screens/exercise_list_section/exercis_list.dart';
 import 'package:fitx_user/presentation/screens/exercise_playing_section/exercise_playing_screen.dart';
 import 'package:fitx_user/presentation/screens/journey_view_section/journey_view.dart';
+import 'package:fitx_user/presentation/screens/premium_section/premium_screen.dart';
 import 'package:fitx_user/presentation/screens/ready_to_go_section/ready_to_go.dart';
 import 'package:fitx_user/presentation/screens/rest_section/rest_screen.dart';
 import 'package:fitx_user/presentation/screens/route_section/route.dart';
@@ -116,14 +117,22 @@ class AppRouter {
           builder: (context) => const JourneyViewScreen(),
         );
       case 'Profile':
-      User user=routeSettings.arguments as User;
-        return MaterialPageRoute(builder: (context) =>  ProfileScreen(user: user,));
+        User user = routeSettings.arguments as User;
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+                  value: authBloc,
+                  child: ProfileScreen(
+                    user: user,
+                  ),
+                ));
       case 'TrainerAdd':
         return MaterialPageRoute(
             builder: (context) => BlocProvider.value(
                   value: certificateCubit,
                   child: const TrainerAddScreen(),
                 ));
+      case 'Premium':
+        return MaterialPageRoute(builder: (context) => const PremiumScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => const SizedBox(),

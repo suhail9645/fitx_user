@@ -12,3 +12,10 @@ class UpadateGoalEvent extends ReportEvent {
   UpadateGoalEvent(
       this.categoryGoal, this.exerciseGoal, this.calorieGoal, this.userReport);
 }
+
+class UpdateWeightEvent extends ReportEvent{
+  final double weight;
+  final UserReport userReport;
+
+  UpdateWeightEvent({required this.weight,required this.userReport});
+}
