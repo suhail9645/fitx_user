@@ -4,7 +4,6 @@ import 'package:fitx_user/presentation/constants/strings.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../models/error/error_model.dart';
 
 class CategoryLikeAndDislike {

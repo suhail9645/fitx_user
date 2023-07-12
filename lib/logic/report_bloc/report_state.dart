@@ -9,3 +9,7 @@ class ReportInitialState extends ReportState {
 
   ReportInitialState({required this.userReport});
 }
+
+class ReportLoadingState extends ReportState{
+  
+}

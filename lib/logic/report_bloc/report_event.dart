@@ -25,3 +25,10 @@ class AddTransformationImage extends ReportEvent{
 
   AddTransformationImage({required this.userReport});
 }
+class DeleteTransformationImage extends ReportEvent{
+ final List<TImage> tImages;
+ final UserReport userReport;
+ final int id;
+
+  DeleteTransformationImage({required this.tImages,required this.userReport,required this.id});
+}

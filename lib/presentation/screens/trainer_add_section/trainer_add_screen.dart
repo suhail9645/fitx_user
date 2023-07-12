@@ -1,18 +1,26 @@
+import 'dart:io';
 import 'package:fitx_user/logic/certificate_cubit/certificate_cubit.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/lists.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
+import 'package:fitx_user/presentation/screens/trainer_add_section/widget/file_add_row.dart';
+import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:fitx_user/presentation/widget/text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../logic/trainer_bloc/trainer_bloc.dart';
 import '../../widget/rps_painter.dart';
 
 class TrainerAddScreen extends StatelessWidget {
-  const TrainerAddScreen({super.key});
+  TrainerAddScreen({super.key, required this.profileUrl});
+  final _formKey = GlobalKey<FormState>();
+  final String? profileUrl;
   @override
   Widget build(BuildContext context) {
+    List<File> certificates = [];
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
+    double screenWidth = screenSize.width;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -66,20 +74,25 @@ class TrainerAddScreen extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: CircleAvatar(
                       radius: screenHeight * 0.10,
-                      backgroundImage: const NetworkImage(
-                          'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg'),
+                      backgroundImage: profileUrl != null
+                          ? NetworkImage('http://10.4.4.26:8000$profileUrl')
+                          : const AssetImage('assets/profile.avif')
+                              as ImageProvider,
                     ),
                   )
                 ],
               ),
             ),
             spaceforHeight20,
-            Column(
-              children: List.generate(
-                2,
-                (index) => CustomTextFormField(
-                    controller: controllerListOfTrainerAddSection[index],
-                    hint: hintListOfTrainerAddSection[index]),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: List.generate(
+                  2,
+                  (index) => CustomTextFormField(
+                      controller: controllerListOfTrainerAddSection[index],
+                      hint: hintListOfTrainerAddSection[index]),
+                ),
               ),
             ),
             spaceforHeight10,
@@ -90,7 +103,7 @@ class TrainerAddScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8),
               child: Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 height: screenHeight * 0.21,
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -100,75 +113,42 @@ class TrainerAddScreen extends StatelessWidget {
                 child: BlocBuilder<CertificateCubit, CertificateState>(
                   builder: (context, state) {
                     final certificateState = state as CertificateInitial;
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                          children: List.generate(
-                              certificateState.certificates.length + 1,
-                              (index) {
-                        String extension = '';
-                        if (index < certificateState.certificates.length) {
-                          extension = certificateState.certificates[index].path
-                              .split('.')
-                              .last;
-                        }
-                        return index >= certificateState.certificates.length
-                            ? InkWell(
-                                onTap: () {
-                                  BlocProvider.of<CertificateCubit>(context)
-                                      .certificatePicking();
-                                },
-                                child: Container(
-                                  // height: screenHeight*0.17,
-                                  width: screenHeight * 0.14,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: primaryColor),
-                                    borderRadius: BorderRadius.circular(7),
-                                  ),
-                                  child: const Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.file_upload,
-                                        size: 35,
-                                      ),
-                                      Text('Add Files')
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                margin: const EdgeInsets.only(right: 10),
-                                width: screenHeight * 0.14,
-                                decoration: BoxDecoration(
-                                    color: extension == 'jpg'
-                                        ? const Color.fromARGB(
-                                            255, 233, 195, 83)
-                                        : extension == 'pdf'
-                                            ? Colors.red
-                                            : Colors.redAccent,
-                                    border: Border.all(
-                                      color: Colors.white,
-                                    ),
-                                    borderRadius: BorderRadius.circular(7)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      extension.toUpperCase(),
-                                      style: const TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
-                              );
-                      })),
-                    );
+                    certificates = certificateState.certificates;
+                    return AddCertificateRow(certificates: certificateState.certificates, screenHeight: screenHeight);
                   },
                 ),
               ),
             ),
+            spaceforHeight20,
+            BlocConsumer<TrainerBloc, TrainerState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                return ElevatedButtonWithIcon(
+                  width: screenWidth * 0.70,
+                  text: 'Apply',
+                  onClicked: () {
+                    if (_formKey.currentState!.validate() &&
+                        certificates.isNotEmpty &&
+                        profileUrl != null) {
+                      BlocProvider.of<TrainerBloc>(context)
+                          .add(TrainerApplyEvent(certificates: certificates));
+                    } else if (certificates.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please add atleast one certificate'),
+                        ),
+                      );
+                    } else if (profileUrl == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please add Your profile picture'),
+                        ),
+                      );
+                    }
+                  },
+                );
+              },
+            )
           ],
         ),
       ),

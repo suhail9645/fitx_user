@@ -3,7 +3,8 @@ import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:flutter/material.dart';
 
-import '../trainer_add_section/trainer_add_screen.dart';
+import '../../widget/rps_painter.dart';
+
 
 class PremiumScreen extends StatelessWidget {
   const PremiumScreen({super.key});

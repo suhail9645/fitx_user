@@ -41,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
                     child: CircleAvatar(
                       // radius: 65,
                       backgroundImage: user.profilePicture != null
-                          ? NetworkImage("http:/10.4.4.26:8000/${ user.profilePicture}")
+                          ? NetworkImage('http://10.4.4.26:8000${user.profilePicture}')
                           : null,
                     ),
                   ),
@@ -50,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
                     text: 'Are You A Trainer',
                     width: screenWidth * 0.23,
                     onClicked: () {
-                      Navigator.pushNamed(context, 'TrainerAdd');
+                      Navigator.pushNamed(context, 'TrainerAdd',arguments: user.profilePicture);
                     },
                   )
                 ],

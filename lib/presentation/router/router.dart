@@ -1,5 +1,4 @@
 import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
-import 'package:fitx_user/data_layer/models/exercise_page/result.dart';
 import 'package:fitx_user/data_layer/models/user/user.dart';
 import 'package:fitx_user/data_layer/models/user_transformation/result.dart';
 import 'package:fitx_user/logic/bottem_nav_cubit/bottem_navbar_cubit.dart';
@@ -8,6 +7,7 @@ import 'package:fitx_user/logic/certificate_cubit/certificate_cubit.dart';
 import 'package:fitx_user/logic/image_cubit/image_cubit.dart';
 import 'package:fitx_user/logic/report_bloc/report_bloc.dart';
 import 'package:fitx_user/logic/timer_cubit/timer_cubit.dart';
+import 'package:fitx_user/logic/trainer_bloc/trainer_bloc.dart';
 import 'package:fitx_user/logic/user_auth_bloc/auth_bloc.dart';
 import 'package:fitx_user/presentation/screens/exercise_list_section/exercis_list.dart';
 import 'package:fitx_user/presentation/screens/exercise_playing_section/exercise_playing_screen.dart';
@@ -32,6 +32,7 @@ class AppRouter {
   final WaitPageTimerCubit waitPageTimerCubit = WaitPageTimerCubit();
   final CertificateCubit certificateCubit = CertificateCubit();
   final ReportBloc reportBloc = ReportBloc();
+  final TrainerBloc trainerBloc = TrainerBloc();
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case '/':
@@ -115,8 +116,13 @@ class AppRouter {
         );
       case 'JourneyView':
         return MaterialPageRoute(builder: (context) {
-        List<TImage>tImages=routeSettings.arguments as List<TImage>;
-          return JourneyViewScreen(tImages: tImages,);
+          
+          return BlocProvider.value(
+            value: reportBloc,
+            child:const JourneyViewScreen(
+             
+            ),
+          );
         });
       case 'Profile':
         User user = routeSettings.arguments as User;
@@ -128,11 +134,19 @@ class AppRouter {
                   ),
                 ));
       case 'TrainerAdd':
-        return MaterialPageRoute(
-            builder: (context) => BlocProvider.value(
-                  value: certificateCubit,
-                  child: const TrainerAddScreen(),
-                ));
+        return MaterialPageRoute(builder: (context) {
+          String? profileUrl = routeSettings.arguments as String?;
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: trainerBloc),
+              BlocProvider.value(value: certificateCubit)
+            ],
+            child: TrainerAddScreen(
+              profileUrl: profileUrl,
+            ),
+          );
+        });
+
       case 'Premium':
         return MaterialPageRoute(builder: (context) => const PremiumScreen());
       default:
