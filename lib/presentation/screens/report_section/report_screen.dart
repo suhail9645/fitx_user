@@ -109,16 +109,22 @@ class ReportScreen extends StatelessWidget {
                         const Divider(),
                         Column(
                           children: List.generate(3, (index) {
+                            List<String> nums=[];
+                            if(state.userReport.allWeights.isNotEmpty){
                             List<double> weights = [];
                             weights.addAll(state.userReport.allWeights
                                 .map((e) => e.weight!));
                             weights.sort();
-                            List<String> nums = [
-                              state.userReport.allWeights.last.weight!
+                            nums = [
+                              state.userReport.allWeights.last.weight
                                   .toString(),
                               weights.last.toString(),
                               weights.first.toString()
                             ];
+                            }
+                            else{
+                              nums=List.filled(3, '0.0');
+                            }
                             return Padding(
                               padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                               child: Row(
@@ -158,15 +164,16 @@ class ReportScreen extends StatelessWidget {
                     ),
                     ReportImageStack(
                       size: size,
-                      images: state.userReport.tImages,
+                      images: state.
+                      userReport.tImages,
                     ),
-                    ElevatedButtonWithIcon(
+                state.userReport.tImages.isNotEmpty?  ElevatedButtonWithIcon(
                       text: 'View your Journey',
                       onClicked: () {
                         Navigator.pushNamed(context, 'JourneyView',
                           );
                       },
-                    )
+                    ):const SizedBox()
                   ],
                 );
               } else if (state is ReportLoadingState) {

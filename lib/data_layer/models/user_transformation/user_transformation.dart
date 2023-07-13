@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'result.dart';
 
 part 'user_transformation.g.dart';
 

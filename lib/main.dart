@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'FITX',
-      theme: ThemeData(
+      theme: ThemeData( 
         useMaterial3: true,
         fontFamily: GoogleFonts.ubuntu().fontFamily,
         brightness: Brightness.dark,

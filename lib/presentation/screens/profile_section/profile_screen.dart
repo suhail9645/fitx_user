@@ -2,7 +2,6 @@ import 'package:fitx_user/data_layer/models/user/user.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/lists.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
-import 'package:fitx_user/presentation/constants/strings.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,13 +45,13 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   spaceforwidth10,
-                  ElevatedButtonWithIcon(
+                !user.isTrainer!?  ElevatedButtonWithIcon(
                     text: 'Are You A Trainer',
                     width: screenWidth * 0.23,
                     onClicked: () {
                       Navigator.pushNamed(context, 'TrainerAdd',arguments: user.profilePicture);
                     },
-                  )
+                  ):const SizedBox()
                 ],
               ),
               spaceforHeight10,
