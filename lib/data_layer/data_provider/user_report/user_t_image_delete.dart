@@ -23,7 +23,7 @@ class TImageDeleteOperation {
       if(newAccess.isRight){
         response = await http
           .delete(Uri.parse('${baseUrl}transformation/delete/$id/'), headers: {
-        'Authorization': 'Bearer $access',
+        'Authorization': 'Bearer ${newAccess.right}',
       });
       if(response.statusCode==204){
        return const Right(true);

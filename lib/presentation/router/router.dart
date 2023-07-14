@@ -1,10 +1,10 @@
 import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
 import 'package:fitx_user/data_layer/models/user/user.dart';
-import 'package:fitx_user/data_layer/models/user_transformation/result.dart';
 import 'package:fitx_user/logic/bottem_nav_cubit/bottem_navbar_cubit.dart';
 import 'package:fitx_user/logic/category_bloc/category_bloc.dart';
 import 'package:fitx_user/logic/certificate_cubit/certificate_cubit.dart';
 import 'package:fitx_user/logic/image_cubit/image_cubit.dart';
+import 'package:fitx_user/logic/journey_date_cubit/journey_date.dart';
 import 'package:fitx_user/logic/report_bloc/report_bloc.dart';
 import 'package:fitx_user/logic/timer_cubit/timer_cubit.dart';
 import 'package:fitx_user/logic/trainer_bloc/trainer_bloc.dart';
@@ -21,7 +21,6 @@ import 'package:fitx_user/presentation/screens/trainer_add_section/trainer_add_s
 import 'package:fitx_user/presentation/screens/welcome_section/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../screens/profile_section/profile_screen.dart';
 
 class AppRouter {
@@ -33,6 +32,7 @@ class AppRouter {
   final CertificateCubit certificateCubit = CertificateCubit();
   final ReportBloc reportBloc = ReportBloc();
   final TrainerBloc trainerBloc = TrainerBloc();
+  final JourneyDateCubit journeyDateCubit = JourneyDateCubit();
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case '/':
@@ -93,6 +93,9 @@ class AppRouter {
                 BlocProvider.value(
                   value: categoryBloc,
                 ),
+                BlocProvider.value(
+                  value: reportBloc,
+                ),
               ],
               child: ExercisePlayingScreen(
                 category: args.category,
@@ -116,12 +119,14 @@ class AppRouter {
         );
       case 'JourneyView':
         return MaterialPageRoute(builder: (context) {
-          
-          return BlocProvider.value(
-            value: reportBloc,
-            child:const JourneyViewScreen(
-             
-            ),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider.value(
+                value: reportBloc,
+              ),
+              BlocProvider.value(value: journeyDateCubit)
+            ],
+            child: const JourneyViewScreen(),
           );
         });
       case 'Profile':

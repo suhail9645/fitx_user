@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitx_user/data_layer/models/user_transformation/result.dart';
+import 'package:fitx_user/logic/journey_date_cubit/journey_date.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:flutter/material.dart';
@@ -13,15 +15,28 @@ class JourneyViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     
     PageController controller = PageController();
-
     Size size = MediaQuery.of(context).size;
     double screenWidth = size.width;
     // double screenHeight = size.width;
-    return BlocBuilder<ReportBloc, ReportState>(
+    return BlocConsumer<ReportBloc, ReportState>(
+      buildWhen: (previous, current) => current is! ImageAddLoadingState,
+      // listenWhen: (previous, current) => current is ImageAddLoadingState,
+      listener: (context, state) {
+        if (state is ImageAddLoadingState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Please wait a while')));
+        }
+        if (state is ReportInitialState && state.userReport.tImages.isEmpty) {
+          Navigator.pop(context);
+        }
+      },
       builder: (context, state) {
         if (state is ReportInitialState) {
           List<TImage> tImages = state.userReport.tImages;
+          BlocProvider.of<JourneyDateCubit>(context)
+                          .onChanged(tImages.length-1);
           return Scaffold(
             extendBodyBehindAppBar: true,
             appBar: AppBar(
@@ -37,6 +52,19 @@ class JourneyViewScreen extends StatelessWidget {
                                 int imageId = tImages[(tImages.length - 1) -
                                         imageIndex.toInt()]
                                     .id!;
+                                if (imageIndex.toInt() == tImages.length - 1) {
+                                  controller.animateToPage(0,
+                                      duration:
+                                          const Duration(milliseconds: 100),
+                                      curve: Curves.bounceIn);
+                                }
+                //                 if (imageIndex.toInt() == 0) {
+                //                   BlocProvider.of<JourneyDateCubit>(context)
+                //                       .onChanged(1);
+                //                 }else{
+                //                    BlocProvider.of<JourneyDateCubit>(context)
+                // .onChanged(controller.page!.toInt());
+                //                 }
                                 tImages.removeAt(
                                     (tImages.length - 1) - imageIndex.toInt());
                                 BlocProvider.of<ReportBloc>(context).add(
@@ -44,7 +72,7 @@ class JourneyViewScreen extends StatelessWidget {
                                         tImages: tImages,
                                         userReport: state.userReport,
                                         id: imageId));
-                                  Navigator.pop(ctx);
+                                Navigator.pop(ctx);
                               },
                             ));
                   },
@@ -67,17 +95,26 @@ class JourneyViewScreen extends StatelessWidget {
             body: Stack(
               children: [
                 PageView(
+                    onPageChanged: (value) {
+                      BlocProvider.of<JourneyDateCubit>(context)
+                          .onChanged(value);
+                    },
                     controller: controller,
                     children: List.generate(tImages.length, (index) {
-                      return Container(
-                        height: double.infinity,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  tImages[(tImages.length - 1) - index].image!),
-                              fit: BoxFit.fill),
+                      // index2=controller.page!.toInt();
+                      return CachedNetworkImage(
+                        imageUrl:
+                            tImages[(tImages.length - 1) - index].image ?? '',
+                        imageBuilder: (context, imageProvider) => Container(
+                          height: double.infinity,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: imageProvider, fit: BoxFit.fill),
+                          ),
                         ),
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
                       );
                     })),
                 Align(
@@ -105,33 +142,45 @@ class JourneyViewScreen extends StatelessWidget {
                 ),
                 Align(
                   alignment: const Alignment(0, 0.89),
-                  child: Container(
-                    width: screenWidth * 0.85,
-                    height: 55,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(150, 0, 0, 0),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '01/09/2030',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                  child: BlocBuilder<JourneyDateCubit, int>(
+                    builder: (context, state) {
+                      if(state <tImages.length){
+                      String date = tImages[state].date!.split('T').first;
+                      String time =
+                          tImages[state].date!.split('T').last.split('.').first;
+                      return Container(
+                        width: screenWidth * 0.85,
+                        height: 55,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(150, 0, 0, 0),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                date,
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                time,
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: primaryColor),
+                              ),
+                            ],
                           ),
-                          Text(
-                            '06:55',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: primaryColor),
-                          ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      );
+                      }else{
+                        return const SizedBox();
+                      }
+                    },
+                  
                   ),
                 )
               ],
@@ -144,4 +193,3 @@ class JourneyViewScreen extends StatelessWidget {
     );
   }
 }
-

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'category_page.g.dart';

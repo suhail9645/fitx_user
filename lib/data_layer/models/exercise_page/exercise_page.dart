@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'result.dart';
-
 part 'exercise_page.g.dart';
 
 @JsonSerializable()

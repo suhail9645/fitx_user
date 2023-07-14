@@ -10,6 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
+import '../../../logic/report_bloc/report_bloc.dart';
+
 class ExercisePlayingScreen extends StatelessWidget {
   const ExercisePlayingScreen(
       {super.key, required this.category, required this.index});
@@ -181,6 +183,7 @@ class ExercisePlayingScreen extends StatelessWidget {
           ],
         ),
       );
+      BlocProvider.of<ReportBloc>(context).add(ReportInitialEvent());
     }
     BlocProvider.of<CategoryBloc>(context).add(ExercisCompletedEvent(
         categoryId: category.id!, exerciseId: exercise.id!));

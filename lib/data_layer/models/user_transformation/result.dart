@@ -6,6 +6,7 @@ part 'result.g.dart';
 class TImage {
   int? id;
   String? image;
+  @JsonKey(name: 'datetime')
   String? date;
 
   TImage({this.id, this.image, this.date});

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -111,9 +112,13 @@ class ExploreMostLIkedCategories extends StatelessWidget {
             create: (context) => CategoryLikeCubit()
               ..onLikeAndUnlike(
                   null, categories[index].isLiked, categories[index].likes!),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
+            child: CachedNetworkImage(
+              imageUrl: categories[index].image??'',
+              imageBuilder: (context, imageProvider) => 
+             Container(
+                decoration: BoxDecoration(
+                  
+                    borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
                       image: NetworkImage(categories[index].image!),
                       fit: BoxFit.fill)),
@@ -161,6 +166,7 @@ class ExploreMostLIkedCategories extends StatelessWidget {
                     ),
                     spaceforHeight10
                   ],
+                  ),
                 ),
               ),
             ),

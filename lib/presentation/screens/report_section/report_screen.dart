@@ -1,4 +1,3 @@
-
 import 'package:fitx_user/data_layer/models/user_weight/result.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:fitx_user/presentation/screens/report_section/widget/button_row.dart';
@@ -19,7 +18,6 @@ class ReportScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<ReportBloc>(context).add(ReportInitialEvent());
     Size size = MediaQuery.of(context).size;
     double screenHeight = size.height;
     return Scaffold(
@@ -27,8 +25,13 @@ class ReportScreen extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: BlocConsumer<ReportBloc, ReportState>(
+            buildWhen: (previous, current) => current is! ImageAddLoadingState,
+            listenWhen: (previous, current) => current is ImageAddLoadingState,
             listener: (context, state) {
-              
+              if (state is ImageAddLoadingState) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please wait a while ...')));
+              }
             },
             builder: (context, state) {
               if (state is ReportInitialState) {
@@ -109,21 +112,20 @@ class ReportScreen extends StatelessWidget {
                         const Divider(),
                         Column(
                           children: List.generate(3, (index) {
-                            List<String> nums=[];
-                            if(state.userReport.allWeights.isNotEmpty){
-                            List<double> weights = [];
-                            weights.addAll(state.userReport.allWeights
-                                .map((e) => e.weight!));
-                            weights.sort();
-                            nums = [
-                              state.userReport.allWeights.last.weight
-                                  .toString(),
-                              weights.last.toString(),
-                              weights.first.toString()
-                            ];
-                            }
-                            else{
-                              nums=List.filled(3, '0.0');
+                            List<String> nums = [];
+                            if (state.userReport.allWeights.isNotEmpty) {
+                              List<double> weights = [];
+                              weights.addAll(state.userReport.allWeights
+                                  .map((e) => e.weight!));
+                              weights.sort();
+                              nums = [
+                                state.userReport.allWeights.last.weight
+                                    .toString(),
+                                weights.last.toString(),
+                                weights.first.toString()
+                              ];
+                            } else {
+                              nums = List.filled(3, '0.0');
                             }
                             return Padding(
                               padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
@@ -164,16 +166,19 @@ class ReportScreen extends StatelessWidget {
                     ),
                     ReportImageStack(
                       size: size,
-                      images: state.
-                      userReport.tImages,
+                      images: state.userReport.tImages,
                     ),
-                state.userReport.tImages.isNotEmpty?  ElevatedButtonWithIcon(
-                      text: 'View your Journey',
-                      onClicked: () {
-                        Navigator.pushNamed(context, 'JourneyView',
-                          );
-                      },
-                    ):const SizedBox()
+                    state.userReport.tImages.isNotEmpty
+                        ? ElevatedButtonWithIcon(
+                            text: 'View your Journey',
+                            onClicked: () {
+                              Navigator.pushNamed(
+                                context,
+                                'JourneyView',
+                              );
+                            },
+                          )
+                        : const SizedBox()
                   ],
                 );
               } else if (state is ReportLoadingState) {

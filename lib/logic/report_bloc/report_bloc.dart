@@ -55,6 +55,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   FutureOr<void> addTransformationImage(AddTransformationImage event, Emitter<ReportState> emit)async {
     final image =await ImagePicker().pickImage(source: ImageSource.camera);
     if(image!=null){
+      emit(ImageAddLoadingState());
       final response=await UserImageRepo().addUserTransformationImage(File(image.path));
       if(response.isRight){
         UserReport userReport=event.userReport;

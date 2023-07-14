@@ -13,3 +13,4 @@ class ReportInitialState extends ReportState {
 class ReportLoadingState extends ReportState{
   
 }
+class ImageAddLoadingState extends ReportState{}
