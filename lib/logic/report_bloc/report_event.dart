@@ -20,15 +20,17 @@ class UpdateWeightEvent extends ReportEvent {
   UpdateWeightEvent({required this.weight, required this.userReport});
 }
 
-class AddTransformationImage extends ReportEvent{
+class AddTransformationImage extends ReportEvent {
   final UserReport userReport;
 
   AddTransformationImage({required this.userReport});
 }
-class DeleteTransformationImage extends ReportEvent{
- final List<TImage> tImages;
- final UserReport userReport;
- final int id;
 
-  DeleteTransformationImage({required this.tImages,required this.userReport,required this.id});
+class DeleteTransformationImage extends ReportEvent {
+  final List<TImage> tImages;
+  final UserReport userReport;
+  final int id;
+
+  DeleteTransformationImage(
+      {required this.tImages, required this.userReport, required this.id});
 }

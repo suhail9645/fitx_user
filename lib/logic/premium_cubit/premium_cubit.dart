@@ -1,0 +1,29 @@
+import 'dart:convert';
+
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+
+import '../../data_layer/models/user/user.dart';
+part 'premium_state.dart';
+
+class PremiumCubit extends Cubit<PremiumState> {
+  PremiumCubit() : super(PremiumInitial());
+  void subscribeEvent(User user) async {
+    Razorpay razorpay = Razorpay();
+    var options = {
+      'key': 'rzp_test_NrP2oHZNW6MhM2',
+      'amount': 1000,
+      'name': 'FitX.',
+      'description': 'Premium',
+      'prefill': jsonEncode(user)
+    };
+    razorpay.open(options);
+    razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, () {
+      emit(PremiumSuccessState());
+    });
+    razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, () {
+      emit(PremiumErrorState());
+    });
+  }
+}

@@ -21,7 +21,8 @@ class TrainerApply {
         if (eitherResponse.isLeft) {
           return Left(eitherResponse.left);
         } else if (eitherResponse.right.statusCode == 401) {
-          Either<ErrorModel, String> newAccess = await GetNewAccessKey.getNewAccessKey();
+          Either<ErrorModel, String> newAccess =
+              await GetNewAccessKey.getNewAccessKey();
           if (newAccess.isRight) {
             eitherResponse =
                 await certificateAddHelper(element, newAccess.right);
@@ -39,32 +40,38 @@ class TrainerApply {
           certificateIds.add(certificateId);
         }
       }
-      Map<String,dynamic> data={
+      Map<String, dynamic> data = {
         "phone": phoneNumber,
         "certificate_ids": certificateIds,
         "experience": experience,
       };
-      Response response =
-          await http.post(Uri.parse('${baseUrl}trainer/apply/'), body: jsonEncode(data), headers: {
-        'Authorization': 'Bearer $access',
-        'Content-type': 'application/json'
-      });
-      if(response.statusCode==401){
-        final newAccess=await GetNewAccessKey.getNewAccessKey();
-        if(newAccess.isRight){
-
-          response =
-          await http.post(Uri.parse('${baseUrl}trainer/apply/'), body: jsonEncode(data) , headers: {
-        'Authorization': 'Bearer $access',
-         'Content-type': 'application/json'
-      });
-      if(response.statusCode==201){
-        return const Right(true);
-      }
+      Response response = await http.post(Uri.parse('${baseUrl}trainer/apply/'),
+          body: jsonEncode(data),
+          headers: {
+            'Authorization': 'Bearer $access',
+            'Content-type': 'application/json'
+          });
+      if (response.statusCode == 401) {
+        final newAccess = await GetNewAccessKey.getNewAccessKey();
+        if (newAccess.isRight) {
+          response = await http.post(Uri.parse('${baseUrl}trainer/apply/'),
+              body: jsonEncode(data),
+              headers: {
+                'Authorization': 'Bearer $access',
+                'Content-type': 'application/json'
+              });
+          if (response.statusCode == 201) {
+            return const Right(true);
+          } else if (response.statusCode == 400) {
+            String errorMessage = jsonDecode(response.body)['detail'];
+            return Left(ErrorModel(errorMessage));
+          }
         }
-      }
-      else if(response.statusCode==201){
+      } else if (response.statusCode == 201) {
         return const Right(true);
+      } else if (response.statusCode == 400) {
+        String errorMessage = jsonDecode(response.body)['detail'];
+        return Left(ErrorModel(errorMessage));
       }
     } catch (e) {
       return Left(ErrorModel(e.toString()));

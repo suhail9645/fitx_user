@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-
 part 'user_transformation.g.dart';
 
 @JsonSerializable()

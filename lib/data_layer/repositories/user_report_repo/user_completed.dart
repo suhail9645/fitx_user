@@ -25,7 +25,7 @@ class UserReportRepo {
   int categoryGoal = 0;
   int calorieGoal = 0;
   List<Weight> allWeights = [];
-  List<TImage>allTImages=[];
+  List<TImage> allTImages = [];
   Future<void> getAllCategoryReport() async {
     Either<ErrorModel, Response> responseOrError = await UserReportOperations()
         .getAllCompletedCategoryAndExercise(completedCategoryEndPoint);
@@ -155,19 +155,21 @@ class UserReportRepo {
       }
     }
   }
-Future<void>getAllTransformationImages()async{
+
+  Future<void> getAllTransformationImages() async {
     final eitherResponse = await UserReportOperations()
         .getAllCompletedCategoryAndExercise(transformationImageEndPoint);
     if (eitherResponse.isRight) {
       Response response = eitherResponse.right;
       Map<String, dynamic> data = jsonDecode(response.body);
-      UserTransformation transformation=UserTransformation.fromJson(data);
+      UserTransformation transformation = UserTransformation.fromJson(data);
       for (var element in transformation.results ?? []) {
-        TImage tImage=TImage.fromJson(element);
+        TImage tImage = TImage.fromJson(element);
         allTImages.add(tImage);
       }
     }
-}
+  }
+
   Future<UserReport> getAllUserDetailes() async {
     await getAllCategoryReport();
     await getAllExerciseReport();
@@ -184,6 +186,7 @@ Future<void>getAllTransformationImages()async{
         allWeights,
         calorieGoal,
         categoryGoal,
-        exerciseGoal,allTImages);
+        exerciseGoal,
+        allTImages);
   }
 }

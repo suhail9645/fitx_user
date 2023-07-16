@@ -113,59 +113,57 @@ class ExploreMostLIkedCategories extends StatelessWidget {
               ..onLikeAndUnlike(
                   null, categories[index].isLiked, categories[index].likes!),
             child: CachedNetworkImage(
-              imageUrl: categories[index].image??'',
-              imageBuilder: (context, imageProvider) => 
-             Container(
+              imageUrl: categories[index].image ?? '',
+              imageBuilder: (context, imageProvider) => Container(
                 decoration: BoxDecoration(
-                  
                     borderRadius: BorderRadius.circular(8),
-                  image: DecorationImage(
-                      image: NetworkImage(categories[index].image!),
-                      fit: BoxFit.fill)),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    spaceforHeight20,
-                    Text(
-                      categories[index].name!,
-                      style: const TextStyle(
-                          fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      '${categories[index].exercisesCount} Workouts',
-                      style: const TextStyle(
-                          fontSize: 17, fontWeight: FontWeight.bold),
-                    ),
-                    const Spacer(),
-                    BlocBuilder<CategoryLikeCubit, CategoryLikeState>(
-                      builder: (context, state) {
-                        if (state is CategoryLikeUnlikeState) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '${state.likeCount} People like this Category',
-                                style: const TextStyle(color: primaryColor),
-                              ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.favorite,
-                                    color: state.isLiked
-                                        ? Colors.red
-                                        : Colors.white,
-                                  ))
-                            ],
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      },
-                    ),
-                    spaceforHeight10
-                  ],
+                    image: DecorationImage(
+                        image: NetworkImage(categories[index].image!),
+                        fit: BoxFit.fill)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      spaceforHeight20,
+                      Text(
+                        categories[index].name!,
+                        style: const TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '${categories[index].exercisesCount} Workouts',
+                        style: const TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.bold),
+                      ),
+                      const Spacer(),
+                      BlocBuilder<CategoryLikeCubit, CategoryLikeState>(
+                        builder: (context, state) {
+                          if (state is CategoryLikeUnlikeState) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '${state.likeCount} People like this Category',
+                                  style: const TextStyle(color: primaryColor),
+                                ),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.favorite,
+                                      color: state.isLiked
+                                          ? Colors.red
+                                          : Colors.white,
+                                    ))
+                              ],
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        },
+                      ),
+                      spaceforHeight10
+                    ],
                   ),
                 ),
               ),

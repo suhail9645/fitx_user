@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../../../data_layer/models/user_report/user_report.dart';
@@ -6,11 +5,8 @@ import '../../../constants/lists.dart';
 import 'circular_of_report.dart';
 
 class GoalPercentage extends StatelessWidget {
-  const GoalPercentage({
-    super.key,
-    required this.screenHeight,
-    required this.userReport
-  });
+  const GoalPercentage(
+      {super.key, required this.screenHeight, required this.userReport});
 
   final double screenHeight;
   final UserReport userReport;
@@ -24,8 +20,7 @@ class GoalPercentage extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: List.generate(3, (index) {
               List<String> num = [
                 '${userReport.thisweekCompletedExercise.toString()}/${userReport.exerciseGoal.toString()}',
@@ -33,19 +28,14 @@ class GoalPercentage extends StatelessWidget {
                 '${userReport.thisweekCompletedCategory.toString()}/${userReport.categoryGoal.toString()}'
               ];
               List<double> percentage = [
-                userReport.thisweekCompletedExercise /
-                    userReport.exerciseGoal,
-                userReport.thisweekCompletedCalorie /
-                    userReport.calorieGoal,
-                userReport.thisweekCompletedCategory /
-                    userReport.categoryGoal
+                userReport.thisweekCompletedExercise / userReport.exerciseGoal,
+                userReport.thisweekCompletedCalorie / userReport.calorieGoal,
+                userReport.thisweekCompletedCategory / userReport.categoryGoal
               ];
               return CircularOfReport(
                 title: names[index],
                 contant: num[index],
-                percentage: percentage[index] <= 1
-                    ? percentage[index]
-                    : 1,
+                percentage: percentage[index] <= 1 ? percentage[index] : 1,
               );
             })),
       ),

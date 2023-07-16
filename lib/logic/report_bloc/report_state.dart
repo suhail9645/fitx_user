@@ -10,7 +10,6 @@ class ReportInitialState extends ReportState {
   ReportInitialState({required this.userReport});
 }
 
-class ReportLoadingState extends ReportState{
-  
-}
-class ImageAddLoadingState extends ReportState{}
+class ReportLoadingState extends ReportState {}
+
+class ImageAddLoadingState extends ReportState {}

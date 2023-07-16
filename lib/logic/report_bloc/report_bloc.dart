@@ -24,7 +24,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
 
   FutureOr<void> reportInitialEvent(
       ReportInitialEvent event, Emitter<ReportState> emit) async {
-        emit(ReportLoadingState());
+    emit(ReportLoadingState());
     UserReport userReport = await UserReportRepo().getAllUserDetailes();
     emit(ReportInitialState(userReport: userReport));
   }
@@ -52,25 +52,26 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
     emit(ReportInitialState(userReport: userReport));
   }
 
-  FutureOr<void> addTransformationImage(AddTransformationImage event, Emitter<ReportState> emit)async {
-    final image =await ImagePicker().pickImage(source: ImageSource.camera);
-    if(image!=null){
+  FutureOr<void> addTransformationImage(
+      AddTransformationImage event, Emitter<ReportState> emit) async {
+    final image = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (image != null) {
       emit(ImageAddLoadingState());
-      final response=await UserImageRepo().addUserTransformationImage(File(image.path));
-      if(response.isRight){
-        UserReport userReport=event.userReport;
+      final response =
+          await UserImageRepo().addUserTransformationImage(File(image.path));
+      if (response.isRight) {
+        UserReport userReport = event.userReport;
         userReport.tImages.add(response.right);
         emit(ReportInitialState(userReport: userReport));
       }
     }
   }
 
-  FutureOr<void> deleteTransformationImage(DeleteTransformationImage event, Emitter<ReportState> emit)async {
+  FutureOr<void> deleteTransformationImage(
+      DeleteTransformationImage event, Emitter<ReportState> emit) async {
     UserImageRepo().transformationImageDelete(event.id);
-    UserReport userReport=event.userReport;
-    userReport.tImages=event.tImages;
+    UserReport userReport = event.userReport;
+    userReport.tImages = event.tImages;
     emit(ReportInitialState(userReport: userReport));
   }
-
-
 }

@@ -6,7 +6,6 @@ import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart'
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key, required this.user});
   final User user;
@@ -40,18 +39,22 @@ class ProfileScreen extends StatelessWidget {
                     child: CircleAvatar(
                       // radius: 65,
                       backgroundImage: user.profilePicture != null
-                          ? NetworkImage('http://10.4.4.26:8000${user.profilePicture}')
+                          ? NetworkImage(
+                              'http://10.4.4.26:8000${user.profilePicture}')
                           : null,
                     ),
                   ),
                   spaceforwidth10,
-                !user.isTrainer!?  ElevatedButtonWithIcon(
-                    text: 'Are You A Trainer',
-                    width: screenWidth * 0.23,
-                    onClicked: () {
-                      Navigator.pushNamed(context, 'TrainerAdd',arguments: user.profilePicture);
-                    },
-                  ):const SizedBox()
+                  !user.isTrainer!
+                      ? ElevatedButtonWithIcon(
+                          text: 'Are You A Trainer',
+                          width: screenWidth * 0.23,
+                          onClicked: () {
+                            Navigator.pushNamed(context, 'TrainerAdd',
+                                arguments: user.profilePicture);
+                          },
+                        )
+                      : const SizedBox()
                 ],
               ),
               spaceforHeight10,
@@ -82,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
               spaceforHeight20,
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, 'Premium');
+                  Navigator.pushNamed(context, 'Premium',arguments:user);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(8),
