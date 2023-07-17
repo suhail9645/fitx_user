@@ -83,6 +83,9 @@ class CategoryExerciseOperations {
           response = await http.post(Uri.parse('${baseUrl}exercise/completed/'),
               body: {'category_id': categoryId, 'exercise_id': exerciseId},
               headers: {'Authorization': 'Bearer ${newAccess.right}'});
+          if (response.statusCode == 200) {
+        return const Right(true);
+      }      
         }
       }
     } on Exception catch (e) {

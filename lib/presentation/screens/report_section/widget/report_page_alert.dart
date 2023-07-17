@@ -66,7 +66,9 @@ class ReportPageAlert extends StatelessWidget {
               ),
               spaceforHeight10,
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

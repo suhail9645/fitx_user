@@ -15,20 +15,16 @@ class FetchAllMessagesByTrainer extends MessageEvent {
 class TextMessageEvent extends MessageEvent {
   final WebSocketChannel channel;
   final String text;
-
-  TextMessageEvent({required this.channel, required this.text});
+  final int id;
+  TextMessageEvent({required this.channel, required this.text,required this.id});
 }
 
 class ImageMessageEvent extends MessageEvent {
   final WebSocketChannel channel;
-
+  final int id;
   ImageMessageEvent({
-    required this.channel,
+    required this.channel,required this.id
   });
 }
 
-class FileMessageEvent extends MessageEvent {
-  final WebSocketChannel channel;
-
-  FileMessageEvent({required this.channel});
-}
+class WastEvent extends MessageEvent{}

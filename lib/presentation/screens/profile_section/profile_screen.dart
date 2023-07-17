@@ -13,7 +13,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
-    double screenWidth = screenSize.height;
+   
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -48,7 +48,7 @@ class ProfileScreen extends StatelessWidget {
                   !user.isTrainer!
                       ? ElevatedButtonWithIcon(
                           text: 'Are You A Trainer',
-                          width: screenWidth * 0.23,
+                          width: screenHeight * 0.23,
                           onClicked: () {
                             Navigator.pushNamed(context, 'TrainerAdd',
                                 arguments: user.profilePicture);

@@ -16,6 +16,8 @@ class User extends Equatable {
   final dynamic gender;
   @JsonKey(name: 'is_trainer')
   final bool? isTrainer;
+  @JsonKey(name: 'is_premium')
+  final bool? isPremium;
   const User(
       {this.id,
       this.name,
@@ -24,7 +26,7 @@ class User extends Equatable {
       this.dateOfBirth,
       this.email,
       this.gender,
-      this.isTrainer});
+      this.isTrainer,this.isPremium});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

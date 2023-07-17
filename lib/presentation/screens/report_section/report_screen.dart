@@ -55,9 +55,9 @@ class ReportScreen extends StatelessWidget {
                                 onTap: () {
                                   BlocProvider.of<ReportBloc>(context).add(
                                       UpadateGoalEvent(
-                                          int.parse(categoryGoal.text),
-                                          int.parse(exerciseGoal.text),
-                                          int.parse(caloryGoal.text),
+                                          int.tryParse(categoryGoal.text),
+                                          int.tryParse(exerciseGoal.text),
+                                          int.tryParse(caloryGoal.text),
                                           state.userReport));
                                   Navigator.pop(ctx);
                                 },
@@ -105,8 +105,12 @@ class ReportScreen extends StatelessWidget {
                             series: <LineSeries<Weight, String>>[
                               LineSeries<Weight, String>(
                                   dataSource: state.userReport.allWeights,
-                                  xValueMapper: (datum, index) =>
-                                      datum.date.toString(),
+                                  xValueMapper: (datum, index) {
+                                    List<String>date=datum.date!.split('-');
+                                    
+                                  return '${date[1]}-${date[2]}';
+                                  },
+                                     
                                   yValueMapper: (datum, index) => datum.weight),
                             ]),
                         const Divider(),

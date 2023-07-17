@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   Column(
-                    children: List.generate(state.catgories.length, (index) {
+                    children: List.generate(state.catgories.length<10?state.catgories.length:10, (index) {
                       Category reversedCategory =
                           state.catgories[(state.catgories.length - 1) - index];
                       return BlocProvider<CategoryLikeCubit>(

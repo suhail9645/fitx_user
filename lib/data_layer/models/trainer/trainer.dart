@@ -1,7 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../user/user.dart';
 import 'certificate.dart';
-import 'user.dart';
+
 
 part 'trainer.g.dart';
 

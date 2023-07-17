@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     systemNavigationBarColor: Color.fromARGB(255, 27, 25, 25),
     statusBarColor: Colors.transparent,
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
   final AppRouter route = AppRouter();
   @override
   Widget build(BuildContext context) {
+      
     return BlocProvider(
       create: (context) => NetworkCubit()..observeNetwork(),
       child: MaterialApp(

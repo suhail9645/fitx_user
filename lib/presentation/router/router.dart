@@ -167,7 +167,7 @@ class AppRouter {
             return BlocProvider.value(
                 value: messageBloc,
                 child: MessageScreen(
-                  trainer: messageScreen.trainer,
+                  userOrTrainer: messageScreen.userOrTrainer,
                   channel: messageScreen.channel,
                 ));
           },

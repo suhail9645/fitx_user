@@ -40,7 +40,7 @@ class _RoutePageState extends State<RoutePage> {
       ),
       const ExplreScreen(),
       ReportScreen(),
-      const TrainerScreen()
+       TrainerScreen(user: user,)
     ];
     List<String> appBarTitles = [
       'Home',

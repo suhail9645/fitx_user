@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fitx_user/logic/premium_cubit/premium_cubit.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
@@ -7,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data_layer/models/user/user.dart';
 import '../../widget/rps_painter.dart';
-
+StreamController streamController = StreamController.broadcast();
 class PremiumScreen extends StatelessWidget {
   const PremiumScreen({super.key, required this.user});
   final User user;

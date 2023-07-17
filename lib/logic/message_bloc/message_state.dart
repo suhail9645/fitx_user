@@ -7,8 +7,8 @@ class MessageInitial extends MessageState {}
 class MessageInitialState extends MessageState {
   final WebSocketChannel channel;
   final List<Trainer>allTrainers;
-
-  MessageInitialState({required this.channel,required this.allTrainers});
+  final List<User>allUsers;
+  MessageInitialState({required this.channel,required this.allTrainers,required this.allUsers});
 }
 
 class AllMessagesWithTrainer extends MessageState{
@@ -16,3 +16,4 @@ class AllMessagesWithTrainer extends MessageState{
 
   AllMessagesWithTrainer({required this.allMessages});
 }
+class WastState extends MessageState{}

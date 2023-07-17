@@ -113,6 +113,7 @@ class ExercisePlayingScreen extends StatelessWidget {
                   children: [
                     TextButton.icon(
                       onPressed: () {
+                         BlocProvider.of<ReportBloc>(context).add(ReportInitialEvent());
                         Navigator.pop(context);
                       },
                       icon: const Icon(
