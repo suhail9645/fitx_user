@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fitx_user/data_layer/repositories/user_report_repo/user_add_repo.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data_layer/models/user/user.dart';
 part 'premium_state.dart';
@@ -13,6 +14,8 @@ class PremiumCubit extends Cubit<PremiumState> {
   void subscribeEvent(User user) async {
     Razorpay razorpay = Razorpay();
       UserAddToPrimeRepo().addUserPrime();
+      SharedPreferences shrd=await SharedPreferences.getInstance();
+      shrd.setBool('isPrime', true);
     var options = {
       'key': 'rzp_test_NrP2oHZNW6MhM2',
       'amount': 10000,

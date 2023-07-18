@@ -4,6 +4,7 @@ import 'package:fitx_user/presentation/screens/message_section/message_screen.da
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../data_layer/models/user/user.dart';
 import '../../../logic/message_bloc/message_bloc.dart';
 
@@ -20,10 +21,10 @@ class TrainerScreen extends StatelessWidget {
           builder: (context, state) {
             return BlocBuilder<MessageBloc, MessageState>(
               buildWhen: (previous, current) =>
-                  current is! AllMessagesWithTrainer && current is! WastState,
+                  current is! AllMessagesWithTrainer && current is! WastState &&current is !LoadedState &&current is !LoadingState ,
               builder: (context, state) {
                 if (state is MessageInitialState) {
-                  return SingleChildScrollView(
+                  return  SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Column(
@@ -32,13 +33,17 @@ class TrainerScreen extends StatelessWidget {
                             children: List.generate( state.allTrainers.length,
                                 (index) {
                               return InkWell(
-                                onTap: () {
-                                  if (user.isPremium!) {
+                                onTap: ()async {
+                                  SharedPreferences shrd=await SharedPreferences.getInstance();
+                                  
+                                  if (user.isPremium!||shrd.getBool('isPrime')!=null) {
+                                    // ignore: use_build_context_synchronously
                                     Navigator.pushNamed(context, 'Message',
                                         arguments: MessageScreen(
                                             userOrTrainer: state.allTrainers[index].user!,
                                             channel: state.channel));
                                   } else {
+                                     // ignore: use_build_context_synchronously
                                     showDialog(
                                       context: context,
                                       builder: (context) => AlertDialog(
@@ -118,7 +123,7 @@ class TrainerScreen extends StatelessWidget {
                               );
                             }),
                           ),
-                          Column(
+                        user.isTrainer!?  Column(
                             children:
                                 List.generate(state.allUsers.length, (index) {
                               return InkWell(
@@ -181,7 +186,7 @@ class TrainerScreen extends StatelessWidget {
                                 ),
                               );
                             }),
-                          )
+                          ):const  SizedBox()
                         ],
                       ),
                     ),

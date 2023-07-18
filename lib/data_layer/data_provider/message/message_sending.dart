@@ -61,6 +61,7 @@ class MessageSending {
                 "receiver_id": trainerId
               }
             }));
+             return const Right(true);
           }
         }
       }

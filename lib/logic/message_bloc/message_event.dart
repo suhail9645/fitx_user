@@ -22,8 +22,9 @@ class TextMessageEvent extends MessageEvent {
 class ImageMessageEvent extends MessageEvent {
   final WebSocketChannel channel;
   final int id;
+  final ImageSource source;
   ImageMessageEvent({
-    required this.channel,required this.id
+    required this.channel,required this.id,required this.source
   });
 }
 

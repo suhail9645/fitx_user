@@ -154,7 +154,7 @@ class ExerciseViewPage extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () async {
-                                await launchUrl(Uri.parse(url));
+                                await launchUrl(Uri.parse(category.exercises[index].videoLink??url));
                               },
                               child: const Text(
                                 'WATCH',

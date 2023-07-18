@@ -31,7 +31,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   Future<void> messageInitialEvent(MessageInitialEvent event, Emitter<MessageState> emit)async {
     SharedPreferences shrd=await SharedPreferences.getInstance();
     String access=shrd.getString('accessKey')!;
-    WebSocketChannel channel = WebSocketChannel.connect(Uri.parse('ws://192.168.43.130:8000/ws/messages/?token=$access'));
+    WebSocketChannel channel = WebSocketChannel.connect(Uri.parse('ws://10.4.4.26:8000/ws/messages/?token=$access'));
     streamController.addStream(channel.stream);
     final errorOrList=await GetAllTrainersRepo().getAllTrainer();
     final errorOrUserList=await GetAllMessagedUsersRepo().getAllMessagedUsers();
@@ -52,9 +52,11 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   }
   
   Future<void> imageMessageEvent(ImageMessageEvent event, Emitter<MessageState> emit)async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final image = await ImagePicker().pickImage(source: event.source);
     if(image!=null){
+      emit(LoadingState());
       await MessageSending().sendImagesAndFiles(event.id,File(image.path),event.channel);
+      emit(LoadedState());
     }
   }
   }

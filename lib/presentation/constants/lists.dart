@@ -74,7 +74,6 @@ final List<TextEditingController> goalControllers = [
 ];
 const List<String> goalHints = ['Exercise', 'Calory', 'Category'];
 const List<String> profileList = [
-  'Edit Profile',
   'Invite Friends',
   'Privacy Policy',
   'Contact Us',
@@ -84,3 +83,4 @@ final List<TextEditingController> controllerListOfTrainerAddSection = [
   trainerExperience
 ];
 final List<String> hintListOfTrainerAddSection = ['Phone Number', 'Experience'];
+const List<String> privacyPolicyList=['Your fullname','Your username','your images','your reports','your gmail'];

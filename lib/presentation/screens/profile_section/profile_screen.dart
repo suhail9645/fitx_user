@@ -5,15 +5,19 @@ import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key, required this.user});
   final User user;
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
-   
+    final Uri mail = Uri.parse('mailto:mspk9645@gmail.com');
+
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -41,7 +45,8 @@ class ProfileScreen extends StatelessWidget {
                       backgroundImage: user.profilePicture != null
                           ? NetworkImage(
                               'http://10.4.4.26:8000${user.profilePicture}')
-                          : null,
+                          : const NetworkImage(
+                              'https://static.vecteezy.com/system/resources/previews/005/544/718/original/profile-icon-design-free-vector.jpg'),
                     ),
                   ),
                   spaceforwidth10,
@@ -71,21 +76,32 @@ class ProfileScreen extends StatelessWidget {
               Column(
                 children: List.generate(
                   profileList.length,
-                  (index) => ListTile(
-                    title: Text(profileList[index]),
-                    trailing: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.arrow_right_outlined,
-                          size: 35,
-                        )),
+                  (index) => InkWell(
+                    onTap: () {
+                      if(index==0){
+                            Share.share('com.example.FitX');
+                      }else if(index==2){
+                        launchUrl(mail);
+                      }else if(index==1){
+                       Navigator.pushNamed(context, 'Privacy Policy'); 
+                      }
+                    },
+                    child: ListTile(
+                      title: Text(profileList[index]),
+                      trailing: IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.arrow_right_outlined,
+                            size: 35,
+                          )),
+                    ),
                   ),
                 ),
               ),
               spaceforHeight20,
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, 'Premium',arguments:user);
+                  Navigator.pushNamed(context, 'Premium', arguments: user);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(8),

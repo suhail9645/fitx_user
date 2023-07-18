@@ -17,6 +17,7 @@ import 'package:fitx_user/presentation/screens/exercise_playing_section/exercise
 import 'package:fitx_user/presentation/screens/journey_view_section/journey_view.dart';
 import 'package:fitx_user/presentation/screens/message_section/message_screen.dart';
 import 'package:fitx_user/presentation/screens/premium_section/premium_screen.dart';
+import 'package:fitx_user/presentation/screens/profile_section/widget/privacy_policy.dart';
 import 'package:fitx_user/presentation/screens/ready_to_go_section/ready_to_go.dart';
 import 'package:fitx_user/presentation/screens/rest_section/rest_screen.dart';
 import 'package:fitx_user/presentation/screens/route_section/route.dart';
@@ -25,7 +26,6 @@ import 'package:fitx_user/presentation/screens/trainer_add_section/trainer_add_s
 import 'package:fitx_user/presentation/screens/welcome_section/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 import '../screens/profile_section/profile_screen.dart';
 
 class AppRouter {
@@ -38,7 +38,7 @@ class AppRouter {
   final ReportBloc reportBloc = ReportBloc();
   final TrainerBloc trainerBloc = TrainerBloc();
   final JourneyDateCubit journeyDateCubit = JourneyDateCubit();
-  final MessageBloc messageBloc = MessageBloc()..add(MessageInitialEvent());
+  final MessageBloc messageBloc = MessageBloc();
   final PremiumCubit premiumCubit = PremiumCubit();
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -183,6 +183,13 @@ class AppRouter {
             ),
           );
         });
+         case 'Privacy Policy':
+        return MaterialPageRoute(
+          builder: (context) {
+           
+            return const TermsPage();
+          },
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => const SizedBox(),
