@@ -5,7 +5,8 @@ import 'package:fitx_user/data_layer/models/error/error_model.dart';
 class UserWeitghtAddRepo {
   Future<Either<ErrorModel, bool>> addUserWeight(double weight) async {
     try {
-      final response = await UserReportAddOperations().addUserWeights(weight);
+      final response =
+          await UserReportAddOperations().addUserWeights(weight);
       if (response.isRight) {
         return const Right(true);
       }

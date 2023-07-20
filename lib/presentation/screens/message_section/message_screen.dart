@@ -1,16 +1,15 @@
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fitx_user/data_layer/models/message_result/message.dart';
 import 'package:fitx_user/data_layer/models/user/user.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
-import 'package:fitx_user/presentation/constants/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import '../../../data_layer/models/message_result/message.dart';
 import '../../../logic/message_bloc/message_bloc.dart';
 import '../../constants/sized_box.dart';
-import '../premium_section/premium_screen.dart';
+
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen(

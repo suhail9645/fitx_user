@@ -3,7 +3,6 @@ import 'package:fitx_user/logic/certificate_cubit/certificate_cubit.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/lists.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
-import 'package:fitx_user/presentation/screens/login_and_register/widget/loading_elevated_button.dart';
 import 'package:fitx_user/presentation/screens/trainer_add_section/widget/file_add_row.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:fitx_user/presentation/widget/text_form_field.dart';
@@ -115,56 +114,39 @@ class TrainerAddScreen extends StatelessWidget {
                   builder: (context, state) {
                     final certificateState = state as CertificateInitial;
                     certificates = certificateState.certificates;
-                    return AddCertificateRow(
-                        certificates: certificateState.certificates,
-                        screenHeight: screenHeight);
+                    return AddCertificateRow(certificates: certificateState.certificates, screenHeight: screenHeight);
                   },
                 ),
               ),
             ),
             spaceforHeight20,
             BlocConsumer<TrainerBloc, TrainerState>(
-              listener: (context, state) {
-                if (state is TrainerApplyError) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(state.error)));
-                } else if (state is TrainerApplySuccessfull) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('You Successfully applied'),
-                    ),
-                  );
-                }
-              },
+              listener: (context, state) {},
               builder: (context, state) {
-                if (state is! TrainerApplyLoading) {
-                  return ElevatedButtonWithIcon(
-                    width: screenWidth * 0.70,
-                    text: 'Apply',
-                    onClicked: () {
-                      if (_formKey.currentState!.validate() &&
-                          certificates.isNotEmpty &&
-                          profileUrl != null) {
-                        BlocProvider.of<TrainerBloc>(context)
-                            .add(TrainerApplyEvent(certificates: certificates));
-                      } else if (certificates.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Please add atleast one certificate'),
-                          ),
-                        );
-                      } else if (profileUrl == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Please add Your profile picture'),
-                          ),
-                        );
-                      }
-                    },
-                  );
-                } else {
-                  return const LoadingElevatedButtton();
-                }
+                return ElevatedButtonWithIcon(
+                  width: screenWidth * 0.70,
+                  text: 'Apply',
+                  onClicked: () {
+                    if (_formKey.currentState!.validate() &&
+                        certificates.isNotEmpty &&
+                        profileUrl != null) {
+                      BlocProvider.of<TrainerBloc>(context)
+                          .add(TrainerApplyEvent(certificates: certificates));
+                    } else if (certificates.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please add atleast one certificate'),
+                        ),
+                      );
+                    } else if (profileUrl == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please add Your profile picture'),
+                        ),
+                      );
+                    }
+                  },
+                );
               },
             )
           ],
@@ -173,3 +155,4 @@ class TrainerAddScreen extends StatelessWidget {
     );
   }
 }
+

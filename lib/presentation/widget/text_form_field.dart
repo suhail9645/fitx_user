@@ -46,11 +46,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           }
         },
         obscureText: isVisible,
-        maxLength: widget.hint == 'Full name' || widget.hint == 'Password'
-            ? 12
-            : widget.hint == 'Phone Number'
-                ? 10
-                : null,
+        maxLength:
+            widget.hint == 'Full name' || widget.hint == 'Password' ? 12 :widget.hint=='Phone Number'?10:null,
         decoration: InputDecoration(
           suffixIcon: widget.hint == 'Password'
               ? IconButton(
@@ -85,19 +82,22 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             if (DateTime.tryParse(value) == null) {
               return 'not formated';
             }
-          } else if (widget.hint == 'Phone Number') {
+          }
+          else if (widget.hint == 'Phone Number') {
             if (int.tryParse(value) == null) {
               return 'Please enter only numbers';
-            } else if (value.length < 10) {
+            }else if(value.length<10){
               return 'Phone number not valid';
-            } else if (widget.hint == 'Phone Number') {
-              if (double.tryParse(value) == null) {
-                return 'Please enter years formate (ex:2.5)';
-              }
             }
-            return null;
+              else if (widget.hint == 'Phone Number') {
+            if (double.tryParse(value) == null) {
+              return 'Please enter years formate (ex:2.5)';
+            }
+          }
+          return null;
           }
         },
+        
       ),
     );
   }

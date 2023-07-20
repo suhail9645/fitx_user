@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:fitx_user/data_layer/data_provider/category/category_like_dislike.dart';
 
 part 'category_like_state.dart';

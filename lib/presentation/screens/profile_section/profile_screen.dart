@@ -5,9 +5,8 @@ import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key, required this.user});
   final User user;
@@ -16,6 +15,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
+     double screenWidth = screenSize.height;
     final Uri mail = Uri.parse('mailto:mspk9645@gmail.com');
 
     return Scaffold(
@@ -45,15 +45,14 @@ class ProfileScreen extends StatelessWidget {
                       backgroundImage: user.profilePicture != null
                           ? NetworkImage(
                               'http://10.4.4.26:8000${user.profilePicture}')
-                          : const NetworkImage(
-                              'https://static.vecteezy.com/system/resources/previews/005/544/718/original/profile-icon-design-free-vector.jpg'),
+                          : null,
                     ),
                   ),
                   spaceforwidth10,
                   !user.isTrainer!
                       ? ElevatedButtonWithIcon(
                           text: 'Are You A Trainer',
-                          width: screenHeight * 0.23,
+                          width: screenWidth * 0.23,
                           onClicked: () {
                             Navigator.pushNamed(context, 'TrainerAdd',
                                 arguments: user.profilePicture);
@@ -101,7 +100,7 @@ class ProfileScreen extends StatelessWidget {
               spaceforHeight20,
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, 'Premium', arguments: user);
+                  Navigator.pushNamed(context, 'Premium',arguments:user);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(8),

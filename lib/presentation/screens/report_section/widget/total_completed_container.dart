@@ -5,8 +5,10 @@ import '../../../constants/colors.dart';
 import '../../../constants/lists.dart';
 
 class TotalCompletedContainer extends StatelessWidget {
-  const TotalCompletedContainer(
-      {super.key, required this.screenHeight, required this.userReport});
+  const TotalCompletedContainer({
+    super.key,
+    required this.screenHeight,required this.userReport
+  });
 
   final double screenHeight;
   final UserReport userReport;
@@ -29,7 +31,8 @@ class TotalCompletedContainer extends StatelessWidget {
               userReport.allCompletedCategory
             ];
             return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment:
+                  MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
                   num[index].toString(),

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 
 part 'certificate_state.dart';
 

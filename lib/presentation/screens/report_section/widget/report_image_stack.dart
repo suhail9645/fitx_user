@@ -132,7 +132,7 @@ class DownloadsImageWidget extends StatelessWidget {
             ),
           ),
         ),
-        placeholder: (context, url) => const CircularProgressIndicator(),
+        placeholder: (context, url) =>const CircularProgressIndicator(),
         errorWidget: (context, url, error) => Container(
           margin: margin,
           width: size.width,

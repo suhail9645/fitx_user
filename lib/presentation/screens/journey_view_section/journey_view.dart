@@ -15,6 +15,7 @@ class JourneyViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     
     PageController controller = PageController();
     Size size = MediaQuery.of(context).size;
     double screenWidth = size.width;
@@ -35,7 +36,7 @@ class JourneyViewScreen extends StatelessWidget {
         if (state is ReportInitialState) {
           List<TImage> tImages = state.userReport.tImages;
           BlocProvider.of<JourneyDateCubit>(context)
-              .onChanged(tImages.length - 1);
+                          .onChanged(tImages.length-1);
           return Scaffold(
             extendBodyBehindAppBar: true,
             appBar: AppBar(
@@ -57,13 +58,13 @@ class JourneyViewScreen extends StatelessWidget {
                                           const Duration(milliseconds: 100),
                                       curve: Curves.bounceIn);
                                 }
-                                //                 if (imageIndex.toInt() == 0) {
-                                //                   BlocProvider.of<JourneyDateCubit>(context)
-                                //                       .onChanged(1);
-                                //                 }else{
-                                //                    BlocProvider.of<JourneyDateCubit>(context)
-                                // .onChanged(controller.page!.toInt());
-                                //                 }
+                //                 if (imageIndex.toInt() == 0) {
+                //                   BlocProvider.of<JourneyDateCubit>(context)
+                //                       .onChanged(1);
+                //                 }else{
+                //                    BlocProvider.of<JourneyDateCubit>(context)
+                // .onChanged(controller.page!.toInt());
+                //                 }
                                 tImages.removeAt(
                                     (tImages.length - 1) - imageIndex.toInt());
                                 BlocProvider.of<ReportBloc>(context).add(
@@ -143,47 +144,43 @@ class JourneyViewScreen extends StatelessWidget {
                   alignment: const Alignment(0, 0.89),
                   child: BlocBuilder<JourneyDateCubit, int>(
                     builder: (context, state) {
-                      if (state < tImages.length) {
-                        String date = tImages[state].date!.split('T').first;
-                        String time = tImages[state]
-                            .date!
-                            .split('T')
-                            .last
-                            .split('.')
-                            .first;
-                        return Container(
-                          width: screenWidth * 0.85,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(150, 0, 0, 0),
-                            borderRadius: BorderRadius.circular(6),
+                      if(state <tImages.length){
+                      String date = tImages[state].date!.split('T').first;
+                      String time =
+                          tImages[state].date!.split('T').last.split('.').first;
+                      return Container(
+                        width: screenWidth * 0.85,
+                        height: 55,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(150, 0, 0, 0),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                date,
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                time,
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: primaryColor),
+                              ),
+                            ],
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  date,
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  time,
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: primaryColor),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      } else {
+                        ),
+                      );
+                      }else{
                         return const SizedBox();
                       }
                     },
+                  
                   ),
                 )
               ],

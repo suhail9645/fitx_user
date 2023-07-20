@@ -1,5 +1,6 @@
 import 'package:fitx_user/presentation/constants/lists.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
+import 'package:fitx_user/presentation/screens/login_and_register/widget/register_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../../widget/elevated_button_without_icon.dart';

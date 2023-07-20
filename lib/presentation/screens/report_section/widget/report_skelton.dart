@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -47,7 +48,8 @@ class ReportSkelton extends StatelessWidget {
                 3,
                 (index) => CircleAvatar(
                       radius: 38.0,
-                      backgroundColor: Colors.black.withOpacity(0.3),
+                      backgroundColor:
+                          Colors.black.withOpacity(0.3),
                     )),
           ),
           spaceforHeight20,
@@ -67,7 +69,7 @@ class ReportSkelton extends StatelessWidget {
           ),
           spaceforHeight20,
           Container(
-            height: screenHeight * 0.40,
+            height: screenHeight*0.40,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.3),
               borderRadius: BorderRadius.circular(8),

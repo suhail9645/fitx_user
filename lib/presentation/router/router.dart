@@ -1,13 +1,10 @@
 import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
-import 'package:fitx_user/data_layer/models/trainer/trainer.dart';
 import 'package:fitx_user/data_layer/models/user/user.dart';
 import 'package:fitx_user/logic/bottem_nav_cubit/bottem_navbar_cubit.dart';
 import 'package:fitx_user/logic/category_bloc/category_bloc.dart';
 import 'package:fitx_user/logic/certificate_cubit/certificate_cubit.dart';
 import 'package:fitx_user/logic/image_cubit/image_cubit.dart';
 import 'package:fitx_user/logic/journey_date_cubit/journey_date.dart';
-import 'package:fitx_user/logic/message_bloc/message_bloc.dart';
-import 'package:fitx_user/logic/premium_cubit/premium_cubit.dart';
 import 'package:fitx_user/logic/report_bloc/report_bloc.dart';
 import 'package:fitx_user/logic/timer_cubit/timer_cubit.dart';
 import 'package:fitx_user/logic/trainer_bloc/trainer_bloc.dart';
@@ -15,7 +12,6 @@ import 'package:fitx_user/logic/user_auth_bloc/auth_bloc.dart';
 import 'package:fitx_user/presentation/screens/exercise_list_section/exercis_list.dart';
 import 'package:fitx_user/presentation/screens/exercise_playing_section/exercise_playing_screen.dart';
 import 'package:fitx_user/presentation/screens/journey_view_section/journey_view.dart';
-import 'package:fitx_user/presentation/screens/message_section/message_screen.dart';
 import 'package:fitx_user/presentation/screens/premium_section/premium_screen.dart';
 import 'package:fitx_user/presentation/screens/profile_section/widget/privacy_policy.dart';
 import 'package:fitx_user/presentation/screens/ready_to_go_section/ready_to_go.dart';
@@ -26,6 +22,9 @@ import 'package:fitx_user/presentation/screens/trainer_add_section/trainer_add_s
 import 'package:fitx_user/presentation/screens/welcome_section/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../logic/message_bloc/message_bloc.dart';
+import '../../logic/premium_cubit/premium_cubit.dart';
+import '../screens/message_section/message_screen.dart';
 import '../screens/profile_section/profile_screen.dart';
 
 class AppRouter {
@@ -38,7 +37,7 @@ class AppRouter {
   final ReportBloc reportBloc = ReportBloc();
   final TrainerBloc trainerBloc = TrainerBloc();
   final JourneyDateCubit journeyDateCubit = JourneyDateCubit();
-  final MessageBloc messageBloc = MessageBloc();
+  final MessageBloc messageBloc = MessageBloc()..add(MessageInitialEvent());
   final PremiumCubit premiumCubit = PremiumCubit();
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -64,8 +63,7 @@ class AppRouter {
             providers: [
               BlocProvider.value(value: bottemNavbarCubit),
               BlocProvider.value(value: categoryBloc),
-              BlocProvider.value(value: reportBloc),
-              BlocProvider.value(value: messageBloc)
+              BlocProvider.value(value: reportBloc)
             ],
             child: RoutePage(
               userData: userData,
@@ -162,34 +160,25 @@ class AppRouter {
       case 'Message':
         return MaterialPageRoute(
           builder: (context) {
-            MessageScreen messageScreen = routeSettings.arguments as MessageScreen;
-            
+            MessageScreen messageScreen =
+                routeSettings.arguments as MessageScreen;
+
             return BlocProvider.value(
                 value: messageBloc,
                 child: MessageScreen(
-                  userOrTrainer: messageScreen.userOrTrainer,
                   channel: messageScreen.channel,
+                  userOrTrainer: messageScreen.userOrTrainer,
                 ));
           },
         );
 
       case 'Premium':
         return MaterialPageRoute(builder: (context) {
-          User user = routeSettings.arguments as User;
           return BlocProvider.value(
             value: premiumCubit,
-            child: PremiumScreen(
-              user: user,
-            ),
+            child: const PremiumScreen(),
           );
         });
-         case 'Privacy Policy':
-        return MaterialPageRoute(
-          builder: (context) {
-           
-            return const TermsPage();
-          },
-        );
       default:
         return MaterialPageRoute(
           builder: (_) => const SizedBox(),

@@ -66,26 +66,23 @@ class UserReportAddOperations {
     return Left(ErrorModel('session Expired'));
   }
 
-  Future<Either<ErrorModel, Response>> addTransformationImage(
-      File image) async {
+  Future<Either<ErrorModel, Response>> addTransformationImage(File image) async {
     try {
       SharedPreferences shrd = await SharedPreferences.getInstance();
       String access = shrd.getString('accessKey')!;
-      StreamedResponse streamedResponse =
-          await transformationImageAddHelper(image, access);
-
+      StreamedResponse streamedResponse=await transformationImageAddHelper(image, access);
+     
       if (streamedResponse.statusCode == 201) {
         Response response = await http.Response.fromStream(streamedResponse);
-        return Right(response);
+        return  Right(response);
       } else if (streamedResponse.statusCode == 401) {
         final newAccess = await GetNewAccessKey.getNewAccessKey();
         if (newAccess.isRight) {
           access = newAccess.right;
-          streamedResponse = await transformationImageAddHelper(image, access);
+          streamedResponse =await transformationImageAddHelper(image, access);
           if (streamedResponse.statusCode == 201) {
-            Response response =
-                await http.Response.fromStream(streamedResponse);
-            return Right(response);
+               Response response = await http.Response.fromStream(streamedResponse);
+            return  Right(response);
           }
         }
       }
@@ -95,13 +92,12 @@ class UserReportAddOperations {
     return Left(ErrorModel('session Expired'));
   }
 
-  Future<StreamedResponse> transformationImageAddHelper(
-      File image, String access) async {
-    final request = http.MultipartRequest(
+  Future<StreamedResponse>transformationImageAddHelper(File image,String access)async{
+         final request = http.MultipartRequest(
       'POST',
-      Uri.parse(baseUrl + transformationImageEndPoint),
+      Uri.parse(baseUrl+transformationImageEndPoint),
     );
-    request.headers.addAll({
+      request.headers.addAll({
       'Authorization': 'Bearer $access',
       'Content-type': 'multipart/form-data'
     });

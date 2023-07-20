@@ -15,21 +15,21 @@ class TImageDeleteOperation {
           .delete(Uri.parse('${baseUrl}transformation/delete/$id/'), headers: {
         'Authorization': 'Bearer $access',
       });
-      if (response.statusCode == 204) {
-        return const Right(true);
-      } else if (response.statusCode == 401) {
-        final newAccess = await GetNewAccessKey.getNewAccessKey();
-        if (newAccess.isRight) {
-          response = await http.delete(
-              Uri.parse('${baseUrl}transformation/delete/$id/'),
-              headers: {
-                'Authorization': 'Bearer ${newAccess.right}',
-              });
-          if (response.statusCode == 204) {
-            return const Right(true);
-          }
-        }
+    if(response.statusCode==204){
+      return const Right(true);
+    }
+    else if(response.statusCode==401){
+      final newAccess=await GetNewAccessKey.getNewAccessKey();
+      if(newAccess.isRight){
+        response = await http
+          .delete(Uri.parse('${baseUrl}transformation/delete/$id/'), headers: {
+        'Authorization': 'Bearer ${newAccess.right}',
+      });
+      if(response.statusCode==204){
+       return const Right(true);
       }
+      }
+    }
     } catch (e) {
       return Left(ErrorModel(e.toString()));
     }
