@@ -14,7 +14,7 @@ Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
       music: json['music'] as String?,
       exercisesCount: json['exercises_count'] as int?,
       likes: json['likes'] as int?,
-    )..isLiked = json['isLiked'] as bool;
+    );
 
 Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
       'id': instance.id,

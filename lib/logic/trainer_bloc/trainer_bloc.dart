@@ -11,13 +11,15 @@ class TrainerBloc extends Bloc<TrainerEvent, TrainerState> {
     on<TrainerApplyEvent>(trainerApplyEvent);
   }
 
-  FutureOr<void> trainerApplyEvent(TrainerApplyEvent event, Emitter<TrainerState> emit)async {
-   emit(TrainerApplyLoading());
-   final boolOrError=await TrainerApplyRepo().applyTrianer(event.certificates);
-   if(boolOrError.isRight){
-    emit(TrainerApplySuccessfull());
-   }else{
-    emit(TrainerApplyError(error: boolOrError.left.error));
-   }
+  FutureOr<void> trainerApplyEvent(
+      TrainerApplyEvent event, Emitter<TrainerState> emit) async {
+    emit(TrainerApplyLoading());
+    final boolOrError =
+        await TrainerApplyRepo().applyTrianer(event.certificates);
+    if (boolOrError.isRight) {
+      emit(TrainerApplySuccessfull());
+    } else {
+      emit(TrainerApplyError(error: boolOrError.left.error));
+    }
   }
 }

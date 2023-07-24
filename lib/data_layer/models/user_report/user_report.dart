@@ -12,7 +12,7 @@ class UserReport {
   int exerciseGoal;
   int categoryGoal;
   int calorieGoal;
-  List<TImage>tImages;
+  List<TImage> tImages;
   UserReport(
       this.allCompletedCategory,
       this.allCompletedExercise,

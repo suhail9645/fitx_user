@@ -1,7 +1,6 @@
-import 'package:fitx_user/data_layer/models/user/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-
+import '../user/user.dart';
 import 'certificate.dart';
 
 

@@ -2,20 +2,19 @@ import 'dart:async';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:fitx_user/data_layer/data_provider/message/message_sending.dart';
-import 'package:fitx_user/data_layer/models/trainer_data/trainer.dart';
+import 'package:fitx_user/data_layer/models/message_result/message.dart';
+import 'package:fitx_user/data_layer/models/trainer/trainer.dart';
+import 'package:fitx_user/data_layer/repositories/message_repo/message_operation_repo.dart';
 import 'package:fitx_user/data_layer/repositories/trainer_repo/get_all_trainers.dart';
 import 'package:fitx_user/data_layer/repositories/user_report_repo/get_messaged_users.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import '../../data_layer/models/message_result/message.dart';
 import '../../data_layer/models/user/user.dart';
-import '../../data_layer/repositories/message_repo/message_operation_repo.dart';
-
-
+import '../../presentation/screens/premium_section/premium_screen.dart';
 part 'message_event.dart';
 part 'message_state.dart';
-StreamController streamController = StreamController.broadcast();
+
 class MessageBloc extends Bloc<MessageEvent, MessageState> {
   MessageBloc() : super(MessageInitial()) {
    on<MessageInitialEvent>(messageInitialEvent);
@@ -49,11 +48,9 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   }
   
   Future<void> imageMessageEvent(ImageMessageEvent event, Emitter<MessageState> emit)async {
-    final image = await ImagePicker().pickImage(source: event.source);
+    final image = await ImagePicker().pickImage(source:event.source);
     if(image!=null){
-      emit(LoadingState());
       await MessageSending().sendImagesAndFiles(event.id,File(image.path),event.channel);
-      emit(LoadedState());
     }
   }
   }

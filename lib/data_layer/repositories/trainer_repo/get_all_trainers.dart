@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:either_dart/either.dart';
+import 'package:fitx_user/data_layer/models/trainer/trainer.dart';
 import 'package:http/http.dart';
 import '../../../presentation/constants/strings.dart';
 import '../../data_provider/message/message_operations.dart';
 import '../../models/error/error_model.dart';
-import '../../models/trainer_data/trainer.dart';
 
 class GetAllTrainersRepo{
   Future<Either<ErrorModel, List<Trainer>>> getAllTrainer(

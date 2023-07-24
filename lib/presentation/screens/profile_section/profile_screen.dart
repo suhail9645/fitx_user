@@ -4,19 +4,18 @@ import 'package:fitx_user/presentation/constants/lists.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key, required this.user});
   final User user;
-
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
-     double screenWidth = screenSize.height;
-    final Uri mail = Uri.parse('mailto:mspk9645@gmail.com');
+     final Uri mail = Uri.parse('mailto:mspk9645@gmail.com');
 
     return Scaffold(
       appBar: AppBar(),
@@ -52,7 +51,7 @@ class ProfileScreen extends StatelessWidget {
                   !user.isTrainer!
                       ? ElevatedButtonWithIcon(
                           text: 'Are You A Trainer',
-                          width: screenWidth * 0.23,
+                          width: screenHeight * 0.23,
                           onClicked: () {
                             Navigator.pushNamed(context, 'TrainerAdd',
                                 arguments: user.profilePicture);
@@ -74,26 +73,23 @@ class ProfileScreen extends StatelessWidget {
               spaceforHeight10,
               Column(
                 children: List.generate(
-                  profileList.length,
-                  (index) => InkWell(
-                    onTap: () {
-                      if(index==0){
-                            Share.share('com.example.FitX');
+                  privacyPolicyList.length,
+                  (index) => ListTile(
+                    title: Text(privacyPolicyList[index]),
+                    trailing: IconButton(
+                        onPressed: () {
+                            if(index==0){
+                            Share.share('com.MSPK.FitX');
                       }else if(index==2){
                         launchUrl(mail);
                       }else if(index==1){
                        Navigator.pushNamed(context, 'Privacy Policy'); 
                       }
-                    },
-                    child: ListTile(
-                      title: Text(profileList[index]),
-                      trailing: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.arrow_right_outlined,
-                            size: 35,
-                          )),
-                    ),
+                        },
+                        icon: const Icon(
+                          Icons.arrow_right_outlined,
+                          size: 35,
+                        )),
                   ),
                 ),
               ),

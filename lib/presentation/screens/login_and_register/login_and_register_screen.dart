@@ -1,5 +1,4 @@
 import 'package:fitx_user/presentation/constants/colors.dart';
-import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:fitx_user/presentation/screens/login_and_register/widget/login_page.dart';
 import 'package:fitx_user/presentation/screens/login_and_register/widget/register_page.dart';
 import 'package:flutter/material.dart';

@@ -16,7 +16,6 @@ class DetailesBottemSheet extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    List<String>focusedAreas=category.exercises[index].focusedArea!.split(',');
     return SizedBox(
       height: screenHeight / 1.2,
       child: SingleChildScrollView(
@@ -57,8 +56,8 @@ class DetailesBottemSheet extends StatelessWidget {
                     ],
                   ),
                   spaceforHeight10,
-                   Text(
-                  category.exercises[index].description! ,
+                  const Text(
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                     textAlign: TextAlign.start,
                   ),
                   const Text(
@@ -67,15 +66,15 @@ class DetailesBottemSheet extends StatelessWidget {
                   ),
                   Column(
                     children: List.generate(
-                        focusedAreas.length~/2,
-                        (index1) => Row(
+                        3,
+                        (index) => Row(
                               children: List.generate(
                                   2,
-                                  (index) =>  Expanded(
+                                  (index) => const Expanded(
                                         flex: 1,
                                         child: ListTile(
-                                          title: Text(focusedAreas[index1+index]),
-                                          leading:const Icon(
+                                          title: Text('bicesps'),
+                                          leading: Icon(
                                             Icons.circle,
                                             size: 18,
                                             color: primaryColor,

@@ -14,8 +14,8 @@ class PremiumCubit extends Cubit<PremiumState> {
   void subscribeEvent(User user) async {
     Razorpay razorpay = Razorpay();
       UserAddToPrimeRepo().addUserPrime();
-      SharedPreferences shrd=await SharedPreferences.getInstance();
-      shrd.setBool('isPrime', true);
+    SharedPreferences shrd=await SharedPreferences.getInstance();
+    shrd.setBool('isPrime', true);
     var options = {
       'key': 'rzp_test_NrP2oHZNW6MhM2',
       'amount': 10000,

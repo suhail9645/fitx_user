@@ -1,6 +1,5 @@
 import 'package:fitx_user/data_layer/models/category/category_page/result.dart';
 import 'package:fitx_user/logic/category_bloc/category_bloc.dart';
-import 'package:fitx_user/logic/message_bloc/message_bloc.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    BlocProvider.of<MessageBloc>(context).add(MessageInitialEvent());
     double screenHeight = screenSize.height;
     return BlocConsumer<CategoryBloc, CategoryState>(
       listener: (context, state) {

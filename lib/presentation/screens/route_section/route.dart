@@ -87,7 +87,6 @@ class _RoutePageState extends State<RoutePage> {
                           if (state) {
                             Navigator.pop(context);
                           }
-                        
                         },
                         child: const Text('Try again'))
                   ],
