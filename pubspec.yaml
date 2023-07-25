@@ -64,6 +64,7 @@ flutter_native_splash:
   web: false
   # color: "#ffffff"
   background_image: assets/splash.jpg
+  branding: assets/logo.png
   # image: assets/workout_man.jpg
 dev_dependencies:
   build_runner: ^2.4.5

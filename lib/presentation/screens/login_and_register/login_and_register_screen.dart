@@ -24,12 +24,17 @@ class LoginAndRegister extends StatelessWidget {
             height: 50,
             child: Column(
               children: [
-                const Row(
+                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Text(
-                      'Login',
-                      style: textStyle,
+                    GestureDetector(
+                      onTap: () {
+                        pageController.jumpToPage(1);
+                      },
+                      child: Text(
+                        'Login',
+                        style: textStyle,
+                      ),
                     ),
                     Text(
                       'Signup',
