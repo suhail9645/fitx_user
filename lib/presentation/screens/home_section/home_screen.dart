@@ -53,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           );
+          
         }
       },
       builder: (context, state) {
@@ -110,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           state.catgories[(state.catgories.length - 1) - index];
                       return BlocProvider<CategoryLikeCubit>(
                         create: (context) => CategoryLikeCubit()
-                          ..onLikeAndUnlike(null, reversedCategory.isLiked,
+                          ..onLikeAndUnlike(null, reversedCategory,
                               reversedCategory.likes!),
                         child: CategoryContainer(
                             homeContext: context,

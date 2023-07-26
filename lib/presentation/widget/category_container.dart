@@ -64,7 +64,7 @@ class CategoryContainer extends StatelessWidget {
                             onPressed: () {
                               category.isLiked=true;
                               BlocProvider.of<CategoryLikeCubit>(context)
-                                  .onLikeAndUnlike(category.id, state.isLiked,
+                                  .onLikeAndUnlike(category.id, state.category,
                                       state.likeCount);
                             },
                             icon: AnimatedSwitcher(
@@ -76,7 +76,7 @@ class CategoryContainer extends StatelessWidget {
                                       child: ScaleTransition(
                                           scale: anim, child: child),
                                     ),
-                                child: state.isLiked
+                                child: state.category.isLiked
                                     ? const Icon(Icons.thumb_down,
                                         key: ValueKey('icon1'))
                                     : const Icon(

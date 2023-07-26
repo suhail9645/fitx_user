@@ -5,8 +5,8 @@ abstract class CategoryLikeState {}
 class CategoryLikeInitial extends CategoryLikeState {}
 
 class CategoryLikeUnlikeState extends CategoryLikeState {
-  final bool isLiked;
+  final Category category;
   final int likeCount;
 
-  CategoryLikeUnlikeState({required this.isLiked, required this.likeCount});
+  CategoryLikeUnlikeState({required this.category, required this.likeCount});
 }

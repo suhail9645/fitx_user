@@ -68,7 +68,7 @@ class ExplreScreen extends StatelessWidget {
                                       create: (context) => CategoryLikeCubit()
                                         ..onLikeAndUnlike(
                                             null,
-                                            state.catgories[index].isLiked,
+                                            state.catgories[index],
                                             state.catgories[index].likes!),
                                       child: CategoryContainer(
                                           screenHeight: screenHeight,
@@ -109,7 +109,7 @@ class ExploreMostLIkedCategories extends StatelessWidget {
           (index) => BlocProvider<CategoryLikeCubit>(
             create: (context) => CategoryLikeCubit()
               ..onLikeAndUnlike(
-                  null, sortedCategories[index].isLiked, sortedCategories[index].likes!),
+                  null, sortedCategories[index], sortedCategories[index].likes!),
             child: InkWell(
               onTap: () {
                  Navigator.pushNamed(context, 'ExerciseView', arguments: sortedCategories[index]);
@@ -153,7 +153,7 @@ class ExploreMostLIkedCategories extends StatelessWidget {
                                       onPressed: () {},
                                       icon: Icon(
                                         Icons.favorite,
-                                        color: state.isLiked
+                                        color: state.category.isLiked
                                             ? Colors.red
                                             : Colors.white,
                                       ))

@@ -20,7 +20,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   late bool isVisible;
   @override
   void initState() {
-    isVisible = true;
+    isVisible =widget.hint=='Password'? true:false;
  
     super.initState();
   }
