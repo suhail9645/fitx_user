@@ -32,16 +32,16 @@ Fitx is a fitness training app build with flutter framework.there have lot of ca
 **Available for Android.**
 
 <p align="center">
-  <img src = "http://i.imgur.com/HowF6aM.png" width=350>
+  <img src = "https://github.com/suhail9645/fitx_user/blob/main/assets/feature.jpg" width=350>
 </p>
 
 ## Features
 
 A few of the things you can do with GitPoint:
 
-* View user activity feed
-* Communicate on your issue and pull request conversations
-* Close or lock issues
+* Register and login
+* verity of categories with good exercises
+* beginner to advanced exercises
 * Apply labels and assignees
 * Review and merge pull requests
 * Create new issues

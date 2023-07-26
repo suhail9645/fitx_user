@@ -20,8 +20,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   late bool isVisible;
   @override
   void initState() {
-    isVisible = false;
-    // TODO: implement initState
+    isVisible = true;
+ 
     super.initState();
   }
 

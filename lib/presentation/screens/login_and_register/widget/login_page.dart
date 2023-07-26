@@ -27,15 +27,19 @@ class LoginScreen extends StatelessWidget {
                   image: DecorationImage(
                       image: AssetImage('assets/login.jpg'),
                       fit: BoxFit.cover)),
-              child: LoginAndRegisterMessage(screenHeight: screenHeight),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: screenHeight / 5.9),
-              child: CustomPaint(
-                size: Size(double.maxFinite, screenHeight / 3),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  LoginAndRegisterMessage(screenHeight: screenHeight),
+                 
+                  CustomPaint(
+                size: Size(double.maxFinite, screenHeight / 4),
                 painter: RPSCustomPainter(),
               ),
+                ],
+              ),
             ),
+           
           ],
         ),
         Form(

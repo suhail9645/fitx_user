@@ -29,16 +29,21 @@ class LoginAndRegister extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        pageController.jumpToPage(1);
+                       pageController.animateToPage(0, duration: const Duration(milliseconds: 850), curve: Curves.decelerate);
                       },
-                      child: Text(
+                      child:const Text(
                         'Login',
                         style: textStyle,
                       ),
                     ),
-                    Text(
-                      'Signup',
-                      style: textStyle,
+                    GestureDetector(
+                      onTap: () {
+                        pageController.animateToPage(1, duration:const Duration(milliseconds: 850), curve: Curves.decelerate);
+                      },
+                      child:const Text(
+                        'Signup',
+                        style: textStyle,
+                      ),
                     )
                   ],
                 ),

@@ -82,9 +82,9 @@ class RPSCustomPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     Path path0 = Path();
-    path0.moveTo(size.width, size.height * 0.9984125);
-    path0.lineTo(size.width * 0.0057143, size.height * 0.9983042);
-    path0.lineTo(size.width, size.height * 0.5415755);
+    path0.moveTo(size.width, size.height );
+    path0.lineTo(size.width * 0.0057143, size.height );
+    path0.lineTo(size.width, size.height * 0.3415755);
     path0.lineTo(size.width, size.height * 0.9984125);
     path0.close();
 

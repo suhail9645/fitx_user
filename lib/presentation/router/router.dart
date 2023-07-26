@@ -3,6 +3,7 @@ import 'package:fitx_user/data_layer/models/trainer/trainer.dart';
 import 'package:fitx_user/data_layer/models/user/user.dart';
 import 'package:fitx_user/logic/bottem_nav_cubit/bottem_navbar_cubit.dart';
 import 'package:fitx_user/logic/category_bloc/category_bloc.dart';
+import 'package:fitx_user/logic/category_like_cubit/category_like_cubit.dart';
 import 'package:fitx_user/logic/certificate_cubit/certificate_cubit.dart';
 import 'package:fitx_user/logic/image_cubit/image_cubit.dart';
 import 'package:fitx_user/logic/journey_date_cubit/journey_date.dart';
@@ -41,6 +42,7 @@ class AppRouter {
   final JourneyDateCubit journeyDateCubit = JourneyDateCubit();
   final MessageBloc messageBloc = MessageBloc()..add(MessageInitialEvent());
   final PremiumCubit premiumCubit = PremiumCubit();
+  final CategoryLikeCubit categoryLikeCubit=CategoryLikeCubit();
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case '/':
@@ -66,7 +68,8 @@ class AppRouter {
               BlocProvider.value(value: bottemNavbarCubit),
               BlocProvider.value(value: categoryBloc),
               BlocProvider.value(value: reportBloc),
-              BlocProvider.value(value: messageBloc)
+              BlocProvider.value(value: messageBloc),
+              BlocProvider.value(value:categoryLikeCubit )
             ],
             child: RoutePage(
               userData: userData,
