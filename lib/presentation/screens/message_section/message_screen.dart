@@ -1,12 +1,13 @@
 import 'dart:convert';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitx_user/data_layer/models/message_result/message.dart';
 import 'package:fitx_user/data_layer/models/user/user.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/screens/message_section/widget/message_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+// ignore: depend_on_referenced_packages
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../../../logic/message_bloc/message_bloc.dart';
 import '../../constants/sized_box.dart';
@@ -23,11 +24,22 @@ class MessageScreen extends StatefulWidget {
 }
 
 class _MessageScreenState extends State<MessageScreen> {
+  ScrollController scrollController = ScrollController();
   @override
   void initState() {
-    BlocProvider.of<MessageBloc>(context).add(WastEvent());
-    //
     super.initState();
+    BlocProvider.of<MessageBloc>(context)
+        .add(FetchAllMessagesByTrainer(userId: widget.userOrTrainer.id!));
+    BlocProvider.of<MessageBloc>(context).add(WastEvent());
+  }
+
+  void scrollToBottom() {
+    final bottomOffset = scrollController.position.maxScrollExtent;
+    scrollController.animateTo(
+      bottomOffset,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.decelerate,
+    );
   }
 
   @override
@@ -35,9 +47,6 @@ class _MessageScreenState extends State<MessageScreen> {
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
     double screenWidth = screenSize.width;
-
-    BlocProvider.of<MessageBloc>(context)
-        .add(FetchAllMessagesByTrainer(userId: widget.userOrTrainer.id!));
     TextEditingController controller = TextEditingController();
     return Scaffold(
       appBar: AppBar(
@@ -69,41 +78,52 @@ class _MessageScreenState extends State<MessageScreen> {
                   StreamBuilder(
                       stream: streamController.stream,
                       builder: (context, snapshot) {
+                        SchedulerBinding.instance
+                            .addPostFrameCallback((timeStamp) {
+                          scrollToBottom();
+                        });
                         if (snapshot.hasData) {
                           Message message = Message.fromJson(
                               jsonDecode(snapshot.data)['message']);
                           allMessages.add(message);
                         }
+                         SchedulerBinding.instance
+                            .addPostFrameCallback((timeStamp) {
+                          scrollToBottom();
+                        });
                         return Expanded(
-                            child: ListView.builder(
-                                itemCount: allMessages.length,
-                                itemBuilder: (context, index) {
-                                  return allMessages[index].type == 'text'
-                                      ? Row(
-                                          mainAxisAlignment:
-                                              allMessages[index].sender!.id ==
-                                                      widget.userOrTrainer.id
-                                                  ? MainAxisAlignment.start
-                                                  : MainAxisAlignment.end,
-                                          children: [
-                                            MessageTextContainer(
-                                                message: allMessages[index],
-                                                userOrTrainer:
-                                                    widget.userOrTrainer)
-                                          ],
-                                        )
-                                      : allMessages[index].type == 'image'
-                                          ? MessageImageContainer(
+                            child: Scrollbar(
+                          controller: scrollController,
+                          child: ListView.builder(
+                              controller: scrollController,
+                              itemCount: allMessages.length,
+                              itemBuilder: (context, index) {
+                                return allMessages[index].type == 'text'
+                                    ? Row(
+                                        mainAxisAlignment:
+                                            allMessages[index].sender!.id ==
+                                                    widget.userOrTrainer.id
+                                                ? MainAxisAlignment.start
+                                                : MainAxisAlignment.end,
+                                        children: [
+                                          MessageTextContainer(
                                               message: allMessages[index],
                                               userOrTrainer:
-                                                  widget.userOrTrainer,
-                                              listIndex: listIndex,
-                                              screenHeight: screenHeight,
-                                              screenWidth: screenWidth,
-                                              index: index,
-                                            )
-                                          : const SizedBox();
-                                }));
+                                                  widget.userOrTrainer)
+                                        ],
+                                      )
+                                    : allMessages[index].type == 'image'
+                                        ? MessageImageContainer(
+                                            message: allMessages[index],
+                                            userOrTrainer: widget.userOrTrainer,
+                                            listIndex: listIndex,
+                                            screenHeight: screenHeight,
+                                            screenWidth: screenWidth,
+                                            index: index,
+                                          )
+                                        : const SizedBox();
+                              }),
+                        ));
                       }),
                   Container(
                     height: 60,
@@ -165,11 +185,14 @@ class _MessageScreenState extends State<MessageScreen> {
                               child: InkWell(
                             child: const Icon(Icons.send_sharp),
                             onTap: () async {
-                              BlocProvider.of<MessageBloc>(context).add(
-                                  TextMessageEvent(
-                                      channel: widget.channel,
-                                      text: controller.text,
-                                      id: widget.userOrTrainer.id!));
+                              if (controller.text.isNotEmpty) {
+                                BlocProvider.of<MessageBloc>(context).add(
+                                    TextMessageEvent(
+                                        channel: widget.channel,
+                                        text: controller.text,
+                                        id: widget.userOrTrainer.id!));
+                                controller.clear();
+                              }
                             },
                           ))
                         ],
@@ -189,4 +212,3 @@ class _MessageScreenState extends State<MessageScreen> {
     );
   }
 }
-

@@ -1,5 +1,8 @@
+
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../data_layer/models/message_result/message.dart';
 import '../../../../data_layer/models/user/user.dart';
@@ -23,13 +26,16 @@ class MessageImageContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime dateTime = message.createdAt!.toLocal();
+    
     return Row(
       mainAxisAlignment: message.sender!.id == userOrTrainer.id
           ? MainAxisAlignment.start
           : MainAxisAlignment.end,
       children: [
         CachedNetworkImage(
-           imageUrl:index < listIndex? message.media:'http://10.4.4.26:8000${message.media}',
+          imageUrl: index < listIndex
+              ? message.media
+              : 'http://10.4.4.26:8000${message.media}',
           imageBuilder: (context, imageProvider) => Container(
             margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             padding: const EdgeInsets.fromLTRB(12, 12, 3, 3),
@@ -46,10 +52,7 @@ class MessageImageContainer extends StatelessWidget {
                     ? const Radius.circular(16)
                     : Radius.zero,
               ),
-              image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.fill),
-                  
+              image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
             ),
             child: Align(
               alignment: Alignment.bottomRight,
@@ -60,7 +63,17 @@ class MessageImageContainer extends StatelessWidget {
               ),
             ),
           ),
-          placeholder: (context, url) => const CircularProgressIndicator(),
+          placeholder: (context, url) => Shimmer.fromColors(
+            baseColor: Colors.grey[500]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+                 margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: const EdgeInsets.fromLTRB(12, 12, 3, 3),
+              height: screenHeight * 0.30,
+              width: screenWidth * 0.70,
+                color: Colors.black.withOpacity(0.3),
+            ),
+          ),
         )
       ],
     );
@@ -77,6 +90,7 @@ class MessageTextContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     DateTime dateTime = message.createdAt!.toLocal();
     return Container(
+      constraints:const BoxConstraints(maxWidth: 300),
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       padding: const EdgeInsets.fromLTRB(12, 12, 3, 3),
       decoration: BoxDecoration(
@@ -95,16 +109,24 @@ class MessageTextContainer extends StatelessWidget {
         ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+       
         children: [
           Text(
-            message.text!,
+            message.text!,overflow: TextOverflow.visible,
             style: const TextStyle(
                 fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
           ),
-          Text(
-            '${dateTime.hour}:${dateTime.minute}',
-            style: const TextStyle(color: Colors.black),
+          LayoutBuilder(
+            builder: (context, constraints) => 
+           Container(
+              color: Colors.white,
+           
+              child: Text(
+                '${dateTime.hour}:${dateTime.minute}',textAlign: TextAlign.end,
+                style: const TextStyle(color: Colors.black),
+              ),
+            ),
           )
         ],
       ),

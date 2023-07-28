@@ -51,6 +51,7 @@ class ReportScreen extends StatelessWidget {
                             showDialog(
                               context: context,
                               builder: (ctx) => ReportPageAlert(
+                                
                                 screenHeight: screenHeight,
                                 onTap: () {
                                   BlocProvider.of<ReportBloc>(context).add(

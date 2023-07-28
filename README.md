@@ -21,7 +21,6 @@
 
 - [Introduction](#introduction)
 - [Features](#features)
-- [Contributors](#contributors)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -37,17 +36,17 @@ Fitx is a fitness training app build with flutter framework.there have lot of ca
 
 ## Features
 
-A few of the things you can do with GitPoint:
+A few of the things you can do with FITX:
 
 * Register and login
 * verity of categories with good exercises
 * beginner to advanced exercises
-* Apply labels and assignees
-* Review and merge pull requests
-* Create new issues
-* Star, watch and fork repositories
-* Control your unread and participating notifications
-* Easily search for any user or repository
+* calorie tracking
+* goal setting for calorie,exercise and category
+* upload images for tracking transformation journey
+* apply for being trainer
+* message with trainers
+* track body weight
 
 <p align="center">
   <img src = "http://i.imgur.com/IkSnFRL.png" width=700>

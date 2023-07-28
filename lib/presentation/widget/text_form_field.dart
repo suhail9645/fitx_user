@@ -6,12 +6,12 @@ class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
     super.key,
     required this.controller,
-    required this.hint,
+    required this.hint, this.type,
   });
 
   final TextEditingController controller;
   final String hint;
-
+  final TextInputType? type;
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
@@ -30,6 +30,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return Padding(
       padding: const EdgeInsets.only(left: 25, right: 25, bottom: 10),
       child: TextFormField(
+        keyboardType: widget.type,
         onTap: () async {
           if (widget.hint == 'Date of Birth') {
             DateTime? pickedDate = await showDatePicker(

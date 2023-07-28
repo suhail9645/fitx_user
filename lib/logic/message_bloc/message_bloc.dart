@@ -7,6 +7,7 @@ import 'package:fitx_user/data_layer/models/trainer/trainer.dart';
 import 'package:fitx_user/data_layer/repositories/message_repo/message_operation_repo.dart';
 import 'package:fitx_user/data_layer/repositories/trainer_repo/get_all_trainers.dart';
 import 'package:fitx_user/data_layer/repositories/user_report_repo/get_messaged_users.dart';
+import 'package:fitx_user/presentation/constants/strings.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -27,7 +28,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   Future<void> messageInitialEvent(MessageInitialEvent event, Emitter<MessageState> emit)async {
     SharedPreferences shrd=await SharedPreferences.getInstance();
     String access=shrd.getString('accessKey')!;
-    WebSocketChannel channel = WebSocketChannel.connect(Uri.parse('ws://10.4.4.26:8000/ws/messages/?token=$access'));
+    WebSocketChannel channel = WebSocketChannel.connect(Uri.parse('ws://$ip/ws/messages/?token=$access'));
     streamController.addStream(channel.stream);
     final errorOrList=await GetAllTrainersRepo().getAllTrainer();
     final errorOrUserList=await GetAllMessagedUsersRepo().getAllMessagedUsers();

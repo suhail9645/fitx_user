@@ -62,7 +62,7 @@ class CategoryContainer extends StatelessWidget {
                           ),
                           IconButton(
                             onPressed: () {
-                              category.isLiked=true;
+                        
                               BlocProvider.of<CategoryLikeCubit>(context)
                                   .onLikeAndUnlike(category.id, state.category,
                                       state.likeCount);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../constants/lists.dart';
 import '../../../constants/sized_box.dart';
 import '../../../widget/text_form_field.dart';
@@ -33,12 +32,14 @@ class ReportPageAlert extends StatelessWidget {
                         ? List.generate(
                             3,
                             (index) => CustomTextFormField(
+                              type: TextInputType.number,
                                 controller: goalControllers[index],
                                 hint: goalHints[index]),
                           )
                         : List.generate(
                             1,
                             (index) => CustomTextFormField(
+                                type: TextInputType.number,
                                 controller: currentWeight, hint: 'Weight'))),
               ),
               Container(

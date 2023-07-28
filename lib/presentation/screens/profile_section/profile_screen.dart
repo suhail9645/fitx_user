@@ -2,6 +2,7 @@ import 'package:fitx_user/data_layer/models/user/user.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/lists.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
+import 'package:fitx_user/presentation/constants/strings.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
@@ -15,7 +16,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
-     final Uri mail = Uri.parse('mailto:mspk9645@gmail.com');
+    final Uri mail = Uri.parse('mailto:mspk9645@gmail.com');
 
     return Scaffold(
       appBar: AppBar(),
@@ -42,9 +43,9 @@ class ProfileScreen extends StatelessWidget {
                     child: CircleAvatar(
                       // radius: 65,
                       backgroundImage: user.profilePicture != null
-                          ? NetworkImage(
-                              'http://10.4.4.26:8000${user.profilePicture}')
-                          : null,
+                          ? NetworkImage(imageUrl + user.profilePicture!)
+                          : const AssetImage('assets/profile.avif')
+                              as ImageProvider,
                     ),
                   ),
                   spaceforwidth10,
@@ -74,29 +75,32 @@ class ProfileScreen extends StatelessWidget {
               Column(
                 children: List.generate(
                   privacyPolicyList.length,
-                  (index) => ListTile(
-                    title: Text(privacyPolicyList[index]),
-                    trailing: IconButton(
-                        onPressed: () {
-                            if(index==0){
-                            Share.share('com.MSPK.FitX');
-                      }else if(index==2){
+                  (index) => InkWell(
+                    onTap: () {
+                      if (index == 0) {
+                        Share.share('com.MSPK.FitX');
+                      } else if (index == 2) {
                         launchUrl(mail);
-                      }else if(index==1){
-                       Navigator.pushNamed(context, 'Privacy Policy'); 
+                      } else if (index == 1) {
+                        Navigator.pushNamed(context, 'Privacy Policy');
                       }
-                        },
-                        icon: const Icon(
-                          Icons.arrow_right_outlined,
-                          size: 35,
-                        )),
+                    },
+                    child: ListTile(
+                      title: Text(privacyPolicyList[index]),
+                      trailing: IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.arrow_right_outlined,
+                            size: 35,
+                          )),
+                    ),
                   ),
                 ),
               ),
-              spaceforHeight20,
-              InkWell(
+              spaceforHeight10,
+           !user.isTrainer!||!user.isPremium!?   InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, 'Premium',arguments:user);
+                  Navigator.pushNamed(context, 'Premium', arguments: user);
                 },
                 child: Container(
                   padding: const EdgeInsets.all(8),
@@ -143,8 +147,26 @@ class ProfileScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+              ):const SizedBox(),
+              spaceforHeight10,
+              InkWell(
+                onTap: () {
+                
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  height: screenHeight * 0.09,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color:const Color.fromARGB(255, 220, 217, 217),
+                      borderRadius: BorderRadius.circular(7),
+                      image: const DecorationImage(
+                        fit: BoxFit.fill,
+                          image: NetworkImage(
+                              'https://i0.wp.com/adamharkus.com/wp-content/uploads/2020/11/BMC-logowordmark-Black-compress.png?fit=1024%2C224&ssl=1'))),
+                ),
               ),
-              spaceforHeight20,
+               spaceforHeight10,
               InkWell(
                 onTap: () {
                   showDialog(
