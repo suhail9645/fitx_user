@@ -15,7 +15,7 @@ class RestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CountdownController _controller =
+    final CountdownController controller =
         CountdownController(autoStart: true);
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
@@ -52,7 +52,7 @@ class RestScreen extends StatelessWidget {
                     ),
                     Countdown(
                       interval: const Duration(milliseconds: 100),
-                      controller: _controller,
+                      controller: controller,
                       seconds: 9,
                       build: (p0, p1) {
                         return Text(
@@ -80,8 +80,8 @@ class RestScreen extends StatelessWidget {
                                 BlocProvider.of<WaitPageTimerCubit>(context)
                                     .onResumeAndPause(!state);
                                 state
-                                    ? _controller.pause()
-                                    : _controller.resume();
+                                    ? controller.pause()
+                                    : controller.resume();
                               },
                             );
                           },
@@ -125,11 +125,21 @@ class RestScreen extends StatelessWidget {
                                     color: Colors.black,
                                   ),
                                 ),
-                                Text('X${exercise.count}',
+                              exercise.count!=null?  Text('X${exercise.count}',
                                     style: const TextStyle(
                                       fontSize: 17,
                                       color: Colors.black,
-                                    ))
+                                    )):Text(
+                                   exercise.duration
+                                        .toString()
+                                        .split(':')
+                                        .sublist(1, 3)
+                                        .join(':'),
+                                    style:const TextStyle(
+                                      fontSize: 17,
+                                      color: Colors.black,
+                                    ),
+                                  ),
                               ],
                             )
                           ],

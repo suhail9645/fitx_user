@@ -18,185 +18,181 @@ class TrainerScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<MessageBloc, MessageState>(
+          buildWhen: (previous, current) =>
+              current is! AllMessagesWithTrainer && current is! WastState &&current is !ImageMessageLoadingState,
           builder: (context, state) {
-            return BlocBuilder<MessageBloc, MessageState>(
-              buildWhen: (previous, current) =>
-                  current is! AllMessagesWithTrainer && current is! WastState,
-              builder: (context, state) {
-                if (state is MessageInitialState) {
-                  return SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Column(
-                        children: [
-                          Column(
-                            children: List.generate( state.allTrainers.length,
-                                (index) {
-                              return InkWell(
-                                onTap: ()async {
-                                  SharedPreferences shrd=await SharedPreferences.getInstance();
-                                  if (user.isPremium!||shrd.getBool('isPrime')!=null) {
-                                    // ignore: use_build_context_synchronously
-                                    Navigator.pushNamed(context, 'Message',
-                                        arguments: MessageScreen(
-                                            userOrTrainer: state.allTrainers[index].user!,
-                                            channel: state.channel));
-                                  } else {
-                                      // ignore: use_build_context_synchronously
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        title: const Text('No Access !'),
-                                        content: const Text(
-                                            'You have no access to trainer, if you want try our premium.'),
-                                        actions: [
-                                          ElevatedButtonWithIcon(
-                                            text: 'Subscirbe',
-                                            onClicked: () {
-                                              Navigator.pop(context);
+            if (state is MessageInitialState) {
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Column(
+                    children: [
+                      Column(
+                        children: List.generate( state.allTrainers.length,
+                            (index) {
+                          return InkWell(
+                            onTap: ()async {
+                              SharedPreferences shrd=await SharedPreferences.getInstance();
+                              if (user.isPremium!||shrd.getBool('isPrime')!=null) {
+                                // ignore: use_build_context_synchronously
+                                Navigator.pushNamed(context, 'Message',
+                                    arguments: MessageScreen(
+                                        userOrTrainer: state.allTrainers[index].user!,
+                                        channel: state.channel));
+                              } else {
+                                  // ignore: use_build_context_synchronously
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('No Access !'),
+                                    content: const Text(
+                                        'You have no access to trainer, if you want try our premium.'),
+                                    actions: [
+                                      ElevatedButtonWithIcon(
+                                        text: 'Subscirbe',
+                                        onClicked: () {
+                                          Navigator.pop(context);
 
-                                              Navigator.pushNamed(
-                                                  context, 'Premium',
-                                                  arguments: user);
-                                            },
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                },
-                                child:state.allTrainers[index].user!.id !=
-                                          user.id
-                                      ?  Container(
-                                  padding: const EdgeInsets.all(10),
-                                  height: screenHeight * 0.10,
-                                  decoration: BoxDecoration(
-                                      color:
-                                          const Color.fromARGB(255, 37, 36, 36),
-                                      borderRadius:
-                                          BorderRadiusDirectional.circular(7)),
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 5),
-                                  child: Row(
+                                          Navigator.pushNamed(
+                                              context, 'Premium',
+                                              arguments: user);
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }
+                            },
+                            child:state.allTrainers[index].user!.id !=
+                                      user.id
+                                  ?  Container(
+                              padding: const EdgeInsets.all(10),
+                              height: screenHeight * 0.10,
+                              decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 37, 36, 36),
+                                  borderRadius:
+                                      BorderRadiusDirectional.circular(7)),
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 5),
+                              child: Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 26,
+                                          backgroundImage: NetworkImage(state
+                                                  .allTrainers[index]
+                                                  .user!
+                                                  .profilePicture ??
+                                              "https://picsum.photos/250?image=18"),
+                                        ),
+                                        spaceforwidth10,
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            CircleAvatar(
-                                              radius: 26,
-                                              backgroundImage: NetworkImage(state
-                                                      .allTrainers[index]
-                                                      .user!
-                                                      .profilePicture ??
-                                                  "https://picsum.photos/250?image=18"),
+                                            Text(
+                                              state.allTrainers[index].user!
+                                                  .username!,
+                                              style: const TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight:
+                                                      FontWeight.bold),
                                             ),
-                                            spaceforwidth10,
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  state.allTrainers[index].user!
-                                                      .username!,
-                                                  style: const TextStyle(
-                                                      fontSize: 17,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                Text(
-                                                  '${state.allTrainers[index].experience.toString().split(':').last} months Experience',
-                                                  style: const TextStyle(
-                                                      color: primaryColor,
-                                                      fontSize: 14),
-                                                )
-                                              ],
-                                            ),
-                                            const Spacer(),
-                                            IconButton(
-                                                onPressed: () {},
-                                                icon: const Icon(
-                                                    Icons.arrow_forward_ios))
+                                            Text(
+                                              '${state.allTrainers[index].experience.toString().split(':').last} months Experience',
+                                              style: const TextStyle(
+                                                  color: primaryColor,
+                                                  fontSize: 14),
+                                            )
                                           ],
-                                        )
-                                     
-                                ) : const SizedBox(),
-                              );
-                            }),
-                          ),
-                    user.isTrainer!?      Column(
-                            children:
-                                List.generate(state.allUsers.length, (index) {
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(context, 'Message',
-                                      arguments: MessageScreen(
-                                          userOrTrainer: state.allUsers[index],
-                                          channel: state.channel));
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  height: screenHeight * 0.10,
-                                  decoration: BoxDecoration(
-                                      color:
-                                          const Color.fromARGB(255, 37, 36, 36),
-                                      borderRadius:
-                                          BorderRadiusDirectional.circular(7)),
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 5),
-                                  child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                              radius: 26,
-                                              backgroundImage: NetworkImage(state
-                                                      .allUsers[index]
-                                                      .profilePicture ??
-                                                  "https://picsum.photos/250?image=18"),
-                                            ),
-                                            spaceforwidth10,
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  state.allUsers[index]
-                                                      .username!,
-                                                  style: const TextStyle(
-                                                      fontSize: 17,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                Text(
-                                                  state.allUsers[index].name!,
-                                                  style: const TextStyle(
-                                                      color: primaryColor,
-                                                      fontSize: 14),
-                                                )
-                                              ],
-                                            ),
-                                            const Spacer(),
-                                            IconButton(
-                                                onPressed: () {},
-                                                icon: const Icon(
-                                                    Icons.arrow_forward_ios))
-                                          ],
-                                        )
-                                    
-                                ),
-                              );
-                            }),
-                          ):const SizedBox()
-                        ],
+                                        ),
+                                        const Spacer(),
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                                Icons.arrow_forward_ios))
+                                      ],
+                                    )
+                                 
+                            ) : const SizedBox(),
+                          );
+                        }),
                       ),
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            );
+                user.isTrainer!?      Column(
+                        children:
+                            List.generate(state.allUsers.length, (index) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(context, 'Message',
+                                  arguments: MessageScreen(
+                                      userOrTrainer: state.allUsers[index],
+                                      channel: state.channel));
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              height: screenHeight * 0.10,
+                              decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 37, 36, 36),
+                                  borderRadius:
+                                      BorderRadiusDirectional.circular(7)),
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 5),
+                              child: Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 26,
+                                          backgroundImage: NetworkImage(state
+                                                  .allUsers[index]
+                                                  .profilePicture ??
+                                              "https://picsum.photos/250?image=18"),
+                                        ),
+                                        spaceforwidth10,
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              state.allUsers[index]
+                                                  .username!,
+                                              style: const TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight:
+                                                      FontWeight.bold),
+                                            ),
+                                            Text(
+                                              state.allUsers[index].name!,
+                                              style: const TextStyle(
+                                                  color: primaryColor,
+                                                  fontSize: 14),
+                                            )
+                                          ],
+                                        ),
+                                        const Spacer(),
+                                        IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                                Icons.arrow_forward_ios))
+                                      ],
+                                    )
+                                
+                            ),
+                          );
+                        }),
+                      ):const SizedBox()
+                    ],
+                  ),
+                ),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
           },
         ),
       ),

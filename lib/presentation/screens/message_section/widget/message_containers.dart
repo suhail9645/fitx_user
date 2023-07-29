@@ -2,6 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../data_layer/models/message_result/message.dart';
@@ -80,54 +81,71 @@ class MessageImageContainer extends StatelessWidget {
   }
 }
 
-class MessageTextContainer extends StatelessWidget {
+class MessageTextContainer extends StatefulWidget {
   const MessageTextContainer(
       {super.key, required this.message, required this.userOrTrainer});
 
   final Message message;
   final User userOrTrainer;
+
+  @override
+  State<MessageTextContainer> createState() => _MessageTextContainerState();
+}
+
+class _MessageTextContainerState extends State<MessageTextContainer> {
+  double width = 0.0;
+GlobalKey globalKey = GlobalKey();
+
+ @override
+  void initState() {
+    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    //   width = globalKey.currentContext!.size!.width;
+    //   print('the new height is $width');
+    //  setState(() {});
+    // });
+   
+    super.initState();
+      
+  }
+  
   @override
   Widget build(BuildContext context) {
-    DateTime dateTime = message.createdAt!.toLocal();
+    DateTime dateTime = widget.message.createdAt!.toLocal();
     return Container(
+      key: globalKey,
       constraints:const BoxConstraints(maxWidth: 300),
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       padding: const EdgeInsets.fromLTRB(12, 12, 3, 3),
       decoration: BoxDecoration(
-        color: message.sender!.id == userOrTrainer.id
+        color: widget.message.sender!.id == widget.userOrTrainer.id
             ? const Color.fromARGB(255, 213, 89, 155)
             : Colors.amber,
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(7),
           topRight: const Radius.circular(8),
-          bottomRight: message.sender!.id == userOrTrainer.id
+          bottomRight: widget.message.sender!.id == widget.userOrTrainer.id
               ? const Radius.circular(12)
               : Radius.zero,
-          bottomLeft: message.sender!.id != userOrTrainer.id
+          bottomLeft: widget.message.sender!.id != widget.userOrTrainer.id
               ? const Radius.circular(12)
               : Radius.zero,
         ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.end,
        
         children: [
           Text(
-            message.text!,overflow: TextOverflow.visible,
+            widget.message.text!,overflow: TextOverflow.visible,
             style: const TextStyle(
                 fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
           ),
-          LayoutBuilder(
-            builder: (context, constraints) => 
-           Container(
-              color: Colors.white,
-           
-              child: Text(
-                '${dateTime.hour}:${dateTime.minute}',textAlign: TextAlign.end,
-                style: const TextStyle(color: Colors.black),
-              ),
-            ),
-          )
+           Text(
+               '${dateTime.hour}:${dateTime.minute}',textAlign: TextAlign.end,
+               style: const TextStyle(color: Colors.black),
+             ),
+        
         ],
       ),
     );

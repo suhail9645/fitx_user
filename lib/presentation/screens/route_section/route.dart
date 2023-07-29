@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:fitx_user/data_layer/models/user/user.dart';
+import 'package:fitx_user/logic/message_bloc/message_bloc.dart';
 import 'package:fitx_user/logic/network_cubit/network_cubit.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
@@ -34,6 +35,8 @@ class _RoutePageState extends State<RoutePage> {
   Widget build(BuildContext context) {
     BlocProvider.of<CategoryBloc>(context).add(CategoryInitialEvent());
     BlocProvider.of<ReportBloc>(context).add(ReportInitialEvent());
+     BlocProvider.of<MessageBloc>(context).add(MessageInitialEvent());
+
     List<Widget> pages = [
       HomeScreen(
         userName: greeting,

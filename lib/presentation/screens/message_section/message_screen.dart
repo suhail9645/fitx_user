@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:fitx_user/data_layer/models/message_result/message.dart';
 import 'package:fitx_user/data_layer/models/user/user.dart';
-import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/screens/message_section/widget/message_containers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -41,19 +40,19 @@ class _MessageScreenState extends State<MessageScreen> {
       curve: Curves.decelerate,
     );
   }
-
+   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
     double screenWidth = screenSize.width;
-    TextEditingController controller = TextEditingController();
+ 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: primaryColor,
+          backgroundColor:const Color.fromARGB(255, 70, 71, 68),
           title: Text(
             widget.userOrTrainer.username!,
-            style: const TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.white ),
           ),
           actions: [
             CircleAvatar(
@@ -63,7 +62,13 @@ class _MessageScreenState extends State<MessageScreen> {
             ),
             spaceforwidth10
           ]),
-      body: BlocBuilder<MessageBloc, MessageState>(
+      body: BlocConsumer<MessageBloc, MessageState>(
+        buildWhen: (previous, current) => current is !ImageMessageLoadingState,
+        listener: (context, state) {
+          if(state is ImageMessageLoadingState){
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content:  Text('Please wait a while ...')));
+          }
+        },
         builder: (context, state) {
           if (state is AllMessagesWithTrainer) {
             List<Message> allMessages = [];
@@ -87,10 +92,6 @@ class _MessageScreenState extends State<MessageScreen> {
                               jsonDecode(snapshot.data)['message']);
                           allMessages.add(message);
                         }
-                         SchedulerBinding.instance
-                            .addPostFrameCallback((timeStamp) {
-                          scrollToBottom();
-                        });
                         return Expanded(
                             child: Scrollbar(
                           controller: scrollController,
@@ -126,8 +127,8 @@ class _MessageScreenState extends State<MessageScreen> {
                         ));
                       }),
                   Container(
-                    height: 60,
-                    width: double.infinity,
+             
+                    constraints:const BoxConstraints(maxHeight: 200),
                     margin: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 10),
                     decoration: const BoxDecoration(
@@ -140,8 +141,9 @@ class _MessageScreenState extends State<MessageScreen> {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(bottom: 10),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           spaceforwidth10,
                           InkWell(
@@ -166,18 +168,24 @@ class _MessageScreenState extends State<MessageScreen> {
                           Expanded(
                             flex: 4,
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                controller: controller,
-                                decoration: const InputDecoration(
-                                  hintText: 'Message',
-                                  floatingLabelStyle:
-                                      TextStyle(color: whiteColor),
-                                  hintStyle: TextStyle(color: Colors.black),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.black),
+                              padding: const EdgeInsets.symmetric(horizontal: 7),
+                              child: Scrollbar(
+                                child:  TextFormField(
+                                  
+                                  cursorColor: const Color.fromARGB(255, 243, 180, 33),
+                                  keyboardType: TextInputType.multiline,
+                                  maxLines: null,                                    
+                                  controller: controller,
+                                                             
+                                  decoration:const InputDecoration(
+                                    
+                                    border: InputBorder.none,
+                                    hintText: "Type your message",
+                                    hintStyle: TextStyle(
+                                      color:Colors.grey,
+                                    ),
                                   ),
-                                ),
+                                ),                           
                               ),
                             ),
                           ),

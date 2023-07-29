@@ -11,7 +11,7 @@ class ExerciseViewPage extends StatelessWidget {
   const ExerciseViewPage({super.key, required this.category});
   @override
   Widget build(BuildContext context) {
-    String url = 'https://www.youtube.com/watch?v=2W4ZNSwoW_4';
+  
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
     return Scaffold(
@@ -48,13 +48,7 @@ class ExerciseViewPage extends StatelessWidget {
                                   fontSize: 25, fontWeight: FontWeight.bold),
                             ),
                             const Spacer(),
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                              ),
-                            ),
+                         
                           ],
                         ),
                         spaceforHeight20
@@ -154,7 +148,8 @@ class ExerciseViewPage extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () async {
-                                await launchUrl(Uri.parse(url));
+
+                                await launchUrl(Uri.parse(  category.exercises[index].videoLink!));
                               },
                               child: const Text(
                                 'WATCH',
@@ -176,8 +171,13 @@ class ExerciseViewPage extends StatelessWidget {
                 width: screenHeight / 2.4,
                 text: 'Start',
                 onClicked: () {
-                  Navigator.pushNamed(context, 'ReadyToGo',
-                      arguments: category);
+                  if (category.exercises.isNotEmpty) {
+                    Navigator.pushNamed(context, 'ReadyToGo',
+                        arguments: category);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('No exercise in this category')));
+                  }
                 },
               ))
         ],

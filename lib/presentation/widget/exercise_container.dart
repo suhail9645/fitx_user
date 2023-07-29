@@ -35,16 +35,10 @@ class ExerciseContainer extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: const Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back,color: Colors.black,),
                 ),
                 const Spacer(),
-                IconButton(
-                    onPressed: () async {},
-                    icon: const Icon(
-                      Icons.play_arrow,
-                      color: primaryColor,
-                      size: 35,
-                    ))
+           
               ],
             ),
             spaceforHeight20

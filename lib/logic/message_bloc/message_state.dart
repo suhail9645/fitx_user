@@ -17,3 +17,5 @@ class AllMessagesWithTrainer extends MessageState{
   AllMessagesWithTrainer({required this.allMessages});
 }
 class WastState extends MessageState{}
+
+class ImageMessageLoadingState extends MessageState{}

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:fitx_user/data_layer/data_provider/access_key/get_new_access_key.dart';
 import 'package:fitx_user/data_layer/data_provider/message/message_sending.dart';
 import 'package:fitx_user/data_layer/models/message_result/message.dart';
 import 'package:fitx_user/data_layer/models/trainer/trainer.dart';
@@ -18,41 +19,60 @@ part 'message_state.dart';
 
 class MessageBloc extends Bloc<MessageEvent, MessageState> {
   MessageBloc() : super(MessageInitial()) {
-   on<MessageInitialEvent>(messageInitialEvent);
-   on<FetchAllMessagesByTrainer>(fetchAllMessagesByTrainer);
-   on<WastEvent>((event, emit) => emit(WastState()),);
-   on<TextMessageEvent>(textMessageEvent);
-   on<ImageMessageEvent>(imageMessageEvent);
+    on<MessageInitialEvent>(messageInitialEvent);
+    on<FetchAllMessagesByTrainer>(fetchAllMessagesByTrainer);
+    on<WastEvent>(
+      (event, emit) => emit(WastState()),
+    );
+    on<TextMessageEvent>(textMessageEvent);
+    on<ImageMessageEvent>(imageMessageEvent);
   }
 
-  Future<void> messageInitialEvent(MessageInitialEvent event, Emitter<MessageState> emit)async {
-    SharedPreferences shrd=await SharedPreferences.getInstance();
-    String access=shrd.getString('accessKey')!;
-    WebSocketChannel channel = WebSocketChannel.connect(Uri.parse('ws://$ip/ws/messages/?token=$access'));
-    streamController.addStream(channel.stream);
-    final errorOrList=await GetAllTrainersRepo().getAllTrainer();
-    final errorOrUserList=await GetAllMessagedUsersRepo().getAllMessagedUsers();
-    if(errorOrList.isRight&&errorOrUserList.isRight){
-      emit(MessageInitialState(channel: channel, allTrainers: errorOrList.right,allUsers: errorOrUserList.right));
+  Future<void> messageInitialEvent(
+      MessageInitialEvent event, Emitter<MessageState> emit) async {
+    SharedPreferences shrd = await SharedPreferences.getInstance();
+    String access = shrd.getString('accessKey')!;
+    late WebSocketChannel channel;
+    final newAccess = await GetNewAccessKey.getNewAccessKey();
+    if (newAccess.isRight) {
+      access = newAccess.right;
+      channel = WebSocketChannel.connect(
+          Uri.parse('ws://$ip/ws/messages/?token=$access'));
+      streamController.addStream(channel.stream);
+    }
+
+    final errorOrList = await GetAllTrainersRepo().getAllTrainer();
+    final errorOrUserList =
+        await GetAllMessagedUsersRepo().getAllMessagedUsers();
+    if (errorOrList.isRight && errorOrUserList.isRight) {
+      emit(MessageInitialState(
+          channel: channel,
+          allTrainers: errorOrList.right,
+          allUsers: errorOrUserList.right));
     }
   }
-  
-  Future<void> fetchAllMessagesByTrainer(FetchAllMessagesByTrainer event, Emitter<MessageState> emit)async {
-   final errorOrList=await  MessageOperationRepo().getAllMessages(event.userId);
-   if(errorOrList.isRight){
+
+  Future<void> fetchAllMessagesByTrainer(
+      FetchAllMessagesByTrainer event, Emitter<MessageState> emit) async {
+    final errorOrList =
+        await MessageOperationRepo().getAllMessages(event.userId);
+    if (errorOrList.isRight) {
       emit(AllMessagesWithTrainer(allMessages: errorOrList.right));
     }
   }
-  
-  Future<void> textMessageEvent(TextMessageEvent event, Emitter<MessageState> emit)async {
+
+  Future<void> textMessageEvent(
+      TextMessageEvent event, Emitter<MessageState> emit) async {
     await MessageSending().sendTextMessage(event.id, event.text, event.channel);
   }
-  
-  Future<void> imageMessageEvent(ImageMessageEvent event, Emitter<MessageState> emit)async {
-    final image = await ImagePicker().pickImage(source:event.source);
-    if(image!=null){
-      await MessageSending().sendImagesAndFiles(event.id,File(image.path),event.channel);
+
+  Future<void> imageMessageEvent(
+      ImageMessageEvent event, Emitter<MessageState> emit) async {
+    final image = await ImagePicker().pickImage(source: event.source);
+    if (image != null) {
+      emit(ImageMessageLoadingState());
+      await MessageSending()
+          .sendImagesAndFiles(event.id, File(image.path), event.channel);
     }
   }
-  }
-
+}

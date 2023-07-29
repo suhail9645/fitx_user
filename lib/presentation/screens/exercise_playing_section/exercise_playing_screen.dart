@@ -23,7 +23,7 @@ class ExercisePlayingScreen extends StatelessWidget {
     double screenHeight = screenSize.height;
     Exercise exercise = category.exercises[index];
     const textStyle = TextStyle(fontSize: 22, color: Colors.white);
-    CountdownController _controller = CountdownController(autoStart: true);
+    CountdownController controller = CountdownController(autoStart: true);
     return Scaffold(
       body: Column(
         children: [
@@ -52,7 +52,7 @@ class ExercisePlayingScreen extends StatelessWidget {
                       )
                     : Countdown(
                         interval: const Duration(seconds: 1),
-                        controller: _controller,
+                        controller: controller,
                         seconds: 25,
                         build: (p0, p1) {
                           return Text(
@@ -89,8 +89,8 @@ class ExercisePlayingScreen extends StatelessWidget {
                               BlocProvider.of<WaitPageTimerCubit>(context)
                                   .onResumeAndPause(!state);
                               state
-                                  ? _controller.pause()
-                                  : _controller.resume();
+                                  ? controller.pause()
+                                  : controller.resume();
                             }
                           },
                           icon: Text(

@@ -40,7 +40,7 @@ class AppRouter {
   final ReportBloc reportBloc = ReportBloc();
   final TrainerBloc trainerBloc = TrainerBloc();
   final JourneyDateCubit journeyDateCubit = JourneyDateCubit();
-  final MessageBloc messageBloc = MessageBloc()..add(MessageInitialEvent());
+  final MessageBloc messageBloc = MessageBloc();
   final PremiumCubit premiumCubit = PremiumCubit();
   final CategoryLikeCubit categoryLikeCubit=CategoryLikeCubit();
   Route onGenerateRoute(RouteSettings routeSettings) {
