@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: CategoryContainer(
                             homeContext: context,
                             screenHeight: screenHeight,
-                            category: reversedCategory),
+                            category: reversedCategory, ),
                       );
                     }),
                   ),

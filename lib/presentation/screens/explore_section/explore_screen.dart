@@ -73,7 +73,7 @@ class ExplreScreen extends StatelessWidget {
                                       child: CategoryContainer(
                                           screenHeight: screenHeight,
                                           category: state.catgories[index],
-                                          homeContext: context),
+                                          homeContext: context,),
                                     )),
                                   ));
                             }),
@@ -139,31 +139,48 @@ class ExploreMostLIkedCategories extends StatelessWidget {
                               fontSize: 17, fontWeight: FontWeight.bold),
                         ),
                         const Spacer(),
-                        BlocBuilder<CategoryLikeCubit, CategoryLikeState>(
-                          builder: (context, state) {
-                            if (state is CategoryLikeUnlikeState) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '${state.likeCount} People like this Category',
-                                    style: const TextStyle(color: primaryColor),
-                                  ),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.favorite,
-                                        color: state.category.isLiked
-                                            ? Colors.red
-                                            : Colors.white,
-                                      ))
-                                ],
-                              );
-                            } else {
-                              return const SizedBox();
-                            }
-                          },
-                        ),
+                         BlocBuilder<CategoryLikeCubit, CategoryLikeState>(
+                  builder: (context, state) {
+                    if (state is CategoryLikeUnlikeState) {
+                          // categoryState.catgories[index]=state.category;
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${state.category.likes} People like this Category',
+                            style: const TextStyle(color: primaryColor),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                        
+                              BlocProvider.of<CategoryLikeCubit>(context)
+                                  .onLikeAndUnlike(categories[index].id, state.category,
+                                      state.likeCount);
+                            },
+                            icon: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 300),
+                                transitionBuilder: (child, anim) =>
+                                    RotationTransition(
+                                      turns: Tween<double>(begin: 0, end: 1)
+                                          .animate(anim),
+                                      child: ScaleTransition(
+                                          scale: anim, child: child),
+                                    ),
+                                child: state.category.isLiked
+                                    ? const Icon(Icons.thumb_down,
+                                        key: ValueKey('icon1'))
+                                    : const Icon(
+                                        Icons.thumb_up,color: Colors.red,
+                                        key: ValueKey('icon2'),
+                                      )),
+                          )
+                        ],
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
+                ),
                         spaceforHeight10
                       ],
                     ),

@@ -41,12 +41,13 @@ class _MessageScreenState extends State<MessageScreen> {
     );
   }
    TextEditingController controller = TextEditingController();
+   List <Message> lastmessages=[];
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     double screenHeight = screenSize.height;
     double screenWidth = screenSize.width;
- 
+  
     return Scaffold(
       appBar: AppBar(
           backgroundColor:const Color.fromARGB(255, 70, 71, 68),
@@ -74,7 +75,15 @@ class _MessageScreenState extends State<MessageScreen> {
             List<Message> allMessages = [];
             final reverseList = state.allMessages.reversed;
             allMessages.addAll(reverseList.toList());
-            int listIndex = allMessages.length;
+             int listIndex = allMessages.length;
+            if(lastmessages.isNotEmpty){
+              lastmessages.removeLast();
+            }
+            allMessages.addAll(lastmessages);
+            // if(lastmessage!=null){ 
+            //   allMessages.add(lastmessage!);
+            // }
+           
             return SizedBox(
               height: double.infinity,
               width: double.infinity,
@@ -91,6 +100,7 @@ class _MessageScreenState extends State<MessageScreen> {
                           Message message = Message.fromJson(
                               jsonDecode(snapshot.data)['message']);
                           allMessages.add(message);
+                         lastmessages.add(message);
                         }
                         return Expanded(
                             child: Scrollbar(

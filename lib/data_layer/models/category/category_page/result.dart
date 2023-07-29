@@ -13,7 +13,7 @@ class Category extends Equatable {
   final String? description;
   final String? image;
   final String? music;
-  final int? likes;
+   int? likes;
   bool isLiked = false;
   @JsonKey(name: 'exercises_count')
   final int? exercisesCount;

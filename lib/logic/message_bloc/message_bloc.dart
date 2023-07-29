@@ -38,7 +38,9 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
       access = newAccess.right;
       channel = WebSocketChannel.connect(
           Uri.parse('ws://$ip/ws/messages/?token=$access'));
+           await  streamController.done;
       streamController.addStream(channel.stream);
+  
     }
 
     final errorOrList = await GetAllTrainersRepo().getAllTrainer();

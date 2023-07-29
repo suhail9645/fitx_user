@@ -14,13 +14,13 @@ class CategoryLikeCubit extends Cubit<CategoryLikeState> {
       if (category.isLiked) {
         CategoryLikeAndDislike().categoryDislike(id);
         category.isLiked=false;
-        category.likes!-1;
+        category.likes=category.likes!-1;
         emit(CategoryLikeUnlikeState(
             category: category, likeCount: likeCount - 1));
       } else {
         CategoryLikeAndDislike().categoryLike(id);
         category.isLiked=true;
-        category.likes!+1;
+         category.likes=category.likes!+1;
         emit(CategoryLikeUnlikeState(
             category:category, likeCount: likeCount + 1));
       }

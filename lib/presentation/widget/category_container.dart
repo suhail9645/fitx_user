@@ -1,3 +1,4 @@
+import 'package:fitx_user/logic/category_bloc/category_bloc.dart';
 import 'package:fitx_user/logic/category_like_cubit/category_like_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,10 +12,11 @@ class CategoryContainer extends StatelessWidget {
       {super.key,
       required this.screenHeight,
       required this.category,
-      required this.homeContext});
+      required this.homeContext,});
   final BuildContext homeContext;
   final double screenHeight;
   final Category category;
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -53,11 +55,12 @@ class CategoryContainer extends StatelessWidget {
                 BlocBuilder<CategoryLikeCubit, CategoryLikeState>(
                   builder: (context, state) {
                     if (state is CategoryLikeUnlikeState) {
+                          // categoryState.catgories[index]=state.category;
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '${state.likeCount} People like this Category',
+                            '${state.category.likes} People like this Category',
                             style: const TextStyle(color: primaryColor),
                           ),
                           IconButton(
