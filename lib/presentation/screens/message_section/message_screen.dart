@@ -11,7 +11,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import '../../../logic/message_bloc/message_bloc.dart';
 import '../../constants/sized_box.dart';
 import '../premium_section/premium_screen.dart';
-
+import 'package:intl/intl.dart';
 class MessageScreen extends StatefulWidget {
   const MessageScreen(
       {super.key, required this.userOrTrainer, required this.channel});
@@ -80,10 +80,6 @@ class _MessageScreenState extends State<MessageScreen> {
               lastmessages.removeLast();
             }
             allMessages.addAll(lastmessages);
-            // if(lastmessage!=null){ 
-            //   allMessages.add(lastmessage!);
-            // }
-           
             return SizedBox(
               height: double.infinity,
               width: double.infinity,

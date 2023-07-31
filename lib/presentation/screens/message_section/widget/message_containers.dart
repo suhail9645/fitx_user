@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:shimmer/shimmer.dart';
-
+import 'package:intl/intl.dart';
 import '../../../../data_layer/models/message_result/message.dart';
 import '../../../../data_layer/models/user/user.dart';
 
@@ -27,7 +27,8 @@ class MessageImageContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime dateTime = message.createdAt!.toLocal();
-    
+     final dateFormat = DateFormat('h:mm a');
+      final stringFormat = dateFormat.format(dateTime);
     return Row(
       mainAxisAlignment: message.sender!.id == userOrTrainer.id
           ? MainAxisAlignment.start
@@ -58,7 +59,7 @@ class MessageImageContainer extends StatelessWidget {
             child: Align(
               alignment: Alignment.bottomRight,
               child: Text(
-                '${dateTime.hour}:${dateTime.minute}',
+                stringFormat,
                 style: const TextStyle(
                     color: Colors.white, fontWeight: FontWeight.bold),
               ),
@@ -98,12 +99,7 @@ GlobalKey globalKey = GlobalKey();
 
  @override
   void initState() {
-    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-    //   width = globalKey.currentContext!.size!.width;
-    //   print('the new height is $width');
-    //  setState(() {});
-    // });
-   
+
     super.initState();
       
   }
@@ -111,6 +107,9 @@ GlobalKey globalKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     DateTime dateTime = widget.message.createdAt!.toLocal();
+    final dateFormat = DateFormat('h:mm a');
+      final stringFormat = dateFormat.format(dateTime);
+     
     return Container(
       key: globalKey,
       constraints:const BoxConstraints(maxWidth: 300),
@@ -132,9 +131,7 @@ GlobalKey globalKey = GlobalKey();
         ),
       ),
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        // mainAxisAlignment: MainAxisAlignment.end,
-       
+ 
         children: [
           Text(
             widget.message.text!,overflow: TextOverflow.visible,
@@ -142,7 +139,7 @@ GlobalKey globalKey = GlobalKey();
                 fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
           ),
            Text(
-               '${dateTime.hour}:${dateTime.minute}',textAlign: TextAlign.end,
+               stringFormat,textAlign: TextAlign.end,
                style: const TextStyle(color: Colors.black),
              ),
         

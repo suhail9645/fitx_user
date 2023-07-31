@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../logic/report_bloc/report_bloc.dart';
 import 'widget/delete_widget.dart';
-
+import 'package:intl/intl.dart';
 class JourneyViewScreen extends StatelessWidget {
   const JourneyViewScreen({
     super.key,
@@ -57,13 +57,6 @@ class JourneyViewScreen extends StatelessWidget {
                                           const Duration(milliseconds: 100),
                                       curve: Curves.bounceIn);
                                 }
-                                //                 if (imageIndex.toInt() == 0) {
-                                //                   BlocProvider.of<JourneyDateCubit>(context)
-                                //                       .onChanged(1);
-                                //                 }else{
-                                //                    BlocProvider.of<JourneyDateCubit>(context)
-                                // .onChanged(controller.page!.toInt());
-                                //                 }
                                 tImages.removeAt(
                                     (tImages.length - 1) - imageIndex.toInt());
                                 BlocProvider.of<ReportBloc>(context).add(
@@ -145,12 +138,8 @@ class JourneyViewScreen extends StatelessWidget {
                     builder: (context, state) {
                       if (state < tImages.length) {
                         String date = tImages[state].date!.split('T').first;
-                        String time = tImages[state]
-                            .date!
-                            .split('T')
-                            .last
-                            .split('.')
-                            .first;
+                              final dateFormat = DateFormat('h:mm a');
+                                final stringFormat = dateFormat.format(DateTime.parse( tImages[state].date!));
                         return Container(
                           width: screenWidth * 0.85,
                           height: 55,
@@ -170,7 +159,7 @@ class JourneyViewScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  time,
+                                stringFormat,
                                   style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,

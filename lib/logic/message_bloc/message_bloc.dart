@@ -18,6 +18,7 @@ part 'message_event.dart';
 part 'message_state.dart';
 
 class MessageBloc extends Bloc<MessageEvent, MessageState> {
+
   MessageBloc() : super(MessageInitial()) {
     on<MessageInitialEvent>(messageInitialEvent);
     on<FetchAllMessagesByTrainer>(fetchAllMessagesByTrainer);
@@ -38,8 +39,9 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
       access = newAccess.right;
       channel = WebSocketChannel.connect(
           Uri.parse('ws://$ip/ws/messages/?token=$access'));
-           await  streamController.done;
+      
       streamController.addStream(channel.stream);
+    
   
     }
 

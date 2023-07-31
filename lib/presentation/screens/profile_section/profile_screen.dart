@@ -1,8 +1,10 @@
 import 'package:fitx_user/data_layer/models/user/user.dart';
+import 'package:fitx_user/logic/message_bloc/message_bloc.dart';
 import 'package:fitx_user/presentation/constants/colors.dart';
 import 'package:fitx_user/presentation/constants/lists.dart';
 import 'package:fitx_user/presentation/constants/sized_box.dart';
 import 'package:fitx_user/presentation/constants/strings.dart';
+import 'package:fitx_user/presentation/screens/premium_section/premium_screen.dart';
 import 'package:fitx_user/presentation/widget/elevated_button_without_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
@@ -44,7 +46,7 @@ class ProfileScreen extends StatelessWidget {
                       // radius: 65,
                       backgroundImage: user.profilePicture != null
                           ? NetworkImage(imageUrl + user.profilePicture!)
-                          : const AssetImage('assets/profile.avif')
+                          : const AssetImage('assets/profile.png')
                               as ImageProvider,
                     ),
                   ),
@@ -98,7 +100,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               spaceforHeight10,
-           !user.isTrainer!||!user.isPremium!?   InkWell(
+           !user.isTrainer!&&!user.isPremium!?   InkWell(
                 onTap: () {
                   Navigator.pushNamed(context, 'Premium', arguments: user);
                 },
@@ -180,6 +182,7 @@ class ProfileScreen extends StatelessWidget {
                             SharedPreferences shrd =
                                 await SharedPreferences.getInstance();
                             await shrd.clear();
+                 streamController.close();
                             // ignore: use_build_context_synchronously
                             Navigator.pushNamedAndRemoveUntil(
                                 context, 'signInAndSignUp', (route) => false);
@@ -187,7 +190,9 @@ class ProfileScreen extends StatelessWidget {
                           child: const Text('Yes'),
                         ),
                         ElevatedButton(
-                            onPressed: () {}, child: const Text('No'))
+                            onPressed: () {
+
+                            }, child: const Text('No'))
                       ],
                     ),
                   );

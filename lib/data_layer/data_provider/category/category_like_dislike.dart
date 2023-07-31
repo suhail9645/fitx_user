@@ -12,9 +12,7 @@ class CategoryLikeAndDislike {
       SharedPreferences shrd = await SharedPreferences.getInstance();
       String access = shrd.getString('accessKey')!;
       Response response =
-          await http.patch(Uri.parse('${baseUrl}users/like/$id/'), headers: {
-        'Authorization': 'Bearer $access',
-      });
+          await http.patch(Uri.parse('${baseUrl}users/like/$id/'),  );
       if (response.statusCode == 202) {
         return const Right(true);
       } else if (response.statusCode == 401) {
