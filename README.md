@@ -49,11 +49,13 @@ A few of the things you can do with FITX:
 * track body weight
 
 <p align="center">
-  <img src = "http://i.imgur.com/IkSnFRL.png" width=700>
+ <a href="https://ibb.co/dLZJfzF"><img src="https://i.ibb.co/7RhNS6P/Whats-App-Image-2023-07-18-at-18-41-27.jpg" alt="Whats-App-Image-2023-07-18-at-18-41-27" border="0" height=470 width=270></a>
+  <a href="https://ibb.co/pv0YS70"><img src="https://i.ibb.co/VWjfs1j/Whats-App-Image-2023-07-18-at-18-41-25-2.jpg" alt="Whats-App-Image-2023-07-18-at-18-41-25-2" border="0"  height=470 width=270></a>
+  <a href="https://ibb.co/RH3NLvn"><img src="https://i.ibb.co/ggSdsj1/Whats-App-Image-2023-07-18-at-18-41-25.jpg" alt="Whats-App-Image-2023-07-18-at-18-41-25" border="0" height=470 width=270></a>
 </p>
 
 <p align="center">
-  <img src = "http://i.imgur.com/0iorG20.png" width=700>
+<a href="https://ibb.co/dLZJfzF"><img src="https://i.ibb.co/7RhNS6P/Whats-App-Image-2023-07-18-at-18-41-27.jpg" alt="Whats-App-Image-2023-07-18-at-18-41-27" border="0" height 400 width 200></a>
 </p>
 
 ## Feedback
